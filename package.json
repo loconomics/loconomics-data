@@ -1,5 +1,5 @@
 {
-  "name": "loconomics-data",
+  "name": "@loconomics/data",
   "version": "0.0.1",
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
