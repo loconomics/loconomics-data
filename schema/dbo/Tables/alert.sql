@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[alert] (
+    [AlertID]                       INT            NOT NULL,
+    [AlertTypeID]                   INT            NOT NULL,
+    [LanguageID]                    INT            NOT NULL,
+    [CountryID]                     INT            NOT NULL,
+    [AlertName]                     VARCHAR (30)   NOT NULL,
+    [AlertHeadlineDisplay]          VARCHAR (100)  NULL,
+    [AlertTextDisplay]              VARCHAR (300)  NOT NULL,
+    [AlertDescription]              VARCHAR (500)  NULL,
+    [AlertEmailText]                VARCHAR (25)   NULL,
+    [ProviderProfileCompletePoints] INT            NOT NULL,
+    [CustomerProfileCompletePoints] INT            NOT NULL,
+    [CreatedDate]                   DATETIME       NOT NULL,
+    [UpdatedDate]                   DATETIME       NOT NULL,
+    [ModifiedBy]                    VARCHAR (25)   NOT NULL,
+    [Active]                        BIT            NOT NULL,
+    [AlertPageURL]                  VARCHAR (2000) NULL,
+    [Required]                      BIT            NOT NULL,
+    [PositionSpecific]              BIT            CONSTRAINT [DF__alert__PositionS__5E94F66B] DEFAULT ((0)) NOT NULL,
+    [DisplayRank]                   INT            CONSTRAINT [DF__alert__DisplayRa__3CFEF876] DEFAULT ((1)) NOT NULL,
+    [ProviderAlert]                 BIT            DEFAULT ((1)) NOT NULL,
+    [CustomerAlert]                 BIT            DEFAULT ((0)) NOT NULL,
+    [bookMeButtonRequired]          BIT            CONSTRAINT [DF_alert_bookMeButtonRequired] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK__alert__AAFF8BB7025D5595] PRIMARY KEY CLUSTERED ([AlertID] ASC, [AlertTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+

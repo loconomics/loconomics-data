@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[userprofile] (
+    [UserId] INT            IDENTITY (1, 1) NOT NULL,
+    [Email]  NVARCHAR (254) NOT NULL,
+    CONSTRAINT [PK__userprof__1788CC4C023D5A04] PRIMARY KEY CLUSTERED ([UserId] ASC),
+    CONSTRAINT [UQ__userprof__C9F284560519C6AF] UNIQUE NONCLUSTERED ([Email] ASC)
+);
+
