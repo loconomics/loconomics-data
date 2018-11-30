@@ -1,0 +1,8 @@
+# VS SQL Project exclusions
+*.jfm
+*.sqlproj.user
+*.suo
+.vs/
+Snapshots/
+obj/
+bin/
