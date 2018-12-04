@@ -1,6 +1,6 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [Dev]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Database [Dev]    Script Date: 11/8/18 3:10:34 PM ******/
 CREATE DATABASE [Dev]
 GO
 ALTER DATABASE [Dev] SET COMPATIBILITY_LEVEL = 100
@@ -56,7 +56,7 @@ ALTER DATABASE [Dev] SET ENCRYPTION ON
 GO
 USE [Dev]
 GO
-/****** Object:  UserDefinedFunction [dbo].[fx_concat]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fx_concat]    Script Date: 11/8/18 3:10:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -92,7 +92,7 @@ BEGIN
 END
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[fx_concatBothOrNothing]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fx_concatBothOrNothing]    Script Date: 11/8/18 3:10:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -121,7 +121,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[fx_IfNW]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fx_IfNW]    Script Date: 11/8/18 3:10:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -156,7 +156,7 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[fxCheckAlertAffectsUser]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fxCheckAlertAffectsUser]    Script Date: 11/8/18 3:10:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -191,7 +191,7 @@ AS BEGIN
 	RETURN @Checked
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPositionString]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPositionString]    Script Date: 11/8/18 3:10:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -232,7 +232,7 @@ END
 RETURN @r ;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[isMarketplacePaymentAccountActive]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[isMarketplacePaymentAccountActive]    Script Date: 11/8/18 3:10:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +270,7 @@ BEGIN
 
 END
 GO
-/****** Object:  Table [dbo].[accountstatus]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[accountstatus]    Script Date: 11/8/18 3:10:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -289,7 +289,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[address]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[address]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -320,7 +320,7 @@ CREATE TABLE [dbo].[address](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[addresstype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[addresstype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -344,7 +344,7 @@ CREATE TABLE [dbo].[addresstype](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[alert]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[alert]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -381,7 +381,7 @@ CREATE TABLE [dbo].[alert](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[alerttype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[alerttype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -403,7 +403,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[authorizations]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[authorizations]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -423,7 +423,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[backgroundcheck]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[backgroundcheck]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -447,7 +447,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[booking]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[booking]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -506,7 +506,7 @@ CREATE TABLE [dbo].[booking](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[bookingStatus]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[bookingStatus]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -525,7 +525,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[bookingType]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[bookingType]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -550,7 +550,7 @@ CREATE TABLE [dbo].[bookingType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarAvailabilityType]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarAvailabilityType]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -570,7 +570,7 @@ CREATE TABLE [dbo].[CalendarAvailabilityType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventComments]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventComments]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -585,7 +585,7 @@ CREATE TABLE [dbo].[CalendarEventComments](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventExceptionsPeriod]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventExceptionsPeriod]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -601,7 +601,7 @@ CREATE TABLE [dbo].[CalendarEventExceptionsPeriod](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventExceptionsPeriodsList]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventExceptionsPeriodsList]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -615,7 +615,7 @@ CREATE TABLE [dbo].[CalendarEventExceptionsPeriodsList](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventRecurrencesPeriod]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventRecurrencesPeriod]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -631,7 +631,7 @@ CREATE TABLE [dbo].[CalendarEventRecurrencesPeriod](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventRecurrencesPeriodList]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventRecurrencesPeriodList]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -645,7 +645,7 @@ CREATE TABLE [dbo].[CalendarEventRecurrencesPeriodList](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEvents]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEvents]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -683,7 +683,7 @@ CREATE TABLE [dbo].[CalendarEvents](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventsAttendees]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventsAttendees]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -700,7 +700,7 @@ CREATE TABLE [dbo].[CalendarEventsAttendees](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventsContacts]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventsContacts]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -715,7 +715,7 @@ CREATE TABLE [dbo].[CalendarEventsContacts](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarEventType]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarEventType]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -731,7 +731,7 @@ CREATE TABLE [dbo].[CalendarEventType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarProviderAttributes]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarProviderAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -754,7 +754,7 @@ CREATE TABLE [dbo].[CalendarProviderAttributes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarReccurrence]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarReccurrence]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -775,7 +775,7 @@ CREATE TABLE [dbo].[CalendarReccurrence](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarReccurrenceFrequency]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarReccurrenceFrequency]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -801,7 +801,7 @@ CREATE TABLE [dbo].[CalendarReccurrenceFrequency](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CalendarRecurrenceFrequencyTypes]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CalendarRecurrenceFrequencyTypes]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -816,7 +816,7 @@ CREATE TABLE [dbo].[CalendarRecurrenceFrequencyTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[cancellationpolicy]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[cancellationpolicy]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -842,7 +842,7 @@ CREATE TABLE [dbo].[cancellationpolicy](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CCCUsers]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[CCCUsers]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -860,7 +860,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[clienttype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[clienttype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -883,7 +883,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[country]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[country]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -907,7 +907,7 @@ CREATE TABLE [dbo].[country](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[county]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[county]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -927,7 +927,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ExperienceLevel]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[ExperienceLevel]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -949,7 +949,7 @@ CREATE TABLE [dbo].[ExperienceLevel](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[FieldOfStudy]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[FieldOfStudy]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -969,7 +969,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Gender]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[Gender]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -991,7 +991,7 @@ CREATE TABLE [dbo].[Gender](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[institution]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[institution]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1022,7 +1022,7 @@ CREATE TABLE [dbo].[institution](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[jobTitleLicense]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[jobTitleLicense]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1051,7 +1051,7 @@ CREATE TABLE [dbo].[jobTitleLicense](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[JobTitlePlatform]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[JobTitlePlatform]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1074,7 +1074,7 @@ CREATE TABLE [dbo].[JobTitlePlatform](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[JobTitleSolution]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[JobTitleSolution]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1098,7 +1098,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[language]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[language]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1119,7 +1119,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[languagelevel]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[languagelevel]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1141,7 +1141,7 @@ CREATE TABLE [dbo].[languagelevel](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[licensecertification]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[licensecertification]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1165,7 +1165,7 @@ CREATE TABLE [dbo].[licensecertification](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Messages]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[Messages]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1187,7 +1187,7 @@ CREATE TABLE [dbo].[Messages](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[messagethreadstatus]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[messagethreadstatus]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1211,7 +1211,7 @@ CREATE TABLE [dbo].[messagethreadstatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[messagetype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[messagetype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1238,7 +1238,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MessagingThreads]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[MessagingThreads]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1260,7 +1260,7 @@ CREATE TABLE [dbo].[MessagingThreads](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[municipality]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[municipality]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1278,7 +1278,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OwnerAcknowledgment]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[OwnerAcknowledgment]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1296,7 +1296,7 @@ CREATE TABLE [dbo].[OwnerAcknowledgment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OwnerStatus]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[OwnerStatus]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1315,7 +1315,7 @@ CREATE TABLE [dbo].[OwnerStatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OwnerStatusHistory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[OwnerStatusHistory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1332,7 +1332,7 @@ CREATE TABLE [dbo].[OwnerStatusHistory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Platform]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[Platform]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1362,7 +1362,7 @@ CREATE TABLE [dbo].[Platform](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[positionbackgroundcheck]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[positionbackgroundcheck]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1386,7 +1386,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[positionpricingtype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[positionpricingtype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1411,7 +1411,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[positionratings]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[positionratings]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1443,7 +1443,7 @@ CREATE TABLE [dbo].[positionratings](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[positions]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[positions]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1483,7 +1483,7 @@ CREATE TABLE [dbo].[positions](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[postalcode]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[postalcode]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1511,7 +1511,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[postingTemplate]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[postingTemplate]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1530,7 +1530,7 @@ CREATE TABLE [dbo].[postingTemplate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[postingTemplateQuestion]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[postingTemplateQuestion]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1551,7 +1551,7 @@ CREATE TABLE [dbo].[postingTemplateQuestion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PricingGroups]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[PricingGroups]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1570,7 +1570,7 @@ CREATE TABLE [dbo].[PricingGroups](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[pricingSummary]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[pricingSummary]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1603,7 +1603,7 @@ CREATE TABLE [dbo].[pricingSummary](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[pricingSummaryDetail]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[pricingSummaryDetail]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1633,7 +1633,7 @@ CREATE TABLE [dbo].[pricingSummaryDetail](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[pricingtype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[pricingtype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1660,7 +1660,7 @@ CREATE TABLE [dbo].[pricingtype](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PricingVariableDefinition]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[PricingVariableDefinition]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1702,7 +1702,7 @@ CREATE TABLE [dbo].[PricingVariableDefinition](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PricingVariableValue]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[PricingVariableValue]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1731,7 +1731,7 @@ CREATE TABLE [dbo].[PricingVariableValue](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[providerpackage]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[providerpackage]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1765,7 +1765,7 @@ CREATE TABLE [dbo].[providerpackage](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[providerpackagedetail]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[providerpackagedetail]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1784,7 +1784,7 @@ CREATE TABLE [dbo].[providerpackagedetail](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProviderPaymentAccount]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[ProviderPaymentAccount]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1805,7 +1805,7 @@ CREATE TABLE [dbo].[ProviderPaymentAccount](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[providerpaymentpreference]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[providerpaymentpreference]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1826,7 +1826,7 @@ CREATE TABLE [dbo].[providerpaymentpreference](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[providerpaymentpreferencetype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[providerpaymentpreferencetype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1850,7 +1850,7 @@ CREATE TABLE [dbo].[providerpaymentpreferencetype](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[providerservicephoto]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[providerservicephoto]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1873,7 +1873,7 @@ CREATE TABLE [dbo].[providerservicephoto](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[providertaxform]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[providertaxform]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1904,7 +1904,7 @@ CREATE TABLE [dbo].[providertaxform](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[question]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[question]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1927,7 +1927,7 @@ CREATE TABLE [dbo].[question](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[questionType]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[questionType]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1945,7 +1945,7 @@ CREATE TABLE [dbo].[questionType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ReferralSource]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[ReferralSource]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1959,7 +1959,7 @@ CREATE TABLE [dbo].[ReferralSource](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SearchCategory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[SearchCategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1986,7 +1986,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SearchSubCategory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[SearchSubCategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2012,7 +2012,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SearchSubCategorySolution]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[SearchSubCategorySolution]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2035,7 +2035,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[serviceaddress]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[serviceaddress]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2061,7 +2061,7 @@ CREATE TABLE [dbo].[serviceaddress](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[serviceattribute]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[serviceattribute]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2089,7 +2089,7 @@ CREATE TABLE [dbo].[serviceattribute](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[serviceattributecategory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[serviceattributecategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2120,7 +2120,7 @@ CREATE TABLE [dbo].[serviceattributecategory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ServiceAttributeExperienceLevel]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[ServiceAttributeExperienceLevel]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2143,7 +2143,7 @@ CREATE TABLE [dbo].[ServiceAttributeExperienceLevel](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ServiceAttributeLanguageLevel]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[ServiceAttributeLanguageLevel]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2168,7 +2168,7 @@ CREATE TABLE [dbo].[ServiceAttributeLanguageLevel](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[servicecategory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[servicecategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2193,7 +2193,7 @@ CREATE TABLE [dbo].[servicecategory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[servicecategoryposition]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[servicecategoryposition]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2217,7 +2217,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[servicecategorypositionattribute]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[servicecategorypositionattribute]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2244,7 +2244,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ServiceProfessionalClient]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[ServiceProfessionalClient]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2266,7 +2266,7 @@ CREATE TABLE [dbo].[ServiceProfessionalClient](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[servicesubcategory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[servicesubcategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2292,7 +2292,7 @@ CREATE TABLE [dbo].[servicesubcategory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Solution]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[Solution]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2320,7 +2320,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Specialization]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[Specialization]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2346,7 +2346,7 @@ CREATE TABLE [dbo].[Specialization](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[stateprovince]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[stateprovince]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2364,7 +2364,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[taxentitytype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[taxentitytype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2387,7 +2387,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tintype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[tintype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2411,7 +2411,7 @@ CREATE TABLE [dbo].[tintype](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tmp_users]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[Tmp_users]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2467,7 +2467,7 @@ CREATE TABLE [dbo].[Tmp_users](
 	[IsHipaaAdmin] [bit] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[transporttype]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[transporttype]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2490,7 +2490,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserAlert]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserAlert]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2514,7 +2514,7 @@ CREATE TABLE [dbo].[UserAlert](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[userbackgroundcheck]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[userbackgroundcheck]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2536,7 +2536,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserBadge]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserBadge]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2562,7 +2562,7 @@ CREATE TABLE [dbo].[UserBadge](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserEarnings]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserEarnings]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2587,7 +2587,7 @@ CREATE TABLE [dbo].[UserEarnings](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserEarningsEntry]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserEarningsEntry]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2613,7 +2613,7 @@ CREATE TABLE [dbo].[UserEarningsEntry](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[usereducation]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[usereducation]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2638,7 +2638,7 @@ CREATE TABLE [dbo].[usereducation](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserExternalListing]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserExternalListing]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2660,7 +2660,7 @@ CREATE TABLE [dbo].[UserExternalListing](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserFeePayments]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserFeePayments]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2683,7 +2683,7 @@ CREATE TABLE [dbo].[UserFeePayments](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserLicenseCertifications]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserLicenseCertifications]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2715,7 +2715,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserListingSpecialization]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserListingSpecialization]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2741,7 +2741,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[userOrganization]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[userOrganization]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2758,7 +2758,7 @@ CREATE TABLE [dbo].[userOrganization](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserPaymentPlan]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserPaymentPlan]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2784,7 +2784,7 @@ CREATE TABLE [dbo].[UserPaymentPlan](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserPosting]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserPosting]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2809,7 +2809,7 @@ CREATE TABLE [dbo].[UserPosting](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserPostingQuestionResponse]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserPostingQuestionResponse]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2832,7 +2832,7 @@ CREATE TABLE [dbo].[UserPostingQuestionResponse](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserPostingReaction]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserPostingReaction]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2851,7 +2851,7 @@ CREATE TABLE [dbo].[UserPostingReaction](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[userprofile]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[userprofile]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2869,7 +2869,7 @@ CREATE TABLE [dbo].[userprofile](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[userprofilepositions]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[userprofilepositions]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2897,7 +2897,7 @@ CREATE TABLE [dbo].[userprofilepositions](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[userprofileserviceattributes]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[userprofileserviceattributes]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2924,7 +2924,7 @@ CREATE TABLE [dbo].[userprofileserviceattributes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserReviews]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserReviews]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2958,7 +2958,7 @@ CREATE TABLE [dbo].[UserReviews](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserReviewScores]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserReviewScores]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2985,7 +2985,7 @@ CREATE TABLE [dbo].[UserReviewScores](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[users]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[users]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3047,7 +3047,7 @@ CREATE TABLE [dbo].[users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[usersignup]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[usersignup]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3065,7 +3065,7 @@ UNIQUE NONCLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserSolution]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserSolution]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3088,7 +3088,7 @@ CREATE TABLE [dbo].[UserSolution](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserStats]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[UserStats]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3104,7 +3104,7 @@ CREATE TABLE [dbo].[UserStats](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[userverification]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[userverification]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3129,7 +3129,7 @@ CREATE TABLE [dbo].[userverification](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[verification]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[verification]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3157,7 +3157,7 @@ CREATE TABLE [dbo].[verification](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[verificationcategory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[verificationcategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3181,7 +3181,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[verificationstatus]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[verificationstatus]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3204,7 +3204,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VOCElement]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[VOCElement]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3232,7 +3232,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VOCExperienceCategory]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[VOCExperienceCategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3255,7 +3255,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VOCFeedback]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[VOCFeedback]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3283,7 +3283,7 @@ CREATE TABLE [dbo].[VOCFeedback](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VOCFlag]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[VOCFlag]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3306,7 +3306,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VOCScores]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[VOCScores]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3331,7 +3331,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[webpages_FacebookCredentials]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[webpages_FacebookCredentials]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3341,7 +3341,7 @@ CREATE TABLE [dbo].[webpages_FacebookCredentials](
 	[FacebookId] [bigint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[webpages_Membership]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[webpages_Membership]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3364,7 +3364,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[webpages_OAuthMembership]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[webpages_OAuthMembership]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3380,7 +3380,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[webpages_Roles]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[webpages_Roles]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3398,7 +3398,7 @@ UNIQUE NONCLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[webpages_UsersInRoles]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[webpages_UsersInRoles]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3413,7 +3413,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[xJobTitlePricing]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[xJobTitlePricing]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3449,7 +3449,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[xJobTitleReviewRules]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[xJobTitleReviewRules]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3473,7 +3473,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[xServiceProfessionalPricing]    Script Date: 10/1/18 8:41:34 PM ******/
+/****** Object:  Table [dbo].[xServiceProfessionalPricing]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3510,7 +3510,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vwServiceCategoryPositionAttribute]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  View [dbo].[vwServiceCategoryPositionAttribute]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3556,7 +3556,7 @@ CREATE VIEW [dbo].[vwServiceCategoryPositionAttribute] AS
 
 	ORDER BY s.DisplayRank ASC, s.Name ASC
 GO
-/****** Object:  View [dbo].[vwUsersContactData]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  View [dbo].[vwUsersContactData]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3656,32 +3656,32 @@ CREATE VIEW [dbo].[vwUsersContactData] AS
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_authorizations_token]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  Index [IX_authorizations_token]    Script Date: 11/8/18 3:10:35 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_authorizations_token] ON [dbo].[authorizations]
 (
 	[Token] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [idx_clienttype]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  Index [idx_clienttype]    Script Date: 11/8/18 3:10:35 PM ******/
 CREATE NONCLUSTERED INDEX [idx_clienttype] ON [dbo].[clienttype]
 (
 	[CllientTypeID] ASC,
 	[CountryID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [idx_Messages]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  Index [idx_Messages]    Script Date: 11/8/18 3:10:35 PM ******/
 CREATE NONCLUSTERED INDEX [idx_Messages] ON [dbo].[Messages]
 (
 	[MessageTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [idx_positions]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  Index [idx_positions]    Script Date: 11/8/18 3:10:35 PM ******/
 CREATE NONCLUSTERED INDEX [idx_positions] ON [dbo].[positions]
 (
 	[PositionID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_userprofilepositions]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  Index [IX_userprofilepositions]    Script Date: 11/8/18 3:10:35 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_userprofilepositions] ON [dbo].[userprofilepositions]
 (
 	[UserID] ASC,
@@ -4559,7 +4559,7 @@ REFERENCES [dbo].[userprofile] ([UserId])
 GO
 ALTER TABLE [dbo].[webpages_UsersInRoles] CHECK CONSTRAINT [fk_UserId]
 GO
-/****** Object:  StoredProcedure [dbo].[CheckUserEmail]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[CheckUserEmail]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4586,7 +4586,7 @@ BEGIN
     
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CreateCustomer]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[CreateCustomer]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4658,7 +4658,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[CreateProviderFromUser]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[CreateProviderFromUser]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4715,7 +4715,7 @@ CREATE PROCEDURE [dbo].[CreateProviderFromUser] (
 	EXEC TestAllUserAlerts @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteBookingRequest]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteBookingRequest]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4769,7 +4769,7 @@ BEGIN
 	PRINT @returnMessage
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteUser]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteUser]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4922,7 +4922,7 @@ where userid = @UserId
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteUserPosition]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteUserPosition]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4946,7 +4946,7 @@ where userid = @UserID AND PositionID = @PositionID
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DelUserVerification]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[DelUserVerification]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4969,7 +4969,7 @@ BEGIN
         AND PositionID = @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPosition]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPosition]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5005,7 +5005,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSearchResults]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSearchResults]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5143,7 +5143,7 @@ BEGIN
 		)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetServiceAttributeCategories]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetServiceAttributeCategories]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5198,7 +5198,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetServiceAttributes]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetServiceAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5278,7 +5278,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserCalendarProviderAttributes]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserCalendarProviderAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5295,7 +5295,7 @@ SELECT AdvanceTime,MinTime,MaxTime,BetweenTime,UseCalendarProgram,CalendarType,C
 FROM CalendarProviderAttributes
 WHERE UserID = @UserID
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserDetails]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserDetails]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5330,7 +5330,7 @@ from users a
 join dbo.userprofilepositionadditional b 
 on a.userid = b.userid  where a.UserID = @UserID
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserProfile]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserProfile]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5373,7 +5373,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertCalendarProviderAttributes]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[InsertCalendarProviderAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5417,7 +5417,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertUserProfilePositions]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[InsertUserProfilePositions]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5514,7 +5514,7 @@ END
 END CATCH
 
 GO
-/****** Object:  StoredProcedure [dbo].[ListPositions]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[ListPositions]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5541,7 +5541,7 @@ where a.LanguageID = @LanguageID and a.CountryID = @CountryID
 and a.PositionSingular is not null
 order by 2 asc
 GO
-/****** Object:  StoredProcedure [dbo].[SearchCategories]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchCategories]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5578,7 +5578,7 @@ and rank <=5
 --join servicesubcategory c  on b.ServiceSubCategoryID = c.ServiceSubCategoryID    
 --where a.LanguageID = @LanguageID and a.CountryID = @CountryID
 GO
-/****** Object:  StoredProcedure [dbo].[SearchCategoriesPositions]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchCategoriesPositions]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5656,7 +5656,7 @@ tpur.Rating2,
 tpur.Rating3
 
 GO
-/****** Object:  StoredProcedure [dbo].[SearchPositions]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchPositions]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5736,7 +5736,7 @@ BEGIN
     ORDER BY PositionSingular
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SearchPositionsByCategory]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchPositionsByCategory]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5841,7 +5841,7 @@ BEGIN
 	ORDER BY serviceProfessionalsCount DESC, P.DisplayRank, P.PositionPlural
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SearchProvidersByPositionSingular]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchProvidersByPositionSingular]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5887,7 +5887,7 @@ AS
 		AND c.Active = 1
 		AND c.PositionSingular like @PositionSingular
 GO
-/****** Object:  StoredProcedure [dbo].[SearchTopProvidersByPosition]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchTopProvidersByPosition]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5946,7 +5946,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetCalendarProviderAttributes]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SetCalendarProviderAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6024,7 +6024,7 @@ CREATE PROC [dbo].[SetCalendarProviderAttributes] (
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetHomeAddress]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SetHomeAddress]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6085,7 +6085,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetUserAlert]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SetUserAlert]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6138,7 +6138,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetUserVerification]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[SetUserVerification]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6179,7 +6179,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_MSforeach_worker]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_MSforeach_worker]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6329,7 +6329,7 @@ as
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_MSforeachtable]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_MSforeachtable]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6356,7 +6356,7 @@ AS
 	return @retval
 
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertAvailability]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertAvailability]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6404,7 +6404,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID, 0
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertBackgroundCheck]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertBackgroundCheck]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6566,7 +6566,7 @@ BEGIN
 				*/
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertBasicInfoVerification]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertBasicInfoVerification]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6614,7 +6614,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertEducation]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertEducation]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6663,7 +6663,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertLocation]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertLocation]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6713,7 +6713,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPayment]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertPayment]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6762,7 +6762,7 @@ BEGIN
 END
     
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPersonalInfo]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertPersonalInfo]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6818,7 +6818,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPhoto]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertPhoto]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6859,7 +6859,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPositionServices]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertPositionServices]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6931,7 +6931,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPricingDetails]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertPricingDetails]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6972,7 +6972,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertProfessionalLicense]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertProfessionalLicense]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7429,7 +7429,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPublicBio]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertPublicBio]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7473,7 +7473,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertReferenceRequests]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertReferenceRequests]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7538,7 +7538,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertShowcaseWork]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertShowcaseWork]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7587,7 +7587,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertSocialMediaVerification]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertSocialMediaVerification]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7640,7 +7640,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertTaxDocs]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertTaxDocs]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7696,7 +7696,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertVerifyEmail]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAlertVerifyEmail]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7738,7 +7738,7 @@ BEGIN
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAllUserAlerts]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAllUserAlerts]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7802,7 +7802,7 @@ BEGIN
     EXEC TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAllUsersAlerts]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestAllUsersAlerts]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7846,7 +7846,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestProfileActivation]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TestProfileActivation]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7940,7 +7940,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[UnDeleteUser]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[UnDeleteUser]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7967,7 +7967,7 @@ BEGIN
     WHERE UserID = @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ut_AutocheckReviewVerifications]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[ut_AutocheckReviewVerifications]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8070,7 +8070,7 @@ AS BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ut_ModifyUserAlertsState]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[ut_ModifyUserAlertsState]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8132,7 +8132,7 @@ BEGIN
 		EXEC TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ZZIsUserAProvider]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[ZZIsUserAProvider]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8153,7 +8153,7 @@ where
 	 AND
 	a.IsProvider = 1
 GO
-/****** Object:  Trigger [dbo].[AutoSetMessageSentByUserId]    Script Date: 10/1/18 8:41:35 PM ******/
+/****** Object:  Trigger [dbo].[AutoSetMessageSentByUserId]    Script Date: 11/8/18 3:10:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8187,7 +8187,7 @@ END
 GO
 ALTER TABLE [dbo].[Messages] ENABLE TRIGGER [AutoSetMessageSentByUserId]
 GO
-/****** Object:  Trigger [dbo].[trigInitialProviderPositionAlertTest]    Script Date: 10/1/18 8:41:37 PM ******/
+/****** Object:  Trigger [dbo].[trigInitialProviderPositionAlertTest]    Script Date: 11/8/18 3:10:37 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8218,7 +8218,7 @@ END
 GO
 ALTER TABLE [dbo].[userprofilepositions] ENABLE TRIGGER [trigInitialProviderPositionAlertTest]
 GO
-/****** Object:  Trigger [dbo].[trigInitialUserAlertTest]    Script Date: 10/1/18 8:41:37 PM ******/
+/****** Object:  Trigger [dbo].[trigInitialUserAlertTest]    Script Date: 11/8/18 3:10:38 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
