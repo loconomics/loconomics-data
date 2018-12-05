@@ -12,3 +12,31 @@ This package may ultimately contain a data model for use in the new Loconomics b
 6. Set a _DATABASE_URL_ environment variable to something like `mssql://sa:Password!!11@localhost:1433/Dev`.
 7. Run `yarn start` or `npm start`.
 8. Fail, edit _schema.sql_, reload, regenerate, repeat.
+
+## Troubleshooting
+### Failed connections to database on Windows
+Running the `typeorm-model-generator` or the `yarn start` using the correct connection settings and the SQLServer up, still connectivity errors may appear, which seems to be usual when using named instances rather than default instance, but still some steps may apply on this last case so keep reading.
+ next errors may appear , `Port for SQLEXPRESS not found in localhost` (where *SQLEXPRESS* is the instance name). This problems happened using named instances, some steps may not apply when using a default instance.
+
+#### Server not found or wrong port errors
+Example error messages: `Error connecting to MSSQL Server`, `ESOCKET`, `EINSTLOOKUP / getaddrinfo ENOTFOUND`, `Port for _instanceName_ not found in localhost`
+- **Named instances:** Put a double slash between server name and instance name, rather than a single one, at the host setting.
+  - *Example:* if you have `localhost\SQLEXPRESS`, you should set-up `localhost\\SQLEXPRESS`
+  - This applies when passing the value through the command line to `typeorm-model-generator`.
+  - When setting the value at the environment variable or in a `.env` file for `yarn start`, is **not** needed, may even fail because of double slash there.
+- Enable TCP connections to the server, following [official instructions at this link](https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2008/bb909712(v=vs.90)).
+
+#### Failed connection with timeout
+Example error message: `Failed to connect to _host_ in 15000ms`.
+- Start the service `SQL Server Browser`.
+
+#### Setting up DATABASE_URL didn't work
+This applies to named instances and using **Git Bash** on Windows (it's a powerfull option since you get a Linux terminal experience, but there are edge bugs).
+
+After set the environment variable, or including it in-line with the command `yarn install`, a connection error is throwed. The process sends to output the value of the env var, double check it's the correct one; you should check that the back slash was converted to forward slash without warning, that's the source of the problem. I don't know why to prevent that automatic conversion (the ideal step) but there is a workaround:
+- TypeORM accepts a `.env` file at the root directory to set-up connection settings, that applies even if other set-up files exists like `ormconfig.js` so does not conflict with that.
+- Create an `.env` file at the project root directory with your connection settings [using the recognized names](https://github.com/typeorm/typeorm/blob/7985e2e992842e8a501f315ef44c77b3d188fd64/docs/using-ormconfig.md#using-environment-variables).
+  - File should be automatically excluded by `.gitignore` but double check is not committed.
+  - Use a single slash between server and instance name on this case.
+- **Unset** from your environment, or do **not** specify at command line, the DATABASE_URL env var.
+- Run `yarn start` again to test it.
