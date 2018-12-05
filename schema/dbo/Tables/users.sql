@@ -28,8 +28,6 @@
     [ModifiedBy]                       VARCHAR (50)       NULL,
     [Active]                           BIT                NULL,
     [LoconomicsCommunityCommunication] BIT                DEFAULT ((1)) NOT NULL,
-    [IAuthZumigoVerification]          BIT                NULL,
-    [IAuthZumigoLocation]              BIT                NULL,
     [LoconomicsDBMCampaigns]           BIT                DEFAULT ((1)) NOT NULL,
     [AccountStatusID]                  INT                DEFAULT ((1)) NOT NULL,
     [CoBrandedPartnerPermissions]      BIT                DEFAULT ((1)) NOT NULL,
