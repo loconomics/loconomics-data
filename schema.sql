@@ -2608,10 +2608,11 @@ GO
 PRINT N'Creating [dbo].[webpages_FacebookCredentials]...';
 GO
 CREATE TABLE [dbo].[webpages_FacebookCredentials] (
+    [id]         INT    NOT NULL IDENTITY (1, 1),
     [UserId]     INT    NOT NULL,
-    [FacebookId] BIGINT NOT NULL
+    [FacebookId] BIGINT NOT NULL,
+    CONSTRAINT [PK_webpages_FacebookCredentials] PRIMARY KEY CLUSTERED ([id] ASC)
 );
-
 
 GO
     
