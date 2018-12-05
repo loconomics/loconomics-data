@@ -8,7 +8,10 @@
     [Summary]           VARCHAR (200) NULL,
     [VerifiedBy]        VARCHAR (25)  NULL,
     [LastVerifiedDate]  DATETIME      NULL,
-    PRIMARY KEY CLUSTERED ([BackgroundCheckID] ASC, [UserID] ASC),
-    CONSTRAINT [FK__userbackg__Provi__4BB72C21] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+    PRIMARY KEY CLUSTERED ([BackgroundCheckID] ASC, [UserID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[userbackgroundcheck] ADD
+    CONSTRAINT [FK__userbackg__Provi__4BB72C21] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])

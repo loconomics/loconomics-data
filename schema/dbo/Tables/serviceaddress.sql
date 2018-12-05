@@ -11,7 +11,10 @@
     [UpdatedDate]                 DATETIME     NOT NULL,
     [ModifiedBy]                  VARCHAR (25) NOT NULL,
     [Active]                      BIT          NOT NULL,
-    CONSTRAINT [PK__servicea__8F1793BE58DC1D15] PRIMARY KEY CLUSTERED ([AddressID] ASC, [UserID] ASC, [PositionID] ASC),
-    CONSTRAINT [FK__servicead__UserI__56F3D4A3] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+    CONSTRAINT [PK__servicea__8F1793BE58DC1D15] PRIMARY KEY CLUSTERED ([AddressID] ASC, [UserID] ASC, [PositionID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[serviceaddress] ADD
+    CONSTRAINT [FK__servicead__UserI__56F3D4A3] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])

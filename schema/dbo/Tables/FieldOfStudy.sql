@@ -7,7 +7,10 @@
     [CreatedDate]      DATETIME     NULL,
     [UpdatedDate]      DATETIME     NULL,
     [ModifiedBy]       VARCHAR (10) NULL,
-    PRIMARY KEY CLUSTERED ([FieldOfStudyID] ASC),
-    FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])
+    PRIMARY KEY CLUSTERED ([FieldOfStudyID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[FieldOfStudy] ADD
+    CONSTRAINT [FK__FieldOfStudy__LanguageID__CountryID] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])

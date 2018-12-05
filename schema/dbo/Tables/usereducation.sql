@@ -12,8 +12,11 @@
     [VerifiedDate]      DATETIME      NULL,
     [VerifiedBy]        VARCHAR (25)  NULL,
     [Active]            BIT           NOT NULL,
-    CONSTRAINT [PK__usereduc__A31C69552A363CC5] PRIMARY KEY CLUSTERED ([UserEducationID] ASC),
-    CONSTRAINT [FK__usereduca__Insti__2D12A970] FOREIGN KEY ([InstitutionID]) REFERENCES [dbo].[institution] ([InstitutionID]),
-    CONSTRAINT [FK__usereduca__UserI__2C1E8537] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+    CONSTRAINT [PK__usereduc__A31C69552A363CC5] PRIMARY KEY CLUSTERED ([UserEducationID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[usereducation] ADD
+    CONSTRAINT [FK__usereduca__Insti__2D12A970] FOREIGN KEY ([InstitutionID]) REFERENCES [dbo].[institution] ([InstitutionID]),
+    CONSTRAINT [FK__usereduca__UserI__2C1E8537] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])

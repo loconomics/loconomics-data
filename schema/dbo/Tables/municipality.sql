@@ -5,7 +5,10 @@
     [CreatedDate]      DATETIME      NOT NULL,
     [UpdatedDate]      DATETIME      NOT NULL,
     [ModifiedBy]       VARCHAR (25)  NOT NULL,
-    PRIMARY KEY CLUSTERED ([MunicipalityID] ASC),
-    FOREIGN KEY ([CountyID]) REFERENCES [dbo].[county] ([CountyID])
+    PRIMARY KEY CLUSTERED ([MunicipalityID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[municipality] ADD
+    FOREIGN KEY ([CountyID]) REFERENCES [dbo].[county] ([CountyID])

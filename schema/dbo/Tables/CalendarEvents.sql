@@ -25,8 +25,11 @@
     [DayofWeek]                  INT                NULL,
     [Description]                NVARCHAR (MAX)     NULL,
     [Deleted]                    DATETIMEOFFSET (0) NULL,
-    CONSTRAINT [PK_CalendarEvents] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_CalendarEvents_CalendarAvailabilityType] FOREIGN KEY ([CalendarAvailabilityTypeID]) REFERENCES [dbo].[CalendarAvailabilityType] ([CalendarAvailabilityTypeID]) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT [FK_CalendarEvents_CalendarEventType] FOREIGN KEY ([EventType]) REFERENCES [dbo].[CalendarEventType] ([EventTypeId]) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT [PK_CalendarEvents] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[CalendarEvents] ADD
+    CONSTRAINT [FK_CalendarEvents_CalendarAvailabilityType] FOREIGN KEY ([CalendarAvailabilityTypeID]) REFERENCES [dbo].[CalendarAvailabilityType] ([CalendarAvailabilityTypeID]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_CalendarEvents_CalendarEventType] FOREIGN KEY ([EventType]) REFERENCES [dbo].[CalendarEventType] ([EventTypeId]) ON DELETE CASCADE ON UPDATE CASCADE

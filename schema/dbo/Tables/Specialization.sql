@@ -11,7 +11,10 @@
     [Approved]         BIT                CONSTRAINT [DF__Specializ__Appro__24C84789] DEFAULT ((0)) NULL,
     [Active]           BIT                CONSTRAINT [DF__Specializ__Activ__25BC6BC2] DEFAULT ((1)) NOT NULL,
     [EnteredByUserID]  INT                NULL,
-    CONSTRAINT [PK_Specialization] PRIMARY KEY CLUSTERED ([SpecializationID] ASC, [LanguageID] ASC, [CountryID] ASC),
-    CONSTRAINT [FK_Specialization_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
+    CONSTRAINT [PK_Specialization] PRIMARY KEY CLUSTERED ([SpecializationID] ASC, [LanguageID] ASC, [CountryID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[Specialization] ADD
+    CONSTRAINT [FK_Specialization_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])

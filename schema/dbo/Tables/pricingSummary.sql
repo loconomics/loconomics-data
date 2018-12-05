@@ -19,10 +19,13 @@
     [PaymentProcessingFeeFixed]      DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_PaymentProcessingFeeFixed] DEFAULT ((0)) NOT NULL,
     [FirstTimeServiceFeeMaximum]     DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeMaximum] DEFAULT ((0)) NOT NULL,
     [FirstTimeServiceFeeMinimum]     DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeMinimum] DEFAULT ((0)) NOT NULL,
-    CONSTRAINT [PK__pricinge__7F7D375D21D600EE] PRIMARY KEY CLUSTERED ([PricingSummaryID] ASC, [PricingSummaryRevision] ASC) WITH (FILLFACTOR = 100),
-    CONSTRAINT [FK_pricingestimate_pricingestimate] FOREIGN KEY ([PricingSummaryID], [PricingSummaryRevision]) REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision])
+    CONSTRAINT [PK__pricinge__7F7D375D21D600EE] PRIMARY KEY CLUSTERED ([PricingSummaryID] ASC, [PricingSummaryRevision] ASC) WITH (FILLFACTOR = 100)
 );
 
+GO
+
+ALTER TABLE [dbo].[pricingSummary] ADD
+    CONSTRAINT [FK_pricingestimate_pricingestimate] FOREIGN KEY ([PricingSummaryID], [PricingSummaryRevision]) REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision])
 
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Payment processing fees price', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'pricingSummary', @level2type = N'COLUMN', @level2name = N'ServiceFeeAmount';

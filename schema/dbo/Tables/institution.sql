@@ -18,7 +18,10 @@
     [SchoolID]               VARCHAR (3)    NULL,
     [DistrictName]           VARCHAR (50)   NULL,
     [DistrictID]             VARCHAR (3)    NULL,
-    CONSTRAINT [PK__institut__8DF6B94D047AA831] PRIMARY KEY CLUSTERED ([InstitutionID] ASC),
-    CONSTRAINT [FK__instituti__State__153B1FDF] FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])
+    CONSTRAINT [PK__institut__8DF6B94D047AA831] PRIMARY KEY CLUSTERED ([InstitutionID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[institution] ADD
+    CONSTRAINT [FK__instituti__State__153B1FDF] FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])

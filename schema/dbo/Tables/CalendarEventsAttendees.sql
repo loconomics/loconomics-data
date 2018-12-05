@@ -4,7 +4,10 @@
     [Attendee] NVARCHAR (MAX) NULL,
     [Role]     NVARCHAR (50)  NULL,
     [Uri]      NVARCHAR (200) NULL,
-    CONSTRAINT [PK_CalendarEventsAttendees] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_CalendarEventsAttendees_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT [PK_CalendarEventsAttendees] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[CalendarEventsAttendees] ADD
+    CONSTRAINT [FK_CalendarEventsAttendees_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE

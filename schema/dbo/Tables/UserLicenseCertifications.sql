@@ -19,8 +19,11 @@
     [LastVerifiedDate]           DATETIME       NULL,
     [SubmittedBy]                VARCHAR (25)   NULL,
     [SubmittedImageLocalURL]     VARCHAR (255)  NULL,
-    PRIMARY KEY CLUSTERED ([userLicenseCertificationID] ASC),
-    FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID]),
-    CONSTRAINT [FK__userlicen__Provi__5B045CA9] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID])
+    PRIMARY KEY CLUSTERED ([userLicenseCertificationID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[UserLicenseCertifications] ADD
+    CONSTRAINT [FK_userlicen__ProviderUserID] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK__userlicen__Provi__5B045CA9] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID])

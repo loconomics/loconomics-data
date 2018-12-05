@@ -12,9 +12,12 @@
     [ModifiedBy]            NVARCHAR (4)       NOT NULL,
     [Active]                BIT                CONSTRAINT [DF_UserEarningsEntry_Active] DEFAULT ((1)) NOT NULL,
     [Notes]                 TEXT               NULL,
-    CONSTRAINT [PK_UserEarningsEntry] PRIMARY KEY CLUSTERED ([UserID] ASC, [EarningsEntryID] ASC),
+    CONSTRAINT [PK_UserEarningsEntry] PRIMARY KEY CLUSTERED ([UserID] ASC, [EarningsEntryID] ASC)
+);
+
+GO
+
+ALTER TABLE [dbo].[UserEarningsEntry] ADD
     CONSTRAINT [FK_UserEarningsEntry_ServiceProfessionalClient] FOREIGN KEY ([UserID], [ClientUserID]) REFERENCES [dbo].[ServiceProfessionalClient] ([ServiceProfessionalUserID], [ClientUserID]),
     CONSTRAINT [FK_UserEarningsEntry_UserExternalListing] FOREIGN KEY ([UserExternalListingID]) REFERENCES [dbo].[UserExternalListing] ([UserExternalListingID]),
     CONSTRAINT [FK_UserEarningsEntry_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
-);
-

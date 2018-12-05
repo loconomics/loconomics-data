@@ -12,7 +12,10 @@
     [UpdatedDate]      DATETIMEOFFSET (7) NOT NULL,
     [ModifiedBy]       NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
     [Active]           BIT                DEFAULT ((1)) NOT NULL,
-    PRIMARY KEY CLUSTERED ([SearchCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC),
-    CONSTRAINT [FK_SearchCategory_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])
+    PRIMARY KEY CLUSTERED ([SearchCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[SearchCategory] ADD
+    CONSTRAINT [FK_SearchCategory_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])

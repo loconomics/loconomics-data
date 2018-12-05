@@ -5,7 +5,10 @@
     [CreatedDate]        DATETIMEOFFSET (7) NOT NULL,
     [UpdatedDate]        DATETIMEOFFSET (7) NOT NULL,
     [DetectedIPs]        VARCHAR (200)      NOT NULL,
-    CONSTRAINT [PK_OwnerAcknowledgment] PRIMARY KEY CLUSTERED ([UserID] ASC),
-    CONSTRAINT [FK_OwnerAcknowledgment_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+    CONSTRAINT [PK_OwnerAcknowledgment] PRIMARY KEY CLUSTERED ([UserID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[OwnerAcknowledgment] ADD
+    CONSTRAINT [FK_OwnerAcknowledgment_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])

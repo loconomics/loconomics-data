@@ -7,7 +7,10 @@
     [UpdatedDate]     DATETIME      NOT NULL,
     [ModifiedBy]      VARCHAR (25)  NOT NULL,
     [Active]          BIT           NOT NULL,
-    PRIMARY KEY CLUSTERED ([CountyID] ASC),
-    FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])
+    PRIMARY KEY CLUSTERED ([CountyID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[county] ADD
+    CONSTRAINT [FK__county__StateProvinceID] FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])

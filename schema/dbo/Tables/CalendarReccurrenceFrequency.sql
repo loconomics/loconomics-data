@@ -13,7 +13,10 @@
     [ExtraValue]           INT NULL,
     [FrequencyDay]         INT NULL,
     [DayOfWeek]            INT NULL,
-    CONSTRAINT [PK_CalendarRecurrence] PRIMARY KEY CLUSTERED ([ID] ASC),
-    CONSTRAINT [FK_CalendarFrecuency_CalendarReccursive] FOREIGN KEY ([CalendarReccursiveID]) REFERENCES [dbo].[CalendarReccurrence] ([ID]) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT [PK_CalendarRecurrence] PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[CalendarReccurrenceFrequency] ADD
+    CONSTRAINT [FK_CalendarFrecuency_CalendarReccursive] FOREIGN KEY ([CalendarReccursiveID]) REFERENCES [dbo].[CalendarReccurrence] ([ID]) ON DELETE CASCADE ON UPDATE CASCADE

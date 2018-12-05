@@ -15,9 +15,12 @@
     [ModifiedBy]      VARCHAR (25)  NULL,
     [MunicipalityID]  INT           DEFAULT ((0)) NOT NULL,
     [CountyID]        INT           DEFAULT ((0)) NOT NULL,
-    PRIMARY KEY CLUSTERED ([PostalCodeID] ASC),
-    FOREIGN KEY ([CountyID]) REFERENCES [dbo].[county] ([CountyID]),
-    FOREIGN KEY ([MunicipalityID]) REFERENCES [dbo].[municipality] ([MunicipalityID]),
-    FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])
+    PRIMARY KEY CLUSTERED ([PostalCodeID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[postalcode] ADD
+    CONSTRAINT [FK__postalcode__CountyID] FOREIGN KEY ([CountyID]) REFERENCES [dbo].[county] ([CountyID]),
+    CONSTRAINT [FK__postalcode__MunicipalityID] FOREIGN KEY ([MunicipalityID]) REFERENCES [dbo].[municipality] ([MunicipalityID]),
+    CONSTRAINT [FK__postalcode__StateProvinceID] FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])

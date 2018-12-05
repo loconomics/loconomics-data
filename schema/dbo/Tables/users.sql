@@ -49,11 +49,14 @@
     [TrialEndDate]                     DATETIMEOFFSET (7) NULL,
     [BirthYear]                        INT                NULL,
     [IsOrganization]                   BIT                DEFAULT ((0)) NOT NULL,
-    CONSTRAINT [PK_users] PRIMARY KEY CLUSTERED ([UserID] ASC) WITH (FILLFACTOR = 100),
-    CONSTRAINT [FK_users_accountstatus] FOREIGN KEY ([AccountStatusID]) REFERENCES [dbo].[accountstatus] ([AccountStatusID]),
-    CONSTRAINT [FK_users_OwnerStatus] FOREIGN KEY ([OwnerStatusID]) REFERENCES [dbo].[OwnerStatus] ([OwnserStatusID])
+    CONSTRAINT [PK_users] PRIMARY KEY CLUSTERED ([UserID] ASC) WITH (FILLFACTOR = 100)
 );
 
+GO
+
+ALTER TABLE [dbo].[users] ADD
+    CONSTRAINT [FK_users_accountstatus] FOREIGN KEY ([AccountStatusID]) REFERENCES [dbo].[accountstatus] ([AccountStatusID]),
+    CONSTRAINT [FK_users_OwnerStatus] FOREIGN KEY ([OwnerStatusID]) REFERENCES [dbo].[OwnerStatus] ([OwnserStatusID])
 
 GO
 -- =============================================
@@ -65,14 +68,14 @@ GO
 CREATE TRIGGER trigInitialUserAlertTest
    ON  dbo.users
    AFTER INSERT
-AS 
+AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	
+
 	DECLARE @UserID int
-	
+
 	SELECT @UserID = UserID FROM INSERTED
 
     EXEC TestAllUserAlerts @UserID

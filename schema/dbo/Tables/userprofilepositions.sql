@@ -15,12 +15,15 @@
     [bookMeButtonReady]            BIT            CONSTRAINT [DF_userprofilepositions_bookMeButtonReady] DEFAULT ((0)) NOT NULL,
     [collectPaymentAtBookMeButton] BIT            CONSTRAINT [DF_userprofilepositions_collectPaymentAtBookMeButton] DEFAULT ((1)) NOT NULL,
     [Title]                        NVARCHAR (50)  NULL,
-    CONSTRAINT [PK_userprofilepositions] PRIMARY KEY CLUSTERED ([UserListingID] ASC),
+    CONSTRAINT [PK_userprofilepositions] PRIMARY KEY CLUSTERED ([UserListingID] ASC)
+);
+
+GO
+
+ALTER TABLE [dbo].[userprofilepositions] ADD
     CONSTRAINT [FK_userprofilepositions_accountstatus] FOREIGN KEY ([StatusID]) REFERENCES [dbo].[accountstatus] ([AccountStatusID]),
     CONSTRAINT [FK_userprofilepositions_positions] FOREIGN KEY ([PositionID], [LanguageID], [CountryID]) REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID]),
     CONSTRAINT [FK_userprofilepositions_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
-);
-
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_userprofilepositions]
@@ -37,14 +40,14 @@ GO
 CREATE TRIGGER trigInitialProviderPositionAlertTest
    ON  dbo.userprofilepositions
    AFTER INSERT
-AS 
+AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	
+
 	DECLARE @UserID int, @PositionID int
-	
+
 	SELECT @UserID = UserID, @PositionID = PositionID FROM INSERTED
 
     EXEC TestAllUserAlerts @UserID, @PositionID

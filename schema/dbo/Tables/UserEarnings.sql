@@ -12,9 +12,12 @@
     [UpdatedDate]    DATETIMEOFFSET (0) NOT NULL,
     [ModifiedBy]     NVARCHAR (4)       NOT NULL,
     [Active]         BIT                CONSTRAINT [DF_UserEarnings_Active] DEFAULT ((1)) NOT NULL,
-    CONSTRAINT [PK_UserEarnings] PRIMARY KEY CLUSTERED ([UserEarningsID] ASC),
+    CONSTRAINT [PK_UserEarnings] PRIMARY KEY CLUSTERED ([UserEarningsID] ASC)
+);
+
+GO
+
+ALTER TABLE [dbo].[UserEarnings] ADD
     CONSTRAINT [FK_UserEarnings_UserEarnings] FOREIGN KEY ([UserEarningsID]) REFERENCES [dbo].[UserEarnings] ([UserEarningsID]),
     CONSTRAINT [FK_UserEarnings_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID]),
     CONSTRAINT [FK_UserEarnings_users1] FOREIGN KEY ([ClientID]) REFERENCES [dbo].[users] ([UserID])
-);
-

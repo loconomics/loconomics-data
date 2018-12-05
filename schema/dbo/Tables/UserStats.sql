@@ -3,7 +3,9 @@
     [ResponseTimeMinutes] DECIMAL (18, 2) NULL,
     [LastLoginTime]       DATETIME        NULL,
     [LastActivityTime]    DATETIME        NULL,
-    CONSTRAINT [PK_UserStats] PRIMARY KEY CLUSTERED ([UserID] ASC),
-    CONSTRAINT [FK_UserStats_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+    CONSTRAINT [PK_UserStats] PRIMARY KEY CLUSTERED ([UserID] ASC)
 );
 
+GO
+ALTER TABLE [dbo].[UserStats] ADD
+    CONSTRAINT [FK_UserStats_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])

@@ -46,7 +46,12 @@
     [PostNotesToClient]                TEXT            NULL,
     [PreNotesToSelf]                   TEXT            NULL,
     [PostNotesToSelf]                  TEXT            NULL,
-    CONSTRAINT [PK__booking__bookingIDKey] PRIMARY KEY CLUSTERED ([BookingID] ASC),
+    CONSTRAINT [PK__booking__bookingIDKey] PRIMARY KEY CLUSTERED ([BookingID] ASC)
+);
+
+GO
+
+ALTER TABLE [dbo].[booking] ADD
     CONSTRAINT [FK__booking__alternativeDate1] FOREIGN KEY ([AlternativeDate1ID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
     CONSTRAINT [FK__booking__alternativeDate2] FOREIGN KEY ([AlternativeDate2ID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
     CONSTRAINT [FK__booking__AwaitingResponseFromUserID] FOREIGN KEY ([AwaitingResponseFromUserID]) REFERENCES [dbo].[users] ([UserID]),
@@ -60,7 +65,6 @@
     CONSTRAINT [FK__booking__serviceProfessional] FOREIGN KEY ([ServiceProfessionalUserID]) REFERENCES [dbo].[users] ([UserID]),
     CONSTRAINT [FK__booking__status] FOREIGN KEY ([BookingStatusID]) REFERENCES [dbo].[bookingStatus] ([BookingStatusID]),
     CONSTRAINT [FK__booking__type] FOREIGN KEY ([BookingTypeID]) REFERENCES [dbo].[bookingType] ([BookingTypeID])
-);
 
 
 GO

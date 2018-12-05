@@ -10,7 +10,10 @@
     [updatedDate]    DATETIMEOFFSET (0) NOT NULL,
     [modifiedBy]     NVARCHAR (10)      NOT NULL,
     [label]          NVARCHAR (120)     DEFAULT ('') NOT NULL,
-    CONSTRAINT [PK_question] PRIMARY KEY CLUSTERED ([questionID] ASC),
-    CONSTRAINT [FK_question_questionType] FOREIGN KEY ([questionTypeID]) REFERENCES [dbo].[questionType] ([questionTypeID])
+    CONSTRAINT [PK_question] PRIMARY KEY CLUSTERED ([questionID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[question] ADD
+    CONSTRAINT [FK_question_questionType] FOREIGN KEY ([questionTypeID]) REFERENCES [dbo].[questionType] ([questionTypeID])

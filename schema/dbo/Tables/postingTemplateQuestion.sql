@@ -8,8 +8,11 @@
     [updatedDate]               DATETIMEOFFSET (0) NOT NULL,
     [modifiedby]                NCHAR (5)          NOT NULL,
     [active]                    TINYINT            NOT NULL,
-    CONSTRAINT [PK_postingTemplateQuestion] PRIMARY KEY CLUSTERED ([postingTemplateQuestionID] ASC),
-    CONSTRAINT [FK_postingTemplateQuestion_postingTemplate] FOREIGN KEY ([postingTemplateID]) REFERENCES [dbo].[postingTemplate] ([postingTemplateID]),
-    CONSTRAINT [FK_postingTemplateQuestion_question] FOREIGN KEY ([questionID]) REFERENCES [dbo].[question] ([questionID])
+    CONSTRAINT [PK_postingTemplateQuestion] PRIMARY KEY CLUSTERED ([postingTemplateQuestionID] ASC)
 );
 
+GO
+
+ALTER TABLE [dbo].[postingTemplateQuestion] ADD
+    CONSTRAINT [FK_postingTemplateQuestion_postingTemplate] FOREIGN KEY ([postingTemplateID]) REFERENCES [dbo].[postingTemplate] ([postingTemplateID]),
+    CONSTRAINT [FK_postingTemplateQuestion_question] FOREIGN KEY ([questionID]) REFERENCES [dbo].[question] ([questionID])

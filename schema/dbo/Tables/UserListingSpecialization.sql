@@ -9,9 +9,12 @@
     [UpdatedDate]      DATETIMEOFFSET (7) NOT NULL,
     [ModifiedBy]       NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
     [Active]           BIT                DEFAULT ((1)) NOT NULL,
-    PRIMARY KEY CLUSTERED ([UserID] ASC, [UserListingID] ASC, [SpecializationID] ASC, [LanguageID] ASC, [CountryID] ASC),
+    PRIMARY KEY CLUSTERED ([UserID] ASC, [UserListingID] ASC, [SpecializationID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+GO
+
+ALTER TABLE [dbo].[UserListingSpecialization] ADD
     CONSTRAINT [FK_UserListingSpecialization_Specialization] FOREIGN KEY ([SpecializationID], [LanguageID], [CountryID]) REFERENCES [dbo].[Specialization] ([SpecializationID], [LanguageID], [CountryID]),
     CONSTRAINT [FK_UserListingSpecialization_userprofilepositions] FOREIGN KEY ([UserListingID]) REFERENCES [dbo].[userprofilepositions] ([UserListingID]),
     CONSTRAINT [FK_UserListingSpecialization_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
-);
-
