@@ -15,6 +15,7 @@
   },
   "scripts": {
     "generate": "typeorm-model-generator -d Dev -u sa -x \"Password!!11\" -e mssql --ce=pascal --cp=camel --lazy=true",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "build-schema-sql": "node ./schema/create-schema-script > schema.sql loconomics"
   }
 }

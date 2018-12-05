@@ -1,63 +1,3848 @@
-﻿USE [master]
+
+PRINT N'Creating database [loconomics]...';
 GO
-/****** Object:  Database [Dev]    Script Date: 11/8/18 3:10:34 PM ******/
-CREATE DATABASE [Dev]
+/** Create empty database, first script before any other object DDL **/
+
 GO
-ALTER DATABASE [Dev] SET COMPATIBILITY_LEVEL = 100
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, QUOTED_IDENTIFIER ON;
+SET NUMERIC_ROUNDABORT OFF;
+GO
+
+CREATE DATABASE [loconomics]
+GO
+ALTER DATABASE [loconomics] SET COMPATIBILITY_LEVEL = 100
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
-EXEC [Dev].[dbo].[sp_fulltext_database] @action = 'enable'
+EXEC [loconomics].[dbo].[sp_fulltext_database] @action = 'enable'
 end
 GO
-ALTER DATABASE [Dev] SET ANSI_NULL_DEFAULT OFF
+ALTER DATABASE [loconomics] SET ANSI_NULL_DEFAULT OFF
 GO
-ALTER DATABASE [Dev] SET ANSI_NULLS OFF
+ALTER DATABASE [loconomics] SET ANSI_NULLS OFF
 GO
-ALTER DATABASE [Dev] SET ANSI_PADDING OFF
+ALTER DATABASE [loconomics] SET ANSI_PADDING OFF
 GO
-ALTER DATABASE [Dev] SET ANSI_WARNINGS OFF
+ALTER DATABASE [loconomics] SET ANSI_WARNINGS OFF
 GO
-ALTER DATABASE [Dev] SET ARITHABORT OFF
+ALTER DATABASE [loconomics] SET ARITHABORT OFF
 GO
-ALTER DATABASE [Dev] SET AUTO_SHRINK OFF
+ALTER DATABASE [loconomics] SET AUTO_SHRINK OFF
 GO
-ALTER DATABASE [Dev] SET AUTO_UPDATE_STATISTICS ON
+ALTER DATABASE [loconomics] SET AUTO_UPDATE_STATISTICS ON
 GO
-ALTER DATABASE [Dev] SET CURSOR_CLOSE_ON_COMMIT OFF
+ALTER DATABASE [loconomics] SET CURSOR_CLOSE_ON_COMMIT OFF
 GO
-ALTER DATABASE [Dev] SET CONCAT_NULL_YIELDS_NULL OFF
+ALTER DATABASE [loconomics] SET CONCAT_NULL_YIELDS_NULL OFF
 GO
-ALTER DATABASE [Dev] SET NUMERIC_ROUNDABORT OFF
+ALTER DATABASE [loconomics] SET NUMERIC_ROUNDABORT OFF
 GO
-ALTER DATABASE [Dev] SET QUOTED_IDENTIFIER OFF
+ALTER DATABASE [loconomics] SET QUOTED_IDENTIFIER OFF
 GO
-ALTER DATABASE [Dev] SET RECURSIVE_TRIGGERS OFF
+ALTER DATABASE [loconomics] SET RECURSIVE_TRIGGERS OFF
 GO
-ALTER DATABASE [Dev] SET AUTO_UPDATE_STATISTICS_ASYNC OFF
+ALTER DATABASE [loconomics] SET AUTO_UPDATE_STATISTICS_ASYNC OFF
 GO
-ALTER DATABASE [Dev] SET DATE_CORRELATION_OPTIMIZATION OFF
+ALTER DATABASE [loconomics] SET DATE_CORRELATION_OPTIMIZATION OFF
 GO
-ALTER DATABASE [Dev] SET TRUSTWORTHY OFF
+ALTER DATABASE [loconomics] SET TRUSTWORTHY OFF
 GO
-ALTER DATABASE [Dev] SET ALLOW_SNAPSHOT_ISOLATION OFF
+ALTER DATABASE [loconomics] SET ALLOW_SNAPSHOT_ISOLATION OFF
 GO
-ALTER DATABASE [Dev] SET PARAMETERIZATION SIMPLE
+ALTER DATABASE [loconomics] SET PARAMETERIZATION SIMPLE
 GO
-ALTER DATABASE [Dev] SET READ_COMMITTED_SNAPSHOT ON
+ALTER DATABASE [loconomics] SET READ_COMMITTED_SNAPSHOT ON
 GO
-ALTER DATABASE [Dev] SET HONOR_BROKER_PRIORITY OFF
+ALTER DATABASE [loconomics] SET HONOR_BROKER_PRIORITY OFF
 GO
-ALTER DATABASE [Dev] SET  MULTI_USER
+ALTER DATABASE [loconomics] SET  MULTI_USER
 GO
-ALTER DATABASE [Dev] SET DB_CHAINING OFF
+ALTER DATABASE [loconomics] SET DB_CHAINING OFF
 GO
-USE [Dev]
+USE [loconomics]
 GO
-/****** Object:  UserDefinedFunction [dbo].[fx_concat]    Script Date: 11/8/18 3:10:34 PM ******/
-SET ANSI_NULLS ON
+
 GO
-SET QUOTED_IDENTIFIER ON
+        
+
+PRINT N'Creating [dbo].[accountstatus]...';
+GO
+CREATE TABLE [dbo].[accountstatus] (
+    [AccountStatusID]          INT           NOT NULL,
+    [AccountStatusName]        VARCHAR (25)  NOT NULL,
+    [AccountStatusDescription] VARCHAR (200) NULL,
+    [CreatedDate]              DATETIME      NOT NULL,
+    [UpdatedDate]              DATETIME      NOT NULL,
+    [ModifiedBy]               VARCHAR (25)  DEFAULT ('sys') NOT NULL,
+    [Active]                   BIT           DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([AccountStatusID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[address]...';
+GO
+CREATE TABLE [dbo].[address] (
+    [AddressID]           INT            IDENTITY (1, 1) NOT NULL,
+    [UserID]              INT            NOT NULL,
+    [AddressTypeID]       INT            NOT NULL,
+    [AddressName]         VARCHAR (50)   NOT NULL,
+    [AddressLine1]        VARCHAR (100)  NOT NULL,
+    [AddressLine2]        VARCHAR (100)  NULL,
+    [City]                VARCHAR (100)  NOT NULL,
+    [StateProvinceID]     INT            NOT NULL,
+    [PostalCodeID]        INT            NOT NULL,
+    [CountryID]           INT            NOT NULL,
+    [Latitude]            FLOAT (53)     NULL,
+    [Longitude]           FLOAT (53)     NULL,
+    [GoogleMapsURL]       VARCHAR (2073) NULL,
+    [SpecialInstructions] VARCHAR (1000) NULL,
+    [CreatedDate]         DATETIME       NOT NULL,
+    [UpdatedDate]         DATETIME       NOT NULL,
+    [ModifiedBy]          VARCHAR (25)   NOT NULL,
+    [Active]              BIT            NULL,
+    [CreatedBy]           INT            NOT NULL,
+    CONSTRAINT [PK_address_1] PRIMARY KEY CLUSTERED ([AddressID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[addresstype]...';
+GO
+CREATE TABLE [dbo].[addresstype] (
+    [AddressTypeID] INT          NOT NULL,
+    [LanguageID]    INT          NOT NULL,
+    [CountryID]     INT          NOT NULL,
+    [AddressType]   VARCHAR (50) NULL,
+    [CreatedDate]   DATETIME     NOT NULL,
+    [UpdatedDate]   DATETIME     NOT NULL,
+    [ModifiedBy]    VARCHAR (25) NOT NULL,
+    [Active]        BIT          NOT NULL,
+    [UniquePerUser] BIT          NOT NULL,
+    [Selectable]    BIT          CONSTRAINT [DF_addresstype_Selectable] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK__addresst__9E7638F92C88998B] PRIMARY KEY CLUSTERED ([AddressTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[alert]...';
+GO
+CREATE TABLE [dbo].[alert] (
+    [AlertID]                       INT            NOT NULL,
+    [AlertTypeID]                   INT            NOT NULL,
+    [LanguageID]                    INT            NOT NULL,
+    [CountryID]                     INT            NOT NULL,
+    [AlertName]                     VARCHAR (30)   NOT NULL,
+    [AlertHeadlineDisplay]          VARCHAR (100)  NULL,
+    [AlertTextDisplay]              VARCHAR (300)  NOT NULL,
+    [AlertDescription]              VARCHAR (500)  NULL,
+    [AlertEmailText]                VARCHAR (25)   NULL,
+    [ProviderProfileCompletePoints] INT            NOT NULL,
+    [CustomerProfileCompletePoints] INT            NOT NULL,
+    [CreatedDate]                   DATETIME       NOT NULL,
+    [UpdatedDate]                   DATETIME       NOT NULL,
+    [ModifiedBy]                    VARCHAR (25)   NOT NULL,
+    [Active]                        BIT            NOT NULL,
+    [AlertPageURL]                  VARCHAR (2000) NULL,
+    [Required]                      BIT            NOT NULL,
+    [PositionSpecific]              BIT            CONSTRAINT [DF__alert__PositionS__5E94F66B] DEFAULT ((0)) NOT NULL,
+    [DisplayRank]                   INT            CONSTRAINT [DF__alert__DisplayRa__3CFEF876] DEFAULT ((1)) NOT NULL,
+    [ProviderAlert]                 BIT            DEFAULT ((1)) NOT NULL,
+    [CustomerAlert]                 BIT            DEFAULT ((0)) NOT NULL,
+    [bookMeButtonRequired]          BIT            CONSTRAINT [DF_alert_bookMeButtonRequired] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK__alert__AAFF8BB7025D5595] PRIMARY KEY CLUSTERED ([AlertID] ASC, [AlertTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[alerttype]...';
+GO
+CREATE TABLE [dbo].[alerttype] (
+    [AlertTypeID]          INT           NOT NULL,
+    [AlertTypeName]        VARCHAR (200) NOT NULL,
+    [AlertTypeDescription] VARCHAR (200) NULL,
+    [CreatedDate]          DATETIME      NOT NULL,
+    [UpdatedDate]          DATETIME      NOT NULL,
+    [ModifiedBy]           VARCHAR (25)  NOT NULL,
+    [Active]               BIT           NOT NULL,
+    [LanguageID]           INT           DEFAULT ((1)) NOT NULL,
+    [CountryID]            INT           DEFAULT ((1)) NOT NULL,
+    [DisplayRank]          INT           DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([AlertTypeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[authorizations]...';
+GO
+CREATE TABLE [dbo].[authorizations] (
+    [id]            INT                IDENTITY (1, 1) NOT NULL,
+    [Token]         VARCHAR (216)      NOT NULL,
+    [UserID]        INT                NOT NULL,
+    [Scope]         VARCHAR (100)      NOT NULL,
+    [CreatedDate]   DATETIMEOFFSET (0) NOT NULL,
+    [DeletedDate]   DATETIMEOFFSET (0) NULL,
+    [ClientAddress] VARCHAR (64)       NULL,
+    [UserAgent]     TEXT               NULL,
+    PRIMARY KEY CLUSTERED ([id] ASC)
+);
+
+
+
+GO
+    
+PRINT N'Creating [dbo].[backgroundcheck]...';
+GO
+CREATE TABLE [dbo].[backgroundcheck] (
+    [BackgroundCheckID]          INT            NOT NULL,
+    [LanguageID]                 INT            NOT NULL,
+    [CountryID]                  INT            NOT NULL,
+    [BackgroundCheckName]        VARCHAR (100)  NOT NULL,
+    [BackgroundCheckDescription] VARCHAR (1000) NULL,
+    [CreatedDate]                DATETIME       NOT NULL,
+    [UpdatedDate]                DATETIME       NOT NULL,
+    [ModifiedBy]                 VARCHAR (25)   NOT NULL,
+    [Active]                     BIT            NOT NULL,
+    [BackGroundCheckPrice]       DECIMAL (5, 2) NULL,
+    PRIMARY KEY CLUSTERED ([BackgroundCheckID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[booking]...';
+GO
+CREATE TABLE [dbo].[booking] (
+    [BookingID]                        INT             IDENTITY (1, 1) NOT NULL,
+    [ClientUserID]                     INT             NULL,
+    [ServiceProfessionalUserID]        INT             NULL,
+    [JobTitleID]                       INT             NOT NULL,
+    [LanguageID]                       INT             NOT NULL,
+    [CountryID]                        INT             NOT NULL,
+    [BookingStatusID]                  INT             NOT NULL,
+    [BookingTypeID]                    INT             NOT NULL,
+    [CancellationPolicyID]             INT             NOT NULL,
+    [ParentBookingID]                  INT             NULL,
+    [ServiceAddressID]                 INT             NULL,
+    [ServiceDateID]                    INT             NULL,
+    [AlternativeDate1ID]               INT             NULL,
+    [AlternativeDate2ID]               INT             NULL,
+    [PricingSummaryID]                 INT             NOT NULL,
+    [PricingSummaryRevision]           INT             NOT NULL,
+    [PaymentTransactionID]             VARCHAR (250)   NULL,
+    [PaymentLastFourCardNumberDigits]  VARCHAR (64)    NULL,
+    [paymentMethodID]                  VARCHAR (250)   NULL,
+    [cancellationPaymentTransactionID] VARCHAR (250)   NULL,
+    [ClientPayment]                    DECIMAL (25, 2) NULL,
+    [ServiceProfessionalPaid]          DECIMAL (25, 2) NULL,
+    [ServiceProfessionalPPFeePaid]     DECIMAL (25, 2) NULL,
+    [LoconomicsPaid]                   DECIMAL (25, 2) NULL,
+    [LoconomicsPPFeePaid]              DECIMAL (25, 2) NULL,
+    [InstantBooking]                   BIT             CONSTRAINT [Contraint_booking_InstantBooking] DEFAULT ((0)) NOT NULL,
+    [FirstTimeBooking]                 BIT             NOT NULL,
+    [SendReminder]                     BIT             CONSTRAINT [Contraint_booking_SendReminder] DEFAULT ((0)) NOT NULL,
+    [SendPromotional]                  BIT             CONSTRAINT [Contraint_booking_SendPromotional] DEFAULT ((0)) NOT NULL,
+    [Recurrent]                        BIT             CONSTRAINT [Contraint_booking_Recurrent] DEFAULT ((0)) NOT NULL,
+    [MultiSession]                     BIT             CONSTRAINT [Contraint_booking_MultiSession] DEFAULT ((0)) NOT NULL,
+    [PricingAdjustmentApplied]         BIT             CONSTRAINT [Contraint__booking__PricingAdjustmentApplied] DEFAULT ((0)) NOT NULL,
+    [PaymentEnabled]                   BIT             CONSTRAINT [DF_booking_PaymentEnabled] DEFAULT ((0)) NOT NULL,
+    [PaymentCollected]                 BIT             CONSTRAINT [Contraint_booking_PaymentCollected] DEFAULT ((0)) NOT NULL,
+    [PaymentAuthorized]                BIT             CONSTRAINT [Contraint_booking_PaymentAuthorized] DEFAULT ((0)) NOT NULL,
+    [AwaitingResponseFromUserID]       INT             NULL,
+    [PricingAdjustmentRequested]       BIT             CONSTRAINT [Contraint_booking_PricingAdjustmentRequested] DEFAULT ((0)) NOT NULL,
+    [SupportTicketNumber]              VARCHAR (200)   NULL,
+    [MessagingLog]                     NVARCHAR (400)  CONSTRAINT [Contraint_booking_MessagingLog] DEFAULT ('') NOT NULL,
+    [CreatedDate]                      DATETIME        NOT NULL,
+    [UpdatedDate]                      DATETIME        NOT NULL,
+    [ModifiedBy]                       VARCHAR (25)    NOT NULL,
+    [SpecialRequests]                  TEXT            NULL,
+    [PreNotesToClient]                 TEXT            NULL,
+    [PostNotesToClient]                TEXT            NULL,
+    [PreNotesToSelf]                   TEXT            NULL,
+    [PostNotesToSelf]                  TEXT            NULL,
+    CONSTRAINT [PK__booking__bookingIDKey] PRIMARY KEY CLUSTERED ([BookingID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[bookingStatus]...';
+GO
+CREATE TABLE [dbo].[bookingStatus] (
+    [BookingStatusID]          INT           NOT NULL,
+    [BookingStatusName]        VARCHAR (50)  NOT NULL,
+    [BookingStatusDescription] VARCHAR (500) NULL,
+    [CreatedDate]              DATETIME      NOT NULL,
+    [UpdatedDate]              DATETIME      NOT NULL,
+    [ModifiedBy]               VARCHAR (25)  NOT NULL,
+    [Active]                   BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([BookingStatusID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[bookingType]...';
+GO
+CREATE TABLE [dbo].[bookingType] (
+    [BookingTypeID]                  INT            NOT NULL,
+    [BookingTypeName]                VARCHAR (50)   NOT NULL,
+    [BookingTypeDescription]         VARCHAR (500)  NULL,
+    [CreatedDate]                    DATETIME       NOT NULL,
+    [UpdatedDate]                    DATETIME       NOT NULL,
+    [ModifiedBy]                     VARCHAR (25)   NOT NULL,
+    [Active]                         BIT            NOT NULL,
+    [FirstTimeServiceFeeFixed]       DECIMAL (5, 2) CONSTRAINT [DF__bookingty__Servi__2215F810] DEFAULT ((0)) NOT NULL,
+    [FirstTimeServiceFeePercentage]  DECIMAL (5, 2) CONSTRAINT [DF__bookingty__Servi__230A1C49] DEFAULT ((0)) NOT NULL,
+    [PaymentProcessingFeePercentage] DECIMAL (5, 2) CONSTRAINT [DF__bookingty__Payme__23FE4082] DEFAULT ((0)) NOT NULL,
+    [PaymentProcessingFeeFixed]      DECIMAL (5, 2) CONSTRAINT [DF_bookingtype_PaymentProcessingFeeFixed] DEFAULT ((0)) NOT NULL,
+    [FirstTimeServiceFeeMaximum]     DECIMAL (5, 2) CONSTRAINT [DF_bookingtype_FirstTimeServiceFeeMaximum] DEFAULT ((0)) NOT NULL,
+    [FirstTimeServiceFeeMinimum]     DECIMAL (5, 2) CONSTRAINT [DF_bookingtype_FirstTimeServiceFeeMinimum] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK__bookingt__649EC4B15090EFD7] PRIMARY KEY CLUSTERED ([BookingTypeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarAvailabilityType]...';
+GO
+CREATE TABLE [dbo].[CalendarAvailabilityType] (
+    [CalendarAvailabilityTypeID]          INT            NOT NULL,
+    [LanguageID]                          INT            NOT NULL,
+    [CountryID]                           INT            NOT NULL,
+    [CalendarAvailabilityTypeName]        NVARCHAR (50)  NOT NULL,
+    [CalendarAvailabilityTypeDescription] NVARCHAR (300) NOT NULL,
+    [UserDescription]                     VARCHAR (500)  NULL,
+    [AddAppointmentType]                  BIT            DEFAULT ((0)) NOT NULL,
+    [SelectableAs]                        NVARCHAR (50)  NULL,
+    CONSTRAINT [PK_CalendarAvailabilityType_1] PRIMARY KEY CLUSTERED ([CalendarAvailabilityTypeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventComments]...';
+GO
+CREATE TABLE [dbo].[CalendarEventComments] (
+    [Id]      INT            IDENTITY (1, 1) NOT NULL,
+    [IdEvent] INT            NOT NULL,
+    [Comment] NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventExceptionsPeriod]...';
+GO
+CREATE TABLE [dbo].[CalendarEventExceptionsPeriod] (
+    [IdException] INT                NOT NULL,
+    [DateStart]   DATETIMEOFFSET (0) NOT NULL,
+    [DateEnd]     DATETIMEOFFSET (0) NULL,
+    CONSTRAINT [PK_CalendarEventExceptionsPeriod] PRIMARY KEY CLUSTERED ([IdException] ASC, [DateStart] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventExceptionsPeriodsList]...';
+GO
+CREATE TABLE [dbo].[CalendarEventExceptionsPeriodsList] (
+    [Id]      INT IDENTITY (1, 1) NOT NULL,
+    [IdEvent] INT NOT NULL,
+    CONSTRAINT [PK_CalendarEventExceptions] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventRecurrencesPeriod]...';
+GO
+CREATE TABLE [dbo].[CalendarEventRecurrencesPeriod] (
+    [IdRecurrence] INT                NOT NULL,
+    [DateStart]    DATETIMEOFFSET (0) NOT NULL,
+    [DateEnd]      DATETIMEOFFSET (0) NULL,
+    CONSTRAINT [PK_CalendarEventRecurrencesPeriod_1] PRIMARY KEY CLUSTERED ([IdRecurrence] ASC, [DateStart] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventRecurrencesPeriodList]...';
+GO
+CREATE TABLE [dbo].[CalendarEventRecurrencesPeriodList] (
+    [Id]      INT IDENTITY (1, 1) NOT NULL,
+    [IdEvent] INT NOT NULL,
+    CONSTRAINT [PK_CalendarEventRecurrenceDates] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEvents]...';
+GO
+CREATE TABLE [dbo].[CalendarEvents] (
+    [Id]                         INT                IDENTITY (1, 1) NOT NULL,
+    [UserId]                     INT                NOT NULL,
+    [EventType]                  INT                CONSTRAINT [DF_CalendarEvents_EventType] DEFAULT ((1)) NOT NULL,
+    [Summary]                    VARCHAR (500)      NULL,
+    [StarTtime]                  DATETIMEOFFSET (0) NULL,
+    [EndTime]                    DATETIMEOFFSET (0) NULL,
+    [UID]                        VARCHAR (150)      NULL,
+    [CalendarAvailabilityTypeID] INT                NOT NULL,
+    [Transparency]               BIT                CONSTRAINT [DF_CalendarEvents_Transparency] DEFAULT ((0)) NOT NULL,
+    [IsAllDay]                   BIT                CONSTRAINT [DF_CalendarEvents_IsAllDay] DEFAULT ((0)) NOT NULL,
+    [StampTime]                  DATETIMEOFFSET (0) NULL,
+    [TimeZone]                   NVARCHAR (100)     NULL,
+    [Priority]                   INT                NULL,
+    [Location]                   NVARCHAR (100)     NULL,
+    [UpdatedDate]                DATETIMEOFFSET (0) NULL,
+    [CreatedDate]                DATETIMEOFFSET (0) NULL,
+    [ModifyBy]                   NVARCHAR (50)      NULL,
+    [Class]                      NVARCHAR (50)      NULL,
+    [Organizer]                  NVARCHAR (MAX)     NULL,
+    [Sequence]                   INT                NULL,
+    [Geo]                        NVARCHAR (100)     NULL,
+    [RecurrenceId]               DATETIMEOFFSET (0) NULL,
+    [TimeBlock]                  TIME (7)           NULL,
+    [DayofWeek]                  INT                NULL,
+    [Description]                NVARCHAR (MAX)     NULL,
+    [Deleted]                    DATETIMEOFFSET (0) NULL,
+    CONSTRAINT [PK_CalendarEvents] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventsAttendees]...';
+GO
+CREATE TABLE [dbo].[CalendarEventsAttendees] (
+    [Id]       INT            IDENTITY (1, 1) NOT NULL,
+    [IdEvent]  INT            NOT NULL,
+    [Attendee] NVARCHAR (MAX) NULL,
+    [Role]     NVARCHAR (50)  NULL,
+    [Uri]      NVARCHAR (200) NULL,
+    CONSTRAINT [PK_CalendarEventsAttendees] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventsContacts]...';
+GO
+CREATE TABLE [dbo].[CalendarEventsContacts] (
+    [Id]      INT            IDENTITY (1, 1) NOT NULL,
+    [IdEvent] INT            NOT NULL,
+    [Contact] NVARCHAR (500) NULL,
+    CONSTRAINT [PK_CalendarEventsContacts] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarEventType]...';
+GO
+CREATE TABLE [dbo].[CalendarEventType] (
+    [EventTypeId] INT            NOT NULL,
+    [EventType]   NVARCHAR (100) NULL,
+    [Description] NVARCHAR (MAX) NULL,
+    [DisplayName] NVARCHAR (100) NULL,
+    CONSTRAINT [PK_EventType] PRIMARY KEY CLUSTERED ([EventTypeId] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarProviderAttributes]...';
+GO
+CREATE TABLE [dbo].[CalendarProviderAttributes] (
+    [UserID]                  INT             NOT NULL,
+    [AdvanceTime]             DECIMAL (10, 2) NOT NULL,
+    [MinTime]                 DECIMAL (10, 2) CONSTRAINT [DF_CalendarProviderAttributes_MinTime] DEFAULT ((0)) NOT NULL,
+    [MaxTime]                 DECIMAL (10, 2) CONSTRAINT [DF_CalendarProviderAttributes_MaxTime] DEFAULT ((0)) NOT NULL,
+    [BetweenTime]             DECIMAL (10, 2) NOT NULL,
+    [UseCalendarProgram]      BIT             NOT NULL,
+    [CalendarType]            VARCHAR (200)   NULL,
+    [CalendarURL]             VARCHAR (500)   NULL,
+    [PrivateCalendarToken]    VARCHAR (128)   NULL,
+    [IncrementsSizeInMinutes] INT             CONSTRAINT [DF_CalendarProviderAttributes_IncrementsSizeInMinutes] DEFAULT ((15)) NOT NULL,
+    [TimeZone]                VARCHAR (50)    NULL,
+    CONSTRAINT [PK__Calendar__1788CCAC22B5168E] PRIMARY KEY CLUSTERED ([UserID] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarReccurrence]...';
+GO
+CREATE TABLE [dbo].[CalendarReccurrence] (
+    [ID]              INT                IDENTITY (1, 1) NOT NULL,
+    [EventID]         INT                NULL,
+    [Count]           INT                NULL,
+    [EvaluationMode]  NVARCHAR (50)      NULL,
+    [Frequency]       INT                NULL,
+    [Interval]        INT                NULL,
+    [RestristionType] INT                NULL,
+    [Until]           DATETIMEOFFSET (0) NULL,
+    [FirstDayOfWeek]  INT                NULL,
+    CONSTRAINT [PK_CalendarReccursive] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarReccurrenceFrequency]...';
+GO
+CREATE TABLE [dbo].[CalendarReccurrenceFrequency] (
+    [ID]                   INT IDENTITY (1, 1) NOT NULL,
+    [CalendarReccursiveID] INT NULL,
+    [ByDay]                BIT NULL,
+    [ByHour]               BIT NULL,
+    [ByMinute]             BIT NULL,
+    [ByMonth]              BIT NULL,
+    [ByMonthDay]           BIT NULL,
+    [BySecond]             BIT NULL,
+    [BySetPosition]        BIT NULL,
+    [ByWeekNo]             BIT NULL,
+    [ByYearDay]            BIT NULL,
+    [ExtraValue]           INT NULL,
+    [FrequencyDay]         INT NULL,
+    [DayOfWeek]            INT NULL,
+    CONSTRAINT [PK_CalendarRecurrence] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CalendarRecurrenceFrequencyTypes]...';
+GO
+CREATE TABLE [dbo].[CalendarRecurrenceFrequencyTypes] (
+    [ID]            INT           NOT NULL,
+    [FrequencyType] NVARCHAR (30) NULL,
+    [UnitPlural]    NVARCHAR (30) NULL,
+    CONSTRAINT [PK_CalendarRecurrenceFrequencyTypes] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[cancellationpolicy]...';
+GO
+CREATE TABLE [dbo].[cancellationpolicy] (
+    [CancellationPolicyID]          INT            NOT NULL,
+    [LanguageID]                    INT            NOT NULL,
+    [CountryID]                     INT            NOT NULL,
+    [CancellationPolicyName]        VARCHAR (50)   NOT NULL,
+    [CancellationPolicyDescription] VARCHAR (1000) NULL,
+    [HoursRequired]                 INT            NULL,
+    [CancellationFeeAfter]          DECIMAL (5, 2) NULL,
+    [CancellationFeeBefore]         DECIMAL (5, 2) NULL,
+    [CreatedDate]                   DATETIME       NOT NULL,
+    [UpdatedDate]                   DATETIME       NOT NULL,
+    [ModifiedBy]                    VARCHAR (25)   NOT NULL,
+    [Active]                        BIT            NOT NULL,
+    CONSTRAINT [PK__cancella__4BAA8CCE7A0806B6] PRIMARY KEY CLUSTERED ([CancellationPolicyID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[CCCUsers]...';
+GO
+CREATE TABLE [dbo].[CCCUsers] (
+    [UserID]             INT          NOT NULL,
+    [InstitutionID]      INT          NULL,
+    [FieldOfStudyID]     INT          NULL,
+    [PlanExpirationDate] DATETIME     NULL,
+    [UserType]           VARCHAR (25) NULL,
+    [StudentID]          INT          NULL,
+    PRIMARY KEY CLUSTERED ([UserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[clienttype]...';
+GO
+CREATE TABLE [dbo].[clienttype] (
+    [CllientTypeID]         INT           NOT NULL,
+    [ClientTypeName]        VARCHAR (50)  NOT NULL,
+    [ClientTypeDescription] VARCHAR (500) NULL,
+    [LanguageID]            INT           NOT NULL,
+    [CountryID]             INT           NOT NULL,
+    [CreatedDate]           DATETIME      NOT NULL,
+    [UpdatedDate]           DATETIME      NOT NULL,
+    [ModifiedBy]            VARCHAR (25)  NULL,
+    [Active]                BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([CllientTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+
+GO
+    
+PRINT N'Creating [dbo].[country]...';
+GO
+CREATE TABLE [dbo].[country] (
+    [CountryID]          INT           NOT NULL,
+    [LanguageID]         INT           NOT NULL,
+    [CountryName]        VARCHAR (100) NOT NULL,
+    [CountryCode]        VARCHAR (3)   NOT NULL,
+    [CountryCodeAlpha2]  CHAR (2)      NULL,
+    [CountryCallingCode] VARCHAR (3)   NULL,
+    [CreatedDate]        DATETIME      NULL,
+    [UpdatedDate]        DATETIME      NULL,
+    [ModifiedBy]         VARCHAR (25)  NULL,
+    [Active]             BIT           NOT NULL,
+    [numcode]            INT           NULL,
+    CONSTRAINT [PK__country__BB42E5E768D28DBC] PRIMARY KEY CLUSTERED ([CountryID] ASC, [LanguageID] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[county]...';
+GO
+CREATE TABLE [dbo].[county] (
+    [CountyID]        INT           NOT NULL,
+    [CountyName]      VARCHAR (100) NULL,
+    [FIPSCode]        INT           NULL,
+    [StateProvinceID] INT           NOT NULL,
+    [CreatedDate]     DATETIME      NOT NULL,
+    [UpdatedDate]     DATETIME      NOT NULL,
+    [ModifiedBy]      VARCHAR (25)  NOT NULL,
+    [Active]          BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([CountyID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[ExperienceLevel]...';
+GO
+CREATE TABLE [dbo].[ExperienceLevel] (
+    [ExperienceLevelID]          INT           IDENTITY (1, 1) NOT NULL,
+    [LanguageID]                 INT           NOT NULL,
+    [CountryID]                  INT           NOT NULL,
+    [ExperienceLevelName]        VARCHAR (140) NOT NULL,
+    [ExperienceLevelDescription] VARCHAR (140) NULL,
+    [CreatedDate]                DATETIME      NOT NULL,
+    [UpdatedDate]                DATETIME      NOT NULL,
+    [ModifiedBy]                 VARCHAR (25)  NOT NULL,
+    CONSTRAINT [PK__Experien__2F4E34695728DECD] PRIMARY KEY CLUSTERED ([ExperienceLevelID] ASC, [LanguageID] ASC, [CountryID] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[FieldOfStudy]...';
+GO
+CREATE TABLE [dbo].[FieldOfStudy] (
+    [FieldOfStudyID]   INT          IDENTITY (1, 1) NOT NULL,
+    [FieldOfStudyName] VARCHAR (50) NOT NULL,
+    [CCCTOPCode]       INT          NULL,
+    [LanguageID]       INT          NULL,
+    [CountryID]        INT          NULL,
+    [CreatedDate]      DATETIME     NULL,
+    [UpdatedDate]      DATETIME     NULL,
+    [ModifiedBy]       VARCHAR (10) NULL,
+    PRIMARY KEY CLUSTERED ([FieldOfStudyID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[Gender]...';
+GO
+CREATE TABLE [dbo].[Gender] (
+    [GenderID]         INT           NOT NULL,
+    [LanguageID]       INT           NOT NULL,
+    [CountryID]        INT           NOT NULL,
+    [GenderSingular]   NVARCHAR (16) NOT NULL,
+    [GenderPlural]     NVARCHAR (16) NOT NULL,
+    [SubjectPronoun]   VARCHAR (25)  NULL,
+    [ObjectPronoun]    VARCHAR (25)  NULL,
+    [PossesivePronoun] VARCHAR (25)  NULL,
+    CONSTRAINT [PK_Gender] PRIMARY KEY CLUSTERED ([GenderID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[institution]...';
+GO
+CREATE TABLE [dbo].[institution] (
+    [InstitutionID]          INT            IDENTITY (1, 1) NOT NULL,
+    [DeptOfEdInstitutionID]  VARCHAR (25)   NULL,
+    [InstitutionName]        VARCHAR (200)  NOT NULL,
+    [InstitutionAddress]     VARCHAR (200)  NULL,
+    [InstitutionCity]        VARCHAR (100)  NULL,
+    [InstitutionState]       VARCHAR (25)   NULL,
+    [StateProvinceID]        INT            NULL,
+    [InstitutionZip]         VARCHAR (25)   NULL,
+    [InstitutionPhone]       VARCHAR (25)   NULL,
+    [InstitutionOPEID]       VARCHAR (25)   NULL,
+    [InstitutionIPEDSUnitID] VARCHAR (25)   NULL,
+    [InstitutionURL]         VARCHAR (2083) NULL,
+    [CountryID]              INT            NULL,
+    [CreatedDate]            DATETIME       NOT NULL,
+    [UpdatedDate]            DATETIME       NOT NULL,
+    [ModifiedBy]             VARCHAR (25)   NOT NULL,
+    [SchoolID]               VARCHAR (3)    NULL,
+    [DistrictName]           VARCHAR (50)   NULL,
+    [DistrictID]             VARCHAR (3)    NULL,
+    CONSTRAINT [PK__institut__8DF6B94D047AA831] PRIMARY KEY CLUSTERED ([InstitutionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[jobTitleLicense]...';
+GO
+CREATE TABLE [dbo].[jobTitleLicense] (
+    [PositionID]             INT           NOT NULL,
+    [LicenseCertificationID] INT           NOT NULL,
+    [StateProvinceID]        INT           NOT NULL,
+    [CountryID]              INT           NOT NULL,
+    [Required]               BIT           NOT NULL,
+    [CreatedDate]            DATETIME      NOT NULL,
+    [UpdatedDate]            DATETIME      NOT NULL,
+    [ModifiedBy]             VARCHAR (25)  NOT NULL,
+    [Active]                 BIT           NOT NULL,
+    [MunicipalityID]         INT           DEFAULT ((0)) NOT NULL,
+    [CountyID]               INT           DEFAULT ((0)) NOT NULL,
+    [OptionGroup]            VARCHAR (100) NULL,
+    CONSTRAINT [PK__jobTitle__5E077F7A5FC911C6] PRIMARY KEY CLUSTERED ([PositionID] ASC, [LicenseCertificationID] ASC, [StateProvinceID] ASC, [CountryID] ASC, [MunicipalityID] ASC, [CountyID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[JobTitlePlatform]...';
+GO
+CREATE TABLE [dbo].[JobTitlePlatform] (
+    [JobTitleID]  INT                NOT NULL,
+    [PlatformID]  INT                NOT NULL,
+    [LanguageID]  INT                NOT NULL,
+    [CountryID]   INT                NOT NULL,
+    [CreatedDate] DATETIMEOFFSET (0) NOT NULL,
+    [UpdatedDate] DATETIMEOFFSET (0) NOT NULL,
+    [ModifiedBy]  NVARCHAR (4)       NOT NULL,
+    [Active]      BIT                CONSTRAINT [DF_JobTitlePlatform_Active] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_JobTitlePlatform] PRIMARY KEY CLUSTERED ([JobTitleID] ASC, [PlatformID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[JobTitleSolution]...';
+GO
+CREATE TABLE [dbo].[JobTitleSolution] (
+    [JobTitleID]      INT                NOT NULL,
+    [SolutionID]      INT                NOT NULL,
+    [LanguageID]      INT                NOT NULL,
+    [CountryID]       INT                NOT NULL,
+    [DefaultSelected] BIT                NULL,
+    [DisplayRank]     INT                NULL,
+    [CreatedDate]     DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]     DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]      NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
+    PRIMARY KEY CLUSTERED ([JobTitleID] ASC, [SolutionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[language]...';
+GO
+CREATE TABLE [dbo].[language] (
+    [LanguageID]   INT          NOT NULL,
+    [CountryID]    INT          NOT NULL,
+    [LanguageName] VARCHAR (50) NOT NULL,
+    [Active]       BIT          NULL,
+    [LanguageCode] VARCHAR (2)  NULL,
+    [CreatedDate]  DATETIME     NULL,
+    [UpdatedDate]  DATETIME     NULL,
+    [ModifiedBy]   VARCHAR (25) NULL,
+    PRIMARY KEY CLUSTERED ([LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[languagelevel]...';
+GO
+CREATE TABLE [dbo].[languagelevel] (
+    [LanguageLevelID]          INT            IDENTITY (1, 1) NOT NULL,
+    [LanguageID]               INT            NOT NULL,
+    [CountryID]                INT            NOT NULL,
+    [LanguageLevelName]        VARCHAR (140)  NOT NULL,
+    [LanguageLevelDescription] VARCHAR (2000) NULL,
+    [CreatedDate]              DATETIME       NOT NULL,
+    [UpdatedDate]              DATETIME       NOT NULL,
+    [ModifiedBy]               VARCHAR (25)   NOT NULL,
+    CONSTRAINT [PK__language__F5325F2353584DE9] PRIMARY KEY CLUSTERED ([LanguageLevelID] ASC, [LanguageID] ASC, [CountryID] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[licensecertification]...';
+GO
+CREATE TABLE [dbo].[licensecertification] (
+    [LicenseCertificationID]              INT            NOT NULL,
+    [LicenseCertificationType]            VARCHAR (100)  NOT NULL,
+    [LicenseCertificationTypeDescription] VARCHAR (4000) NULL,
+    [LicenseCertificationAuthority]       VARCHAR (500)  NULL,
+    [VerificationWebsiteURL]              VARCHAR (2078) NULL,
+    [HowToGetLicensedURL]                 VARCHAR (2078) NULL,
+    [CreatedDate]                         DATETIME       NOT NULL,
+    [UpdatedDate]                         DATETIME       NOT NULL,
+    [ModifiedBy]                          VARCHAR (25)   NOT NULL,
+    [Active]                              BIT            NOT NULL,
+    [LanguageID]                          INT            CONSTRAINT [DF__licensece__Langu__5BF880E2] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK__licensec__65E993A46F0B5556] PRIMARY KEY CLUSTERED ([LicenseCertificationID] ASC, [LanguageID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[Messages]...';
+GO
+CREATE TABLE [dbo].[Messages] (
+    [MessageID]     INT            IDENTITY (1, 1) NOT NULL,
+    [ThreadID]      INT            NOT NULL,
+    [MessageTypeID] INT            NOT NULL,
+    [AuxID]         INT            NULL,
+    [AuxT]          NVARCHAR (50)  NULL,
+    [BodyText]      VARCHAR (4000) NOT NULL,
+    [CreatedDate]   DATETIME       NOT NULL,
+    [UpdatedDate]   DATETIME       NOT NULL,
+    [ModifiedBy]    VARCHAR (50)   NOT NULL,
+    [SentByUserId]  INT            CONSTRAINT [DF_Messages_SentByUserId] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_Messages_messageID] PRIMARY KEY CLUSTERED ([MessageID] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+
+GO
+    
+PRINT N'Creating [dbo].[messagethreadstatus]...';
+GO
+CREATE TABLE [dbo].[messagethreadstatus] (
+    [MessageThreadStatusID]          INT           NOT NULL,
+    [MessageThreadStatusName]        VARCHAR (25)  NOT NULL,
+    [MessageThreadStatusDescription] VARCHAR (100) NULL,
+    [CreatedDate]                    DATETIME      NOT NULL,
+    [UpdatedDate]                    DATETIME      NOT NULL,
+    [ModifiedBy]                     VARCHAR (25)  NOT NULL,
+    [Active]                         BIT           NOT NULL,
+    [MessageStatusColor]             VARCHAR (7)   NOT NULL,
+    CONSTRAINT [Pk_messagethreadstatus_0] PRIMARY KEY CLUSTERED ([MessageThreadStatusID] ASC),
+    CONSTRAINT [Pk_messagethreadstatus] UNIQUE NONCLUSTERED ([MessageThreadStatusID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[messagetype]...';
+GO
+CREATE TABLE [dbo].[messagetype] (
+    [MessageTypeID]          INT           NOT NULL,
+    [LanguageID]             INT           NOT NULL,
+    [CountryID]              INT           NOT NULL,
+    [MessageTypeName]        VARCHAR (50)  NULL,
+    [MessageTypeDescription] VARCHAR (200) NULL,
+    [CreatedDate]            DATETIME      NOT NULL,
+    [UpdatedDate]            DATETIME      NOT NULL,
+    [ModifiedBy]             VARCHAR (25)  NOT NULL,
+    [Active]                 BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([MessageTypeID] ASC, [LanguageID] ASC, [CountryID] ASC),
+    CONSTRAINT [Pk_messagetype] UNIQUE NONCLUSTERED ([MessageTypeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[MessagingThreads]...';
+GO
+CREATE TABLE [dbo].[MessagingThreads] (
+    [ThreadID]              INT            IDENTITY (1, 1) NOT NULL,
+    [CustomerUserID]        INT            NOT NULL,
+    [ProviderUserID]        INT            NOT NULL,
+    [PositionID]            INT            NULL,
+    [MessageThreadStatusID] INT            NOT NULL,
+    [Subject]               NVARCHAR (100) NULL,
+    [LastMessageID]         INT            NULL,
+    [CreatedDate]           DATETIME       NOT NULL,
+    [UpdatedDate]           DATETIME       NOT NULL,
+    [ModifiedBy]            VARCHAR (50)   NOT NULL,
+    CONSTRAINT [PK__Messagin__688356E41EC48A19] PRIMARY KEY CLUSTERED ([ThreadID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[municipality]...';
+GO
+CREATE TABLE [dbo].[municipality] (
+    [MunicipalityID]   INT           NOT NULL,
+    [CountyID]         INT           NOT NULL,
+    [MunicipalityName] VARCHAR (100) NOT NULL,
+    [CreatedDate]      DATETIME      NOT NULL,
+    [UpdatedDate]      DATETIME      NOT NULL,
+    [ModifiedBy]       VARCHAR (25)  NOT NULL,
+    PRIMARY KEY CLUSTERED ([MunicipalityID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[OwnerAcknowledgment]...';
+GO
+CREATE TABLE [dbo].[OwnerAcknowledgment] (
+    [UserID]             INT                NOT NULL,
+    [DateAcknowledged]   DATETIMEOFFSET (7) NOT NULL,
+    [AcknowledgedFromIP] VARCHAR (25)       NOT NULL,
+    [CreatedDate]        DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]        DATETIMEOFFSET (7) NOT NULL,
+    [DetectedIPs]        VARCHAR (200)      NOT NULL,
+    CONSTRAINT [PK_OwnerAcknowledgment] PRIMARY KEY CLUSTERED ([UserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[OwnerStatus]...';
+GO
+CREATE TABLE [dbo].[OwnerStatus] (
+    [OwnserStatusID]         INT           NOT NULL,
+    [OwnerStatusName]        VARCHAR (50)  NOT NULL,
+    [OwnerStatusDescription] VARCHAR (200) NULL,
+    [CreatedDate]            DATETIME      NOT NULL,
+    [UpdatedDate]            DATETIME      NOT NULL,
+    [Active]                 BIT           NOT NULL,
+    [UpdatedBy]              VARCHAR (3)   NULL,
+    CONSTRAINT [PK_OwnerStatus] PRIMARY KEY CLUSTERED ([OwnserStatusID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[OwnerStatusHistory]...';
+GO
+CREATE TABLE [dbo].[OwnerStatusHistory] (
+    [UserID]                 INT         NOT NULL,
+    [OwnerStatusChangedDate] DATETIME    NOT NULL,
+    [OwnerStatusID]          INT         NOT NULL,
+    [OwnerStatusChangedBy]   VARCHAR (3) NOT NULL,
+    CONSTRAINT [PK__OwnerSta__1788CCAC7F76C749] PRIMARY KEY CLUSTERED ([UserID] ASC, [OwnerStatusChangedDate] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[Platform]...';
+GO
+CREATE TABLE [dbo].[Platform] (
+    [PlatformID]       INT                NOT NULL,
+    [LanguageID]       INT                NOT NULL,
+    [CountryID]        INT                NOT NULL,
+    [Name]             NVARCHAR (20)      NOT NULL,
+    [ShortDescription] NVARCHAR (50)      NOT NULL,
+    [LongDescription]  TEXT               NOT NULL,
+    [FeesDescription]  TEXT               NOT NULL,
+    [PositiveAspects]  TEXT               NOT NULL,
+    [NegativeAspects]  TEXT               NOT NULL,
+    [Advice]           TEXT               NOT NULL,
+    [SignUpURL]        NVARCHAR (255)     NOT NULL,
+    [SignInURL]        NVARCHAR (255)     NOT NULL,
+    [CreatedDate]      DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]      DATETIMEOFFSET (0) NOT NULL,
+    [ModifiedBy]       NVARCHAR (4)       NOT NULL,
+    [Active]           BIT                CONSTRAINT [DF_Platform_Active] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_Platform] PRIMARY KEY CLUSTERED ([PlatformID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[positionbackgroundcheck]...';
+GO
+CREATE TABLE [dbo].[positionbackgroundcheck] (
+    [PositionID]        INT          NOT NULL,
+    [BackgroundCheckID] VARCHAR (25) NOT NULL,
+    [StateProvinceID]   VARCHAR (25) NOT NULL,
+    [CountryID]         VARCHAR (25) NOT NULL,
+    [Required]          BIT          NOT NULL,
+    [CreatedDate]       DATETIME     NOT NULL,
+    [UpdatedDate]       DATETIME     NOT NULL,
+    [ModifiedBy]        VARCHAR (25) NOT NULL,
+    [Active]            BIT          NOT NULL,
+    PRIMARY KEY CLUSTERED ([CountryID] ASC, [BackgroundCheckID] ASC, [PositionID] ASC, [StateProvinceID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[positionpricingtype]...';
+GO
+CREATE TABLE [dbo].[positionpricingtype] (
+    [PositionID]    INT          NOT NULL,
+    [PricingTypeID] INT          NOT NULL,
+    [ClientTypeID]  INT          NOT NULL,
+    [LanguageID]    INT          NOT NULL,
+    [CountryID]     INT          NOT NULL,
+    [CreatedDate]   DATETIME     NOT NULL,
+    [UpdatedDate]   DATETIME     NOT NULL,
+    [ModifiedBy]    VARCHAR (25) NOT NULL,
+    [Active]        BIT          NOT NULL,
+    PRIMARY KEY CLUSTERED ([PositionID] ASC, [PricingTypeID] ASC, [ClientTypeID] ASC, [LanguageID] ASC, [CountryID] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[positionratings]...';
+GO
+CREATE TABLE [dbo].[positionratings] (
+    [PositionID]                INT            NOT NULL,
+    [LanguageID]                INT            NOT NULL,
+    [CountryID]                 INT            NOT NULL,
+    [Rating1]                   VARCHAR (25)   NOT NULL,
+    [Rating2]                   VARCHAR (25)   NOT NULL,
+    [Rating3]                   VARCHAR (25)   NOT NULL,
+    [Rating4]                   VARCHAR (25)   NULL,
+    [Rating1FormDescription]    VARCHAR (1000) NULL,
+    [Rating2FormDescription]    VARCHAR (1000) NULL,
+    [Rating3FormDescription]    VARCHAR (1000) NULL,
+    [Rating4FormDescription]    VARCHAR (1000) NULL,
+    [Rating1ProfileDescription] VARCHAR (1000) NULL,
+    [Rating2ProfileDescription] VARCHAR (1000) NULL,
+    [Rating3ProfileDescription] VARCHAR (1000) NULL,
+    [Rating4ProfileDescription] VARCHAR (1000) NULL,
+    [CreatedDate]               DATETIME       NOT NULL,
+    [UpdatedDate]               DATETIME       NOT NULL,
+    [ModifiedBy]                VARCHAR (25)   NOT NULL,
+    CONSTRAINT [PK__position__E3225E7D52EE3995] PRIMARY KEY CLUSTERED ([CountryID] ASC, [LanguageID] ASC, [PositionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[positions]...';
+GO
+CREATE TABLE [dbo].[positions] (
+    [PositionID]                 INT            NOT NULL,
+    [LanguageID]                 INT            NOT NULL,
+    [CountryID]                  INT            NOT NULL,
+    [PositionSingular]           VARCHAR (250)  NULL,
+    [PositionPlural]             VARCHAR (250)  NULL,
+    [Aliases]                    VARCHAR (200)  NULL,
+    [PositionDescription]        VARCHAR (2000) NULL,
+    [CreatedDate]                DATETIME       NULL,
+    [UpdatedDate]                DATETIME       NULL,
+    [ModifiedBy]                 VARCHAR (2)    NULL,
+    [GovID]                      VARCHAR (20)   NULL,
+    [GovPosition]                VARCHAR (200)  NULL,
+    [GovPositionDescription]     VARCHAR (2000) NULL,
+    [Active]                     BIT            NULL,
+    [DisplayRank]                INT            NULL,
+    [PositionSearchDescription]  VARCHAR (1000) NULL,
+    [AttributesComplete]         BIT            CONSTRAINT [DF_positions_AttributesComplete] DEFAULT ((0)) NOT NULL,
+    [StarRatingsComplete]        BIT            CONSTRAINT [DF_positions_StarRatingsComplete] DEFAULT ((0)) NOT NULL,
+    [PricingTypeComplete]        BIT            CONSTRAINT [DF_positions_PricingTypeComplete] DEFAULT ((0)) NOT NULL,
+    [EnteredByUserID]            INT            NULL,
+    [Approved]                   BIT            NULL,
+    [AddGratuity]                INT            DEFAULT ((0)) NOT NULL,
+    [HIPAA]                      BIT            DEFAULT ((0)) NOT NULL,
+    [SendReviewReminderToClient] BIT            DEFAULT ((1)) NOT NULL,
+    [CanBeRemote]                BIT            DEFAULT ((0)) NOT NULL,
+    [SuppressReviewOfClient]     BIT            DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_positions_1] PRIMARY KEY CLUSTERED ([PositionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+
+GO
+    
+PRINT N'Creating [dbo].[postalcode]...';
+GO
+CREATE TABLE [dbo].[postalcode] (
+    [PostalCodeID]    INT           NOT NULL,
+    [PostalCode]      VARCHAR (25)  NULL,
+    [City]            VARCHAR (250) NULL,
+    [StateProvinceID] INT           NOT NULL,
+    [CountryID]       INT           NOT NULL,
+    [Latitude]        FLOAT (53)    NULL,
+    [Longitude]       FLOAT (53)    NULL,
+    [StandardOffset]  DECIMAL (18)  NULL,
+    [DST]             BIT           NULL,
+    [Location]        VARCHAR (250) NULL,
+    [PostalCodeType]  VARCHAR (50)  NULL,
+    [CreatedDate]     DATETIME      NULL,
+    [UpdatedDate]     DATETIME      NULL,
+    [ModifiedBy]      VARCHAR (25)  NULL,
+    [MunicipalityID]  INT           DEFAULT ((0)) NOT NULL,
+    [CountyID]        INT           DEFAULT ((0)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([PostalCodeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[postingTemplate]...';
+GO
+CREATE TABLE [dbo].[postingTemplate] (
+    [postingTemplateID] INT                NOT NULL,
+    [name]              NVARCHAR (200)     NOT NULL,
+    [languageID]        INT                NOT NULL,
+    [countryID]         INT                NOT NULL,
+    [createdDate]       DATETIMEOFFSET (0) NOT NULL,
+    [updatedDate]       DATETIMEOFFSET (0) NOT NULL,
+    [modifiedBy]        NCHAR (5)          NOT NULL,
+    CONSTRAINT [PK_postingTemplate] PRIMARY KEY CLUSTERED ([postingTemplateID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[postingTemplateQuestion]...';
+GO
+CREATE TABLE [dbo].[postingTemplateQuestion] (
+    [postingTemplateQuestionID] INT                IDENTITY (1, 1) NOT NULL,
+    [postingTemplateID]         INT                NOT NULL,
+    [questionID]                INT                NOT NULL,
+    [legend]                    NVARCHAR (150)     NOT NULL,
+    [branchLogic]               TEXT               NULL,
+    [createdDate]               DATETIMEOFFSET (0) NOT NULL,
+    [updatedDate]               DATETIMEOFFSET (0) NOT NULL,
+    [modifiedby]                NCHAR (5)          NOT NULL,
+    [active]                    TINYINT            NOT NULL,
+    CONSTRAINT [PK_postingTemplateQuestion] PRIMARY KEY CLUSTERED ([postingTemplateQuestionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[PricingGroups]...';
+GO
+CREATE TABLE [dbo].[PricingGroups] (
+    [PricingGroupID]      INT           NOT NULL,
+    [InternalGroupName]   VARCHAR (50)  NOT NULL,
+    [SelectionTitle]      VARCHAR (100) NOT NULL,
+    [SummaryTitle]        VARCHAR (100) NOT NULL,
+    [DynamicSummaryTitle] VARCHAR (100) NOT NULL,
+    [LanguageID]          INT           NULL,
+    [CountryID]           INT           NULL,
+    CONSTRAINT [PK_PricingGroups] PRIMARY KEY CLUSTERED ([PricingGroupID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[pricingSummary]...';
+GO
+CREATE TABLE [dbo].[pricingSummary] (
+    [PricingSummaryID]               INT            NOT NULL,
+    [PricingSummaryRevision]         INT            CONSTRAINT [DF__pricinges__Prici__04CFADEC] DEFAULT ((1)) NOT NULL,
+    [ServiceDurationMinutes]         INT            NULL,
+    [FirstSessionDurationMinutes]    INT            NULL,
+    [SubtotalPrice]                  DECIMAL (7, 2) NULL,
+    [ClientServiceFeePrice]          DECIMAL (7, 2) NULL,
+    [TotalPrice]                     DECIMAL (7, 2) NULL,
+    [ServiceFeeAmount]               DECIMAL (7, 2) CONSTRAINT [DF_pricingestimate_PFeePrice] DEFAULT ((0)) NULL,
+    [CreatedDate]                    DATETIME       NOT NULL,
+    [UpdatedDate]                    DATETIME       NOT NULL,
+    [ModifiedBy]                     VARCHAR (25)   NOT NULL,
+    [Active]                         BIT            NOT NULL,
+    [CancellationDate]               DATETIME       NULL,
+    [CancellationFeeCharged]         DECIMAL (7, 2) NULL,
+    [FirstTimeServiceFeeFixed]       DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeFixed] DEFAULT ((0)) NOT NULL,
+    [FirstTimeServiceFeePercentage]  DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeePercentage] DEFAULT ((0)) NOT NULL,
+    [PaymentProcessingFeePercentage] DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_PaymentProcessingFeePercentage] DEFAULT ((0)) NOT NULL,
+    [PaymentProcessingFeeFixed]      DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_PaymentProcessingFeeFixed] DEFAULT ((0)) NOT NULL,
+    [FirstTimeServiceFeeMaximum]     DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeMaximum] DEFAULT ((0)) NOT NULL,
+    [FirstTimeServiceFeeMinimum]     DECIMAL (5, 2) CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeMinimum] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK__pricinge__7F7D375D21D600EE] PRIMARY KEY CLUSTERED ([PricingSummaryID] ASC, [PricingSummaryRevision] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[pricingSummaryDetail]...';
+GO
+CREATE TABLE [dbo].[pricingSummaryDetail] (
+    [PricingSummaryID]             INT            NOT NULL,
+    [PricingSummaryRevision]       INT            NOT NULL,
+    [ServiceProfessionalServiceID] INT            NOT NULL,
+    [ServiceProfessionalDataInput] VARCHAR (100)  NULL,
+    [ClientDataInput]              VARCHAR (500)  NULL,
+    [HourlyPrice]                  DECIMAL (5, 2) NULL,
+    [Price]                        DECIMAL (7, 2) NULL,
+    [ServiceDurationMinutes]       INT            NULL,
+    [FirstSessionDurationMinutes]  INT            NULL,
+    [ServiceName]                  VARCHAR (50)   NOT NULL,
+    [ServiceDescription]           VARCHAR (1000) NULL,
+    [NumberOfSessions]             INT            NOT NULL,
+    [CreatedDate]                  DATETIME       NOT NULL,
+    [UpdatedDate]                  DATETIME       NOT NULL,
+    [ModifiedBy]                   VARCHAR (25)   NOT NULL,
+    [IsRemoteService]              BIT            CONSTRAINT [DF_pricingSummaryDetail_IsRemoteService] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_pricingestimatedetail_1] PRIMARY KEY CLUSTERED ([PricingSummaryID] ASC, [PricingSummaryRevision] ASC, [ServiceProfessionalServiceID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[pricingtype]...';
+GO
+CREATE TABLE [dbo].[pricingtype] (
+    [PricingTypeID] INT          NOT NULL,
+    [LanguageID]    INT          CONSTRAINT [DF__pricingty__Langu__086B34A6] DEFAULT ((1)) NOT NULL,
+    [CountryID]     INT          CONSTRAINT [DF__pricingty__Count__095F58DF] DEFAULT ((1)) NOT NULL,
+    [Description]   VARCHAR (50) NULL,
+    [CreatedDate]   DATETIME     NOT NULL,
+    [UpdatedDate]   DATETIME     NOT NULL,
+    [ModifiedBy]    VARCHAR (50) NOT NULL,
+    [Active]        BIT          CONSTRAINT [DF__pricingty__Activ__0A537D18] DEFAULT ((1)) NOT NULL,
+    [DisplayRank]   INT          NOT NULL,
+    CONSTRAINT [PK_pricingtype_PricingTypeID] PRIMARY KEY CLUSTERED ([PricingTypeID] ASC, [LanguageID] ASC, [CountryID] ASC) WITH (FILLFACTOR = 100),
+    CONSTRAINT [Pk_pricingtype] UNIQUE NONCLUSTERED ([PricingTypeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[PricingVariableDefinition]...';
+GO
+CREATE TABLE [dbo].[PricingVariableDefinition] (
+    [PricingVariableID]          INT            NOT NULL,
+    [LanguageID]                 INT            NOT NULL,
+    [CountryID]                  INT            NOT NULL,
+    [PositionID]                 INT            NOT NULL,
+    [PricingTypeID]              INT            NOT NULL,
+    [InternalName]               VARCHAR (60)   NOT NULL,
+    [IsProviderVariable]         BIT            CONSTRAINT [DF_PricingVariableDefinition_IsProviderVariable] DEFAULT ((0)) NOT NULL,
+    [IsCustomerVariable]         BIT            CONSTRAINT [DF_PricingVariableDefinition_IsCustomerVariable] DEFAULT ((0)) NOT NULL,
+    [DataType]                   VARCHAR (50)   NOT NULL,
+    [VariableLabel]              NVARCHAR (100) NULL,
+    [VariableLabelPopUp]         NVARCHAR (200) NULL,
+    [VariableNameSingular]       NVARCHAR (60)  NULL,
+    [VariableNamePlural]         NVARCHAR (60)  NULL,
+    [NumberIncludedLabel]        NVARCHAR (100) NULL,
+    [NumberIncludedLabelPopUp]   NVARCHAR (200) NULL,
+    [HourlySurchargeLabel]       NVARCHAR (100) NULL,
+    [MinNumberAllowedLabel]      NVARCHAR (100) NULL,
+    [MinNumberAllowedLabelPopUp] NVARCHAR (200) NULL,
+    [MaxNumberAllowedLabel]      NVARCHAR (100) NULL,
+    [MaxNumberAllowedLabelPopUp] NVARCHAR (200) NULL,
+    [CalculateWithVariableID]    INT            NULL,
+    [Active]                     BIT            CONSTRAINT [DF_PricingVariableDefinition_Active] DEFAULT ((1)) NOT NULL,
+    [CreatedDate]                DATETIME       CONSTRAINT [DF_PricingVariableDefinition_CreatedDate] DEFAULT (getdate()) NOT NULL,
+    [UpdatedDate]                DATETIME       CONSTRAINT [DF_PricingVariableDefinition_UpdatedDate] DEFAULT (getdate()) NOT NULL,
+    [ModifiedBy]                 VARCHAR (25)   CONSTRAINT [DF_PricingVariableDefinition_ModifiedBy] DEFAULT ('sys') NOT NULL,
+    [MinMaxValuesList]           NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_PricingVariableDefinition] PRIMARY KEY CLUSTERED ([PricingVariableID] ASC, [LanguageID] ASC, [CountryID] ASC, [PositionID] ASC, [PricingTypeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[PricingVariableValue]...';
+GO
+CREATE TABLE [dbo].[PricingVariableValue] (
+    [PricingVariableID]        INT            NOT NULL,
+    [ProviderPackageID]        INT            NOT NULL,
+    [UserID]                   INT            NOT NULL,
+    [PricingEstimateID]        INT            NOT NULL,
+    [PricingEstimateRevision]  INT            NOT NULL,
+    [Value]                    VARCHAR (100)  NOT NULL,
+    [ProviderNumberIncluded]   DECIMAL (7, 2) NULL,
+    [ProviderMinNumberAllowed] DECIMAL (7, 2) NULL,
+    [ProviderMaxNumberAllowed] DECIMAL (7, 2) NULL,
+    [CreatedDate]              DATETIME       CONSTRAINT [DF_PricingVariableValue_CreatedDate] DEFAULT (getdate()) NOT NULL,
+    [UpdatedDate]              DATETIME       CONSTRAINT [DF_PricingVariableValue_UpdatedDate] DEFAULT (getdate()) NOT NULL,
+    [ModifiedBy]               VARCHAR (25)   CONSTRAINT [DF_PricingVariableValue_ModifiedBy] DEFAULT ('sys') NOT NULL,
+    [Active]                   BIT            CONSTRAINT [DF_PricingVariableValue_Active] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_PricingVariableValue] PRIMARY KEY CLUSTERED ([PricingVariableID] ASC, [ProviderPackageID] ASC, [UserID] ASC, [PricingEstimateID] ASC, [PricingEstimateRevision] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[providerpackage]...';
+GO
+CREATE TABLE [dbo].[providerpackage] (
+    [ProviderPackageID]              INT            IDENTITY (1, 1) NOT NULL,
+    [PricingTypeID]                  INT            NOT NULL,
+    [ProviderUserID]                 INT            NOT NULL,
+    [PositionID]                     INT            NOT NULL,
+    [LanguageID]                     INT            NOT NULL,
+    [CountryID]                      INT            NOT NULL,
+    [ProviderPackageName]            VARCHAR (50)   NOT NULL,
+    [ProviderPackageDescription]     VARCHAR (1000) NULL,
+    [ProviderPackagePrice]           DECIMAL (7, 2) NULL,
+    [ProviderPackageServiceDuration] INT            NOT NULL,
+    [FirstTimeClientsOnly]           BIT            CONSTRAINT [DF__providerp__First__1BD30ED5] DEFAULT ((0)) NOT NULL,
+    [NumberOfSessions]               INT            CONSTRAINT [DF__providerp__Numbe__1CC7330E] DEFAULT ((1)) NOT NULL,
+    [CreatedDate]                    DATETIME       NOT NULL,
+    [UpdatedDate]                    DATETIME       NOT NULL,
+    [ModifiedBy]                     VARCHAR (25)   NOT NULL,
+    [Active]                         BIT            NOT NULL,
+    [IsAddOn]                        BIT            CONSTRAINT [DF__providerp__IsAdd__1F398B65] DEFAULT ((0)) NOT NULL,
+    [PriceRate]                      DECIMAL (7, 2) NULL,
+    [PriceRateUnit]                  NVARCHAR (30)  COLLATE Modern_Spanish_CI_AS NULL,
+    [IsPhone]                        BIT            CONSTRAINT [DF_providerpackage_IsPhone] DEFAULT ((0)) NOT NULL,
+    [VisibleToClientID]              INT            DEFAULT ((0)) NOT NULL,
+    [SolutionID]                     INT            CONSTRAINT [DF_providerpackage_SolutionID] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_providerpackage] PRIMARY KEY CLUSTERED ([ProviderPackageID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[providerpackagedetail]...';
+GO
+CREATE TABLE [dbo].[providerpackagedetail] (
+    [ProviderPackageID]  INT          NOT NULL,
+    [ServiceAttributeID] INT          NOT NULL,
+    [CreatedDate]        DATETIME     DEFAULT ('sysdate') NOT NULL,
+    [UpdatedDate]        DATETIME     DEFAULT ('sysdate') NOT NULL,
+    [ModifiedBy]         VARCHAR (25) DEFAULT ('sys') NOT NULL,
+    [Active]             BIT          DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_providerpackagedetail] PRIMARY KEY CLUSTERED ([ProviderPackageID] ASC, [ServiceAttributeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[ProviderPaymentAccount]...';
+GO
+CREATE TABLE [dbo].[ProviderPaymentAccount] (
+    [ProviderUserID]    INT            NOT NULL,
+    [MerchantAccountID] NVARCHAR (100) NOT NULL,
+    [Status]            NVARCHAR (50)  NOT NULL,
+    [Message]           NVARCHAR (400) NULL,
+    [bt_signature]      NVARCHAR (MAX) NULL,
+    [bt_payload]        NVARCHAR (MAX) NULL,
+    [CreatedDate]       DATETIME       NOT NULL,
+    [UpdatedDate]       DATETIME       NOT NULL,
+    [ModifiedBy]        VARCHAR (25)   NOT NULL,
+    CONSTRAINT [PK_ProviderPaymentAccount] PRIMARY KEY CLUSTERED ([ProviderUserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[providerpaymentpreference]...';
+GO
+CREATE TABLE [dbo].[providerpaymentpreference] (
+    [ProviderUserID]                  INT           NOT NULL,
+    [ProviderPaymentPreferenceTypeID] INT           NOT NULL,
+    [CreatedDate]                     DATETIME      NOT NULL,
+    [UpdatedDate]                     DATETIME      NOT NULL,
+    [Modifiedby]                      VARCHAR (25)  NOT NULL,
+    [Verified]                        BIT           CONSTRAINT [DF__providerp__Verif__08D548FA] DEFAULT ((0)) NOT NULL,
+    [AccountName]                     VARCHAR (100) NULL,
+    [ABANumber]                       NUMERIC (9)   NULL,
+    [LastThreeAccountDigits]          VARCHAR (64)  NULL,
+    CONSTRAINT [PK_providerpaymentpreference] PRIMARY KEY CLUSTERED ([ProviderUserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[providerpaymentpreferencetype]...';
+GO
+CREATE TABLE [dbo].[providerpaymentpreferencetype] (
+    [ProviderPaymentPreferenceTypeID]          INT           NOT NULL,
+    [LanguageID]                               INT           NOT NULL,
+    [CountryID]                                INT           NOT NULL,
+    [ProviderPaymentPreferenceTypeName]        VARCHAR (50)  NOT NULL,
+    [ProviderPaymentPreferenceTypeDescription] VARCHAR (300) NULL,
+    [DependsOnID]                              INT           NULL,
+    [CreatedDate]                              DATETIME      NOT NULL,
+    [UpdatedDate]                              DATETIME      NOT NULL,
+    [ModifiedBy]                               VARCHAR (25)  NOT NULL,
+    [Active]                                   BIT           NOT NULL,
+    CONSTRAINT [PK__provider__A7C3000A031C6FA4] PRIMARY KEY CLUSTERED ([ProviderPaymentPreferenceTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[providerservicephoto]...';
+GO
+CREATE TABLE [dbo].[providerservicephoto] (
+    [ProviderServicePhotoID] INT            IDENTITY (1, 1) NOT NULL,
+    [UserID]                 INT            NOT NULL,
+    [PositionID]             INT            NOT NULL,
+    [PhotoCaption]           VARCHAR (150)  NULL,
+    [PhotoAddress]           VARCHAR (2073) NOT NULL,
+    [RankPosition]           INT            NOT NULL,
+    [CreatedDate]            DATETIME       NOT NULL,
+    [UpdatedDate]            DATETIME       NOT NULL,
+    [ModifiedBy]             VARCHAR (25)   NOT NULL,
+    [Active]                 BIT            NOT NULL,
+    [IsPrimaryPhoto]         BIT            NOT NULL,
+    CONSTRAINT [PK__servicep__D5090DBE39E294A9] PRIMARY KEY CLUSTERED ([ProviderServicePhotoID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[providertaxform]...';
+GO
+CREATE TABLE [dbo].[providertaxform] (
+    [ProviderUserID]     INT           NOT NULL,
+    [FullName]           VARCHAR (200) NOT NULL,
+    [BusinessName]       VARCHAR (200) NULL,
+    [StreetApt]          VARCHAR (100) NOT NULL,
+    [City]               VARCHAR (100) NOT NULL,
+    [PostalCodeID]       INT           NULL,
+    [StateProvinceID]    INT           NOT NULL,
+    [CountryID]          INT           NOT NULL,
+    [TaxEntityTypeID]    INT           NOT NULL,
+    [ExemptPayee]        BIT           NOT NULL,
+    [TINTypeID]          VARCHAR (25)  NOT NULL,
+    [Signature]          VARCHAR (200) NOT NULL,
+    [UserIPAddress]      VARCHAR (500) NOT NULL,
+    [DateTimeSubmitted]  DATETIME      NOT NULL,
+    [CreatedDate]        DATETIME      NOT NULL,
+    [UpdatedDate]        DATETIME      NOT NULL,
+    [ModifiedBy]         VARCHAR (25)  NULL,
+    [Active]             BIT           NOT NULL,
+    [LastThreeTINDigits] VARCHAR (64)  NULL,
+    CONSTRAINT [PK_providertaxform] PRIMARY KEY CLUSTERED ([ProviderUserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[question]...';
+GO
+CREATE TABLE [dbo].[question] (
+    [questionID]     INT                NOT NULL,
+    [questionTypeID] INT                NOT NULL,
+    [question]       NVARCHAR (120)     NOT NULL,
+    [helpBlock]      NVARCHAR (300)     NULL,
+    [options]        TEXT               NOT NULL,
+    [languageID]     INT                NOT NULL,
+    [countryID]      INT                NOT NULL,
+    [createdDate]    DATETIMEOFFSET (0) NOT NULL,
+    [updatedDate]    DATETIMEOFFSET (0) NOT NULL,
+    [modifiedBy]     NVARCHAR (10)      NOT NULL,
+    [label]          NVARCHAR (120)     DEFAULT ('') NOT NULL,
+    CONSTRAINT [PK_question] PRIMARY KEY CLUSTERED ([questionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[questionType]...';
+GO
+CREATE TABLE [dbo].[questionType] (
+    [questionTypeID] INT                NOT NULL,
+    [name]           NVARCHAR (50)      NOT NULL,
+    [description]    NVARCHAR (500)     NOT NULL,
+    [createdDate]    DATETIMEOFFSET (0) NOT NULL,
+    [updatedDate]    DATETIMEOFFSET (0) NOT NULL,
+    [modifiedBy]     NVARCHAR (10)      NOT NULL,
+    CONSTRAINT [PK_questionType] PRIMARY KEY CLUSTERED ([questionTypeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[ReferralSource]...';
+GO
+CREATE TABLE [dbo].[ReferralSource] (
+    [ReferralSourceID] INT           NOT NULL,
+    [Name]             NVARCHAR (80) NOT NULL,
+    CONSTRAINT [PK_ReferralSource] PRIMARY KEY CLUSTERED ([ReferralSourceID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[SearchCategory]...';
+GO
+CREATE TABLE [dbo].[SearchCategory] (
+    [SearchCategoryID] INT                NOT NULL,
+    [LanguageID]       INT                NOT NULL,
+    [CountryID]        INT                NOT NULL,
+    [Name]             NVARCHAR (20)      NOT NULL,
+    [ShortDescription] NVARCHAR (100)     NULL,
+    [LongDescription]  NVARCHAR (300)     NULL,
+    [SmallImage]       NVARCHAR (255)     NULL,
+    [BannerImage]      NVARCHAR (255)     NULL,
+    [DisplayRank]      INT                NULL,
+    [CreatedDate]      DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]      DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]       NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
+    [Active]           BIT                DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([SearchCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[SearchSubCategory]...';
+GO
+CREATE TABLE [dbo].[SearchSubCategory] (
+    [SearchSubCategoryID] INT                NOT NULL,
+    [LanguageID]          INT                NOT NULL,
+    [CountryID]           INT                NOT NULL,
+    [SearchCategoryID]    INT                NOT NULL,
+    [Name]                NVARCHAR (40)      NOT NULL,
+    [Description]         NVARCHAR (100)     NULL,
+    [Image]               NVARCHAR (255)     NULL,
+    [DisplayRank]         INT                NULL,
+    [CreatedDate]         DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]         DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]          NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
+    [Active]              BIT                DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([SearchSubCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[SearchSubCategorySolution]...';
+GO
+CREATE TABLE [dbo].[SearchSubCategorySolution] (
+    [SearchSubCategoryID] INT                NOT NULL,
+    [SolutionID]          INT                NOT NULL,
+    [LanguageID]          INT                NOT NULL,
+    [CountryID]           INT                NOT NULL,
+    [DisplayRank]         INT                NULL,
+    [CreatedDate]         DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]         DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]          NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
+    PRIMARY KEY CLUSTERED ([SearchSubCategoryID] ASC, [SolutionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[serviceaddress]...';
+GO
+CREATE TABLE [dbo].[serviceaddress] (
+    [AddressID]                   INT          NOT NULL,
+    [UserID]                      INT          NOT NULL,
+    [PositionID]                  INT          NOT NULL,
+    [ServicesPerformedAtLocation] BIT          CONSTRAINT [DF__servicead__Servi__532343BF] DEFAULT ((0)) NOT NULL,
+    [TravelFromLocation]          BIT          CONSTRAINT [DF__servicead__Trave__541767F8] DEFAULT ((0)) NOT NULL,
+    [ServiceRadiusFromLocation]   VARCHAR (25) NULL,
+    [TransportType]               INT          CONSTRAINT [DF__servicead__Trans__550B8C31] DEFAULT ((1)) NULL,
+    [PreferredAddress]            BIT          CONSTRAINT [DF__servicead__Prefe__55FFB06A] DEFAULT ((0)) NOT NULL,
+    [CreatedDate]                 DATETIME     NOT NULL,
+    [UpdatedDate]                 DATETIME     NOT NULL,
+    [ModifiedBy]                  VARCHAR (25) NOT NULL,
+    [Active]                      BIT          NOT NULL,
+    CONSTRAINT [PK__servicea__8F1793BE58DC1D15] PRIMARY KEY CLUSTERED ([AddressID] ASC, [UserID] ASC, [PositionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[serviceattribute]...';
+GO
+CREATE TABLE [dbo].[serviceattribute] (
+    [ServiceAttributeID]          INT            NOT NULL,
+    [LanguageID]                  INT            NOT NULL,
+    [CountryID]                   INT            NOT NULL,
+    [SourceID]                    INT            DEFAULT (NULL) NULL,
+    [Name]                        VARCHAR (100)  NULL,
+    [ServiceAttributeDescription] VARCHAR (2000) NULL,
+    [CreateDate]                  DATETIME       NULL,
+    [UpdatedDate]                 DATETIME       NULL,
+    [ModifiedBy]                  VARCHAR (45)   NULL,
+    [Active]                      BIT            NULL,
+    [DisplayRank]                 INT            DEFAULT ((1)) NOT NULL,
+    [PositionReference]           INT            NULL,
+    [EnteredByUserID]             INT            NULL,
+    [Approved]                    BIT            NULL,
+    CONSTRAINT [PK_serviceattribute] PRIMARY KEY CLUSTERED ([ServiceAttributeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[serviceattributecategory]...';
+GO
+CREATE TABLE [dbo].[serviceattributecategory] (
+    [ServiceAttributeCategoryID]          INT           NOT NULL,
+    [LanguageID]                          INT           NOT NULL,
+    [CountryID]                           INT           NOT NULL,
+    [ServiceAttributeCategory]            VARCHAR (200) NULL,
+    [CreateDate]                          DATETIME      NULL,
+    [UpdatedDate]                         DATETIME      NULL,
+    [ModifiedBy]                          VARCHAR (20)  NULL,
+    [Active]                              BIT           NULL,
+    [SourceID]                            INT           NULL,
+    [PricingOptionCategory]               BIT           NULL,
+    [ServiceAttributeCategoryDescription] VARCHAR (500) NULL,
+    [RequiredInput]                       BIT           NOT NULL,
+    [SideBarCategory]                     BIT           CONSTRAINT [DF_serviceattributecategory_SideBarCategory] DEFAULT ((0)) NOT NULL,
+    [EligibleForPackages]                 BIT           CONSTRAINT [DF_serviceattributecategory_EligibleForPackages] DEFAULT ((0)) NOT NULL,
+    [DisplayRank]                         INT           CONSTRAINT [DF__serviceat__Displ__3C0AD43D] DEFAULT ((1)) NOT NULL,
+    [PositionReference]                   INT           NULL,
+    [BookingPathSelection]                BIT           DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_serviceattributecategory] PRIMARY KEY CLUSTERED ([ServiceAttributeCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[ServiceAttributeExperienceLevel]...';
+GO
+CREATE TABLE [dbo].[ServiceAttributeExperienceLevel] (
+    [UserID]            INT          NOT NULL,
+    [PositionID]        INT          NOT NULL,
+    [LanguageID]        INT          NOT NULL,
+    [CountryID]         INT          NOT NULL,
+    [ExperienceLevelID] INT          NOT NULL,
+    [CreatedDate]       DATETIME     NOT NULL,
+    [UpdatedDate]       DATETIME     NOT NULL,
+    [ModifiedBy]        VARCHAR (25) NOT NULL,
+    CONSTRAINT [PK_ServiceAttributeExperienceLevel_1] PRIMARY KEY CLUSTERED ([UserID] ASC, [PositionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[ServiceAttributeLanguageLevel]...';
+GO
+CREATE TABLE [dbo].[ServiceAttributeLanguageLevel] (
+    [UserID]             INT          NOT NULL,
+    [PositionID]         INT          NOT NULL,
+    [LanguageID]         INT          NOT NULL,
+    [CountryID]          INT          NOT NULL,
+    [ServiceAttributeID] INT          NOT NULL,
+    [LanguageLevelID]    INT          NOT NULL,
+    [CreatedDate]        DATETIME     NOT NULL,
+    [UpdatedDate]        DATETIME     NOT NULL,
+    [ModifiedBy]         VARCHAR (25) NOT NULL,
+    CONSTRAINT [PK_ServiceAttributeLanguageLevel] PRIMARY KEY CLUSTERED ([UserID] ASC, [PositionID] ASC, [LanguageID] ASC, [CountryID] ASC, [ServiceAttributeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[servicecategory]...';
+GO
+CREATE TABLE [dbo].[servicecategory] (
+    [ServiceCategoryID] INT           NOT NULL,
+    [LanguageID]        INT           NOT NULL,
+    [CountryID]         INT           NOT NULL,
+    [Name]              VARCHAR (45)  NULL,
+    [Description]       VARCHAR (350) NULL,
+    [CreatedDate]       DATETIME      NULL,
+    [UpdatedDate]       DATETIME      NULL,
+    [ModifiedBy]        VARCHAR (2)   NULL,
+    [Active]            BIT           NULL,
+    [ImagePath]         VARCHAR (200) NULL,
+    [headline]          VARCHAR (250) NULL,
+    CONSTRAINT [PK_servicecategory] PRIMARY KEY CLUSTERED ([ServiceCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[servicecategoryposition]...';
+GO
+CREATE TABLE [dbo].[servicecategoryposition] (
+    [ServiceCategoryID] INT          NOT NULL,
+    [PositionID]        INT          NOT NULL,
+    [LanguageID]        INT          NOT NULL,
+    [CountryID]         INT          NOT NULL,
+    [Rank]              INT          DEFAULT ((1)) NOT NULL,
+    [CreateDate]        DATETIME     NOT NULL,
+    [UpdatedDate]       DATETIME     NOT NULL,
+    [ModifiedBy]        VARCHAR (25) NOT NULL,
+    [Active]            INT          DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ServiceCategoryID] ASC, [PositionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[servicecategorypositionattribute]...';
+GO
+CREATE TABLE [dbo].[servicecategorypositionattribute] (
+    [PositionID]                 INT          NOT NULL,
+    [ServiceAttributeCategoryID] INT          NOT NULL,
+    [ServiceAttributeID]         INT          NOT NULL,
+    [LanguageID]                 INT          NOT NULL,
+    [CountryID]                  INT          NOT NULL,
+    [CreateDate]                 DATETIME     NOT NULL,
+    [UpdatedDate]                DATETIME     NOT NULL,
+    [ModifiedBy]                 VARCHAR (20) NOT NULL,
+    [Active]                     BIT          DEFAULT ((1)) NOT NULL,
+    [EnteredByUserID]            INT          NULL,
+    [Approved]                   BIT          NULL,
+    PRIMARY KEY CLUSTERED ([PositionID] ASC, [ServiceAttributeCategoryID] ASC, [ServiceAttributeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[ServiceProfessionalClient]...';
+GO
+CREATE TABLE [dbo].[ServiceProfessionalClient] (
+    [ServiceProfessionalUserID]    INT      NOT NULL,
+    [ClientUserID]                 INT      NOT NULL,
+    [NotesAboutClient]             NTEXT    CONSTRAINT [DF_ProviderCustomer_NotesAboutCustomer] DEFAULT ('') NOT NULL,
+    [ReferralSourceID]             INT      NOT NULL,
+    [CreatedDate]                  DATETIME NOT NULL,
+    [UpdatedDate]                  DATETIME NOT NULL,
+    [Active]                       BIT      NOT NULL,
+    [CreatedByBookingID]           INT      NULL,
+    [DeletedByServiceProfessional] BIT      CONSTRAINT [DF_ServiceProfessionalClient_DeletedByServiceProfessional] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_ProviderCustomer] PRIMARY KEY CLUSTERED ([ServiceProfessionalUserID] ASC, [ClientUserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[servicesubcategory]...';
+GO
+CREATE TABLE [dbo].[servicesubcategory] (
+    [ServiceSubCategoryID] INT           NOT NULL,
+    [LanguageID]           INT           NOT NULL,
+    [CountryID]            INT           NOT NULL,
+    [Name]                 VARCHAR (45)  NULL,
+    [Description]          VARCHAR (250) NULL,
+    [CreatedDate]          DATETIME      NULL,
+    [UpdatedDate]          DATETIME      NULL,
+    [ModifiedBy]           VARCHAR (2)   NULL,
+    [Active]               BIT           NULL,
+    [ServiceCategoryID]    INT           NULL,
+    [Rank]                 INT           NULL,
+    [RankQuery]            VARCHAR (200) NULL,
+    CONSTRAINT [PK_servicesubcategory] PRIMARY KEY CLUSTERED ([ServiceSubCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[Solution]...';
+GO
+CREATE TABLE [dbo].[Solution] (
+    [SolutionID]              INT                NOT NULL,
+    [LanguageID]              INT                NOT NULL,
+    [CountryID]               INT                NOT NULL,
+    [Name]                    NVARCHAR (100)     NOT NULL,
+    [CredentialCheckRequired] BIT                DEFAULT ((0)) NOT NULL,
+    [BackgroundCheckRequired] BIT                DEFAULT ((0)) NOT NULL,
+    [IsHIPAA]                 BIT                DEFAULT ((0)) NOT NULL,
+    [TaxActivityID]           INT                NULL,
+    [PostingTemplateID]       INT                NULL,
+    [Image]                   NVARCHAR (255)     NULL,
+    [CreatedDate]             DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]             DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]              NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
+    [Active]                  BIT                DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([SolutionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[Specialization]...';
+GO
+CREATE TABLE [dbo].[Specialization] (
+    [SpecializationID] INT                NOT NULL,
+    [LanguageID]       INT                NOT NULL,
+    [CountryID]        INT                NOT NULL,
+    [SolutionID]       INT                NOT NULL,
+    [Name]             NVARCHAR (100)     NOT NULL,
+    [DisplayRank]      INT                NULL,
+    [CreatedDate]      DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]      DATETIMEOFFSET (7) NOT NULL,
+    [CreatedBy]        NVARCHAR (12)      CONSTRAINT [DF__Specializ__Creat__23D42350] DEFAULT ('staff') NOT NULL,
+    [Approved]         BIT                CONSTRAINT [DF__Specializ__Appro__24C84789] DEFAULT ((0)) NULL,
+    [Active]           BIT                CONSTRAINT [DF__Specializ__Activ__25BC6BC2] DEFAULT ((1)) NOT NULL,
+    [EnteredByUserID]  INT                NULL,
+    CONSTRAINT [PK_Specialization] PRIMARY KEY CLUSTERED ([SpecializationID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[stateprovince]...';
+GO
+CREATE TABLE [dbo].[stateprovince] (
+    [StateProvinceID]   INT           NOT NULL,
+    [StateProvinceName] VARCHAR (100) NULL,
+    [StateProvinceCode] VARCHAR (25)  NULL,
+    [CountryID]         INT           NOT NULL,
+    [RegionCode]        VARCHAR (25)  NULL,
+    [PostalCodePrefix]  VARCHAR (25)  NULL,
+    PRIMARY KEY CLUSTERED ([StateProvinceID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[taxentitytype]...';
+GO
+CREATE TABLE [dbo].[taxentitytype] (
+    [TaxEntityTypeID]          INT           NOT NULL,
+    [LanguageID]               INT           NOT NULL,
+    [CountryID]                INT           NOT NULL,
+    [TaxEntityTypeName]        VARCHAR (75)  NULL,
+    [TaxEntityTypeDescription] VARCHAR (300) NULL,
+    [CreatedDate]              DATETIME      NOT NULL,
+    [UpdatedDate]              DATETIME      NOT NULL,
+    [ModifiedBy]               VARCHAR (25)  NOT NULL,
+    [Active]                   BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([TaxEntityTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[tintype]...';
+GO
+CREATE TABLE [dbo].[tintype] (
+    [TINTypeID]          INT            NOT NULL,
+    [LanguageID]         INT            NOT NULL,
+    [CountryID]          INT            NOT NULL,
+    [TINTypeAbbr]        NVARCHAR (10)  COLLATE Modern_Spanish_CI_AS NOT NULL,
+    [TINTypeName]        NVARCHAR (70)  NOT NULL,
+    [TINTypeDescription] NVARCHAR (200) NULL,
+    [CreatedDate]        DATETIME       NOT NULL,
+    [UpdatedDate]        DATETIME       NOT NULL,
+    [ModifiedBy]         VARCHAR (25)   NOT NULL,
+    [Active]             BIT            NOT NULL,
+    CONSTRAINT [PK__tintype__5B7925DB119F9925] PRIMARY KEY CLUSTERED ([TINTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[Tmp_users]...';
+GO
+CREATE TABLE [dbo].[Tmp_users] (
+    [UserID]                           INT            NOT NULL,
+    [FirstName]                        VARCHAR (50)   NOT NULL,
+    [MiddleIn]                         VARCHAR (1)    NOT NULL,
+    [LastName]                         VARCHAR (145)  NOT NULL,
+    [SecondLastName]                   VARCHAR (145)  NOT NULL,
+    [NickName]                         VARCHAR (50)   NULL,
+    [PublicBio]                        VARCHAR (4000) NULL,
+    [GenderID]                         INT            NOT NULL,
+    [PreferredLanguageID]              INT            NULL,
+    [PreferredCountryID]               INT            NULL,
+    [IsProvider]                       BIT            NOT NULL,
+    [IsCustomer]                       BIT            NOT NULL,
+    [IsMember]                         BIT            CONSTRAINT [DF_users_IsMember] DEFAULT ((0)) NOT NULL,
+    [IsAdmin]                          BIT            CONSTRAINT [DF_users_IsAdmin] DEFAULT ((0)) NOT NULL,
+    [IsContributor]                    BIT            CONSTRAINT [DF_users_IsContributor] DEFAULT ((0)) NOT NULL,
+    [IsCollaborator]                   BIT            CONSTRAINT [DF__users__Collabora__5E7FE7D2] DEFAULT ((0)) NOT NULL,
+    [Photo]                            VARCHAR (150)  NULL,
+    [MobilePhone]                      VARCHAR (20)   NULL,
+    [AlternatePhone]                   VARCHAR (20)   NULL,
+    [CanReceiveSms]                    BIT            CONSTRAINT [DF_users_CanReceiveSms] DEFAULT ((0)) NOT NULL,
+    [ProviderProfileURL]               VARCHAR (2078) NULL,
+    [ProviderWebsiteURL]               VARCHAR (2078) NULL,
+    [SMSBookingCommunication]          BIT            CONSTRAINT [DF__users__SMSBookin__3B2BBE9D] DEFAULT ((1)) NOT NULL,
+    [PhoneBookingCommunication]        BIT            CONSTRAINT [DF__users__PhoneBook__3C1FE2D6] DEFAULT ((1)) NOT NULL,
+    [LoconomicsMarketingCampaigns]     BIT            CONSTRAINT [DF__users__Loconomic__3D14070F] DEFAULT ((1)) NOT NULL,
+    [ProfileSEOPermission]             BIT            CONSTRAINT [DF__users__ProviderP__3E082B48] DEFAULT ((1)) NOT NULL,
+    [CreatedDate]                      DATETIME       NULL,
+    [UpdatedDate]                      DATETIME       NULL,
+    [ModifiedBy]                       VARCHAR (50)   NULL,
+    [Active]                           BIT            NULL,
+    [LoconomicsCommunityCommunication] BIT            CONSTRAINT [DF__users__Loconomic__3EFC4F81] DEFAULT ((1)) NOT NULL,
+    [IAuthZumigoVerification]          BIT            NULL,
+    [IAuthZumigoLocation]              BIT            NULL,
+    [LoconomicsDBMCampaigns]           BIT            CONSTRAINT [DF__users__Loconomic__45FE52CB] DEFAULT ((1)) NOT NULL,
+    [AccountStatusID]                  INT            CONSTRAINT [DF__users__AccountSt__6265874F] DEFAULT ((1)) NOT NULL,
+    [CoBrandedPartnerPermissions]      BIT            CONSTRAINT [DF__users__CoBranded__691284DE] DEFAULT ((1)) NOT NULL,
+    [MarketingSource]                  VARCHAR (2055) NULL,
+    [BookCode]                         VARCHAR (64)   NULL,
+    [OnboardingStep]                   VARCHAR (60)   NULL,
+    [BirthMonthDay]                    INT            NULL,
+    [BirthMonth]                       INT            NULL,
+    [BusinessName]                     NVARCHAR (145) NULL,
+    [AlternativeEmail]                 NVARCHAR (56)  NULL,
+    [ReferredByUserID]                 INT            NULL,
+    [SignupDevice]                     NVARCHAR (20)  NULL,
+    [OwnerStatusID]                    INT            NULL,
+    [OwnerAnniversaryDate]             DATETIME       NULL,
+    [IsHipaaAdmin]                     BIT            CONSTRAINT [DF__users__IsHipaaAd__70F39DC8] DEFAULT ((0)) NOT NULL
+);
+
+
+
+GO
+    
+PRINT N'Creating [dbo].[transporttype]...';
+GO
+CREATE TABLE [dbo].[transporttype] (
+    [TransportTypeID]          INT           NOT NULL,
+    [LanguageID]               INT           NOT NULL,
+    [CountryID]                INT           NOT NULL,
+    [TransportTypeName]        VARCHAR (50)  NOT NULL,
+    [TransportTypeDescription] VARCHAR (300) NULL,
+    [CreatedDate]              DATETIME      NOT NULL,
+    [UpdatedDate]              DATETIME      NOT NULL,
+    [ModifiedBy]               VARCHAR (25)  NOT NULL,
+    [Active]                   BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([TransportTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserAlert]...';
+GO
+CREATE TABLE [dbo].[UserAlert] (
+    [UserID]        INT            NOT NULL,
+    [PositionID]    INT            NOT NULL,
+    [AlertID]       INT            NOT NULL,
+    [CreatedDate]   DATETIME       NOT NULL,
+    [UpdatedDate]   DATETIME       NOT NULL,
+    [ModifiedBy]    VARCHAR (25)   NOT NULL,
+    [CompletedDate] DATETIME       NULL,
+    [Active]        BIT            NOT NULL,
+    [AlertQuery]    VARCHAR (1000) NULL,
+    [Dismissed]     BIT            CONSTRAINT [DF_UserAlert_Dismissed] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK__provider__D933DA027BB05806] PRIMARY KEY CLUSTERED ([UserID] ASC, [PositionID] ASC, [AlertID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[userbackgroundcheck]...';
+GO
+CREATE TABLE [dbo].[userbackgroundcheck] (
+    [UserID]            INT           NOT NULL,
+    [BackgroundCheckID] INT           NOT NULL,
+    [CreatedDate]       DATETIME      NOT NULL,
+    [ModifiedDate]      DATETIME      NOT NULL,
+    [ModifiedBy]        VARCHAR (25)  NOT NULL,
+    [StatusID]          INT           NOT NULL,
+    [Summary]           VARCHAR (200) NULL,
+    [VerifiedBy]        VARCHAR (25)  NULL,
+    [LastVerifiedDate]  DATETIME      NULL,
+    PRIMARY KEY CLUSTERED ([BackgroundCheckID] ASC, [UserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserBadge]...';
+GO
+CREATE TABLE [dbo].[UserBadge] (
+    [UserBadgeID] INT                IDENTITY (1, 1) NOT NULL,
+    [UserID]      INT                NOT NULL,
+    [SolutionID]  INT                NULL,
+    [LanguageID]  INT                NOT NULL,
+    [CountryID]   INT                NOT NULL,
+    [BadgeURL]    NVARCHAR (255)     NOT NULL,
+    [Type]        NVARCHAR (20)      NOT NULL,
+    [Category]    NVARCHAR (50)      NOT NULL,
+    [ExpiryDate]  DATETIMEOFFSET (0) NULL,
+    [CreatedDate] DATETIMEOFFSET (0) NOT NULL,
+    [UpdatedDate] DATETIMEOFFSET (0) NOT NULL,
+    [CreatedBy]   NVARCHAR (4)       NOT NULL,
+    [ModifiedBy]  NVARCHAR (4)       NOT NULL,
+    [Active]      BIT                DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_UserBadge] PRIMARY KEY CLUSTERED ([UserBadgeID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserEarnings]...';
+GO
+CREATE TABLE [dbo].[UserEarnings] (
+    [UserEarningsID] INT                IDENTITY (1, 1) NOT NULL,
+    [UserID]         INT                NOT NULL,
+    [PlatformID]     INT                NOT NULL,
+    [ClientID]       INT                NOT NULL,
+    [JobTitleID]     INT                NOT NULL,
+    [Amount]         DECIMAL (10, 2)    NOT NULL,
+    [Minutes]        INT                NOT NULL,
+    [PaidDate]       DATETIMEOFFSET (0) NOT NULL,
+    [Notes]          TEXT               NOT NULL,
+    [CreatedDate]    DATETIMEOFFSET (0) NOT NULL,
+    [UpdatedDate]    DATETIMEOFFSET (0) NOT NULL,
+    [ModifiedBy]     NVARCHAR (4)       NOT NULL,
+    [Active]         BIT                CONSTRAINT [DF_UserEarnings_Active] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_UserEarnings] PRIMARY KEY CLUSTERED ([UserEarningsID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserEarningsEntry]...';
+GO
+CREATE TABLE [dbo].[UserEarningsEntry] (
+    [UserID]                INT                NOT NULL,
+    [EarningsEntryID]       INT                NOT NULL,
+    [Amount]                DECIMAL (10, 2)    CONSTRAINT [DF_UserEarningsEntry_Amount] DEFAULT ((0)) NOT NULL,
+    [PaidDate]              DATETIMEOFFSET (0) NOT NULL,
+    [DurationMinutes]       INT                NOT NULL,
+    [UserExternalListingID] INT                NOT NULL,
+    [JobTitleID]            INT                NOT NULL,
+    [ClientUserID]          INT                NULL,
+    [CreatedDate]           DATETIMEOFFSET (0) NOT NULL,
+    [UpdatedDate]           DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]            NVARCHAR (4)       NOT NULL,
+    [Active]                BIT                CONSTRAINT [DF_UserEarningsEntry_Active] DEFAULT ((1)) NOT NULL,
+    [Notes]                 TEXT               NULL,
+    CONSTRAINT [PK_UserEarningsEntry] PRIMARY KEY CLUSTERED ([UserID] ASC, [EarningsEntryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[usereducation]...';
+GO
+CREATE TABLE [dbo].[usereducation] (
+    [UserEducationID]   INT           IDENTITY (1, 1) NOT NULL,
+    [UserID]            INT           NOT NULL,
+    [InstitutionID]     INT           NOT NULL,
+    [DegreeCertificate] VARCHAR (200) NOT NULL,
+    [FieldOfStudy]      VARCHAR (200) NOT NULL,
+    [FromYearAttended]  NUMERIC (4)   NULL,
+    [ToYearAttended]    NUMERIC (4)   NULL,
+    [CreatedDate]       DATETIME      NOT NULL,
+    [ModifiedDate]      DATETIME      NOT NULL,
+    [ModifiedBy]        VARCHAR (25)  NOT NULL,
+    [VerifiedDate]      DATETIME      NULL,
+    [VerifiedBy]        VARCHAR (25)  NULL,
+    [Active]            BIT           NOT NULL,
+    CONSTRAINT [PK__usereduc__A31C69552A363CC5] PRIMARY KEY CLUSTERED ([UserEducationID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserExternalListing]...';
+GO
+CREATE TABLE [dbo].[UserExternalListing] (
+    [UserExternalListingID] INT                IDENTITY (1, 1) NOT NULL,
+    [UserID]                INT                NOT NULL,
+    [PlatformID]            INT                NOT NULL,
+    [Title]                 NVARCHAR (50)      NOT NULL,
+    [JobTitles]             TEXT               NOT NULL,
+    [Notes]                 TEXT               NOT NULL,
+    [CreatedDate]           DATETIMEOFFSET (0) NOT NULL,
+    [UpdatedDate]           DATETIMEOFFSET (0) NOT NULL,
+    [ModifiedBy]            NVARCHAR (4)       NOT NULL,
+    [Active]                BIT                CONSTRAINT [DF_UserExternalListing_Active] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_UserExternalListing] PRIMARY KEY CLUSTERED ([UserExternalListingID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserFeePayments]...';
+GO
+CREATE TABLE [dbo].[UserFeePayments] (
+    [UserFeePaymentID]     INT                IDENTITY (1, 1) NOT NULL,
+    [UserID]               INT                NOT NULL,
+    [PaymentTransactionID] VARCHAR (250)      NOT NULL,
+    [SubscriptionID]       VARCHAR (250)      NOT NULL,
+    [PaymentDate]          DATETIMEOFFSET (0) NOT NULL,
+    [PaymentAmount]        MONEY              NOT NULL,
+    [PaymentPlan]          VARCHAR (25)       NOT NULL,
+    [PaymentMethod]        VARCHAR (50)       NOT NULL,
+    [PaymentStatus]        VARCHAR (50)       NOT NULL,
+    [CreatedDate]          DATETIMEOFFSET (0) NOT NULL,
+    [ModifiedDate]         DATETIMEOFFSET (0) NOT NULL,
+    CONSTRAINT [PK__UserFeeP__1788CCAC0347582D] PRIMARY KEY CLUSTERED ([UserFeePaymentID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserLicenseCertifications]...';
+GO
+CREATE TABLE [dbo].[UserLicenseCertifications] (
+    [userLicenseCertificationID] INT            IDENTITY (1, 1) NOT NULL,
+    [ProviderUserID]             INT            NOT NULL,
+    [PositionID]                 INT            NOT NULL,
+    [LicenseCertificationID]     INT            NOT NULL,
+    [VerificationStatusID]       INT            NOT NULL,
+    [LicenseCertificationURL]    VARCHAR (2073) NULL,
+    [LastName]                   VARCHAR (100)  NOT NULL,
+    [FirstName]                  VARCHAR (100)  NOT NULL,
+    [MiddleInitial]              VARCHAR (1)    NULL,
+    [SecondLastName]             VARCHAR (100)  NULL,
+    [BusinessName]               VARCHAR (200)  NULL,
+    [LicenseCertificationNumber] VARCHAR (100)  NULL,
+    [CreatedDate]                DATETIME       NOT NULL,
+    [ExpirationDate]             DATETIME       NULL,
+    [IssueDate]                  DATETIME       NULL,
+    [Comments]                   VARCHAR (500)  NULL,
+    [VerifiedBy]                 VARCHAR (25)   NULL,
+    [LastVerifiedDate]           DATETIME       NULL,
+    [SubmittedBy]                VARCHAR (25)   NULL,
+    [SubmittedImageLocalURL]     VARCHAR (255)  NULL,
+    PRIMARY KEY CLUSTERED ([userLicenseCertificationID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserListingSpecialization]...';
+GO
+CREATE TABLE [dbo].[UserListingSpecialization] (
+    [UserID]           INT                NOT NULL,
+    [UserListingID]    INT                NOT NULL,
+    [SpecializationID] INT                NOT NULL,
+    [LanguageID]       INT                NOT NULL,
+    [CountryID]        INT                NOT NULL,
+    [DisplayRank]      INT                NULL,
+    [CreatedDate]      DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]      DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]       NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
+    [Active]           BIT                DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([UserID] ASC, [UserListingID] ASC, [SpecializationID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[userOrganization]...';
+GO
+CREATE TABLE [dbo].[userOrganization] (
+    [userID]         INT                NOT NULL,
+    [orgName]        NVARCHAR (200)     NOT NULL,
+    [orgDescription] NVARCHAR (400)     NULL,
+    [orgWebsite]     NVARCHAR (255)     NULL,
+    [updatedDate]    DATETIMEOFFSET (0) NULL,
+    CONSTRAINT [PK_userOrganization] PRIMARY KEY CLUSTERED ([userID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserPaymentPlan]...';
+GO
+CREATE TABLE [dbo].[UserPaymentPlan] (
+    [UserPaymentPlanID]          INT                IDENTITY (1, 1) NOT NULL,
+    [UserID]                     INT                NOT NULL,
+    [SubscriptionID]             VARCHAR (250)      NOT NULL,
+    [PaymentPlan]                VARCHAR (25)       NOT NULL,
+    [PaymentMethod]              VARCHAR (50)       NOT NULL,
+    [PaymentPlanLastChangedDate] DATETIMEOFFSET (0) NOT NULL,
+    [NextPaymentDueDate]         DATETIMEOFFSET (0) NULL,
+    [NextPaymentAmount]          MONEY              NULL,
+    [FirstBillingDate]           DATETIMEOFFSET (0) NOT NULL,
+    [SubscriptionEndDate]        DATETIMEOFFSET (0) NULL,
+    [PaymentMethodToken]         VARCHAR (250)      NOT NULL,
+    [PaymentExpiryDate]          DATETIMEOFFSET (0) NULL,
+    [PlanStatus]                 VARCHAR (50)       NOT NULL,
+    [DaysPastDue]                INT                CONSTRAINT [DF_UserPaymentPlan_DaysPastDue] DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK__Owner__1788CCAC6A7BAA63] PRIMARY KEY CLUSTERED ([UserPaymentPlanID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserPosting]...';
+GO
+CREATE TABLE [dbo].[UserPosting] (
+    [userPostingID]            INT                IDENTITY (1, 1) NOT NULL,
+    [userID]                   INT                NOT NULL,
+    [solutionID]               INT                NOT NULL,
+    [postingTemplateID]        INT                NULL,
+    [title]                    NVARCHAR (50)      NOT NULL,
+    [statusID]                 INT                NOT NULL,
+    [neededSpecializationIDs]  VARCHAR (300)      NULL,
+    [desiredSpecializationIDs] VARCHAR (300)      NULL,
+    [languageID]               INT                NOT NULL,
+    [countryID]                INT                NOT NULL,
+    [createdDate]              DATETIMEOFFSET (0) NOT NULL,
+    [updatedDate]              DATETIMEOFFSET (0) NOT NULL,
+    [modifiedBy]               NVARCHAR (10)      NOT NULL,
+    CONSTRAINT [PK_UserPosting] PRIMARY KEY CLUSTERED ([userPostingID] ASC)
+);
+
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserPostingQuestionResponse]...';
+GO
+CREATE TABLE [dbo].[UserPostingQuestionResponse] (
+    [userPostingID]  INT            NOT NULL,
+    [questionID]     INT            NOT NULL,
+    [questionTypeID] INT            NOT NULL,
+    [question]       NVARCHAR (120) NOT NULL,
+    [helpBlock]      NVARCHAR (300) NULL,
+    [options]        TEXT           NOT NULL,
+    [responses]      TEXT           NOT NULL,
+    [legend]         NVARCHAR (60)  NOT NULL,
+    [branchLogic]    TEXT           NULL,
+    [label]          NVARCHAR (120) DEFAULT ('') NOT NULL,
+    CONSTRAINT [PK_UserPostingQuestionResponse_1] PRIMARY KEY CLUSTERED ([userPostingID] ASC, [questionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserPostingReaction]...';
+GO
+CREATE TABLE [dbo].[UserPostingReaction] (
+    [userPostingID]             INT                NOT NULL,
+    [serviceProfessionalUserID] INT                NOT NULL,
+    [reactionTypeID]            INT                NOT NULL,
+    [createdDate]               DATETIMEOFFSET (0) NOT NULL,
+    [updatedDate]               DATETIMEOFFSET (0) NOT NULL,
+    [message]                   TEXT               NULL,
+    CONSTRAINT [PK_UserPostingReaction] PRIMARY KEY CLUSTERED ([userPostingID] ASC, [serviceProfessionalUserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[userprofile]...';
+GO
+CREATE TABLE [dbo].[userprofile] (
+    [UserId] INT            IDENTITY (1, 1) NOT NULL,
+    [Email]  NVARCHAR (254) NOT NULL,
+    CONSTRAINT [PK__userprof__1788CC4C023D5A04] PRIMARY KEY CLUSTERED ([UserId] ASC),
+    CONSTRAINT [UQ__userprof__C9F284560519C6AF] UNIQUE NONCLUSTERED ([Email] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[userprofilepositions]...';
+GO
+CREATE TABLE [dbo].[userprofilepositions] (
+    [UserListingID]                INT            IDENTITY (1, 1) NOT NULL,
+    [UserID]                       INT            NOT NULL,
+    [PositionID]                   INT            NOT NULL,
+    [LanguageID]                   INT            NOT NULL,
+    [CountryID]                    INT            NOT NULL,
+    [CreateDate]                   DATETIME       NULL,
+    [UpdatedDate]                  DATETIME       NULL,
+    [ModifiedBy]                   VARCHAR (3)    NULL,
+    [Active]                       BIT            NULL,
+    [PositionIntro]                VARCHAR (2000) NULL,
+    [StatusID]                     INT            CONSTRAINT [DF_userprofilepositions_StatusID] DEFAULT ((1)) NOT NULL,
+    [CancellationPolicyID]         INT            NULL,
+    [InstantBooking]               BIT            CONSTRAINT [DF_userprofilepositions_InstantBooking] DEFAULT ((0)) NOT NULL,
+    [bookMeButtonReady]            BIT            CONSTRAINT [DF_userprofilepositions_bookMeButtonReady] DEFAULT ((0)) NOT NULL,
+    [collectPaymentAtBookMeButton] BIT            CONSTRAINT [DF_userprofilepositions_collectPaymentAtBookMeButton] DEFAULT ((1)) NOT NULL,
+    [Title]                        NVARCHAR (50)  NULL,
+    CONSTRAINT [PK_userprofilepositions] PRIMARY KEY CLUSTERED ([UserListingID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[userprofileserviceattributes]...';
+GO
+CREATE TABLE [dbo].[userprofileserviceattributes] (
+    [UserID]                     INT         NOT NULL,
+    [PositionID]                 INT         NOT NULL,
+    [ServiceAttributeCategoryID] INT         NOT NULL,
+    [ServiceAttributeID]         INT         NOT NULL,
+    [LanguageID]                 INT         NOT NULL,
+    [CountryID]                  INT         NOT NULL,
+    [CreateDate]                 DATETIME    NULL,
+    [UpdatedDate]                DATETIME    NULL,
+    [ModifiedBy]                 VARCHAR (3) NULL,
+    [Active]                     BIT         NULL,
+    CONSTRAINT [PK_userprofileserviceattributes_2] PRIMARY KEY CLUSTERED ([UserID] ASC, [PositionID] ASC, [ServiceAttributeCategoryID] ASC, [ServiceAttributeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserReviews]...';
+GO
+CREATE TABLE [dbo].[UserReviews] (
+    [BookingID]          INT             NOT NULL,
+    [CustomerUserID]     INT             NOT NULL,
+    [ProviderUserID]     INT             NOT NULL,
+    [PositionID]         INT             NOT NULL,
+    [PrivateReview]      NVARCHAR (1000) NULL,
+    [PublicReview]       NVARCHAR (500)  NULL,
+    [Rating1]            TINYINT         NULL,
+    [Rating2]            TINYINT         NULL,
+    [Rating3]            TINYINT         NULL,
+    [Rating4]            TINYINT         NULL,
+    [Answer1]            BIT             NULL,
+    [Answer2]            BIT             NULL,
+    [Answer1Comment]     NVARCHAR (1000) NULL,
+    [Answer2Comment]     NVARCHAR (1000) NULL,
+    [ServiceHours]       DECIMAL (18, 5) CONSTRAINT [DF_UserReviews_ServiceHours] DEFAULT ((0)) NULL,
+    [HelpfulReviewCount] BIGINT          CONSTRAINT [DF_UserReviews_HelpfulReviewCount] DEFAULT ((0)) NULL,
+    [CreatedDate]        DATETIME        NOT NULL,
+    [UpdatedDate]        DATETIME        NOT NULL,
+    [ModifiedBy]         VARCHAR (50)    NOT NULL,
+    CONSTRAINT [PK_UserReviews] PRIMARY KEY CLUSTERED ([BookingID] ASC, [CustomerUserID] ASC, [ProviderUserID] ASC, [PositionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserReviewScores]...';
+GO
+CREATE TABLE [dbo].[UserReviewScores] (
+    [UserID]         INT             NOT NULL,
+    [PositionID]     INT             NOT NULL,
+    [TotalRatings]   BIGINT          NULL,
+    [Rating1]        DECIMAL (18, 2) NULL,
+    [Rating2]        DECIMAL (18, 2) NULL,
+    [Rating3]        DECIMAL (18, 2) NULL,
+    [Rating4]        DECIMAL (18, 2) NULL,
+    [Answer1]        BIGINT          NULL,
+    [Answer2]        BIGINT          NULL,
+    [ServiceHours]   DECIMAL (18, 2) NULL,
+    [LastRatingDate] DATETIME        NULL,
+    [CreatedDate]    DATETIME        NOT NULL,
+    [UpdatedDate]    DATETIME        NOT NULL,
+    [ModifiedBy]     VARCHAR (50)    NOT NULL,
+    CONSTRAINT [PK_ReviewScores_positionID_userID] PRIMARY KEY CLUSTERED ([PositionID] ASC, [UserID] ASC)
+);
+
+
+
+GO
+    
+PRINT N'Creating [dbo].[users]...';
+GO
+CREATE TABLE [dbo].[users] (
+    [UserID]                           INT                NOT NULL,
+    [FirstName]                        VARCHAR (50)       NOT NULL,
+    [MiddleIn]                         VARCHAR (1)        NOT NULL,
+    [LastName]                         VARCHAR (145)      NOT NULL,
+    [SecondLastName]                   VARCHAR (145)      NOT NULL,
+    [NickName]                         VARCHAR (50)       NULL,
+    [PublicBio]                        VARCHAR (4000)     NULL,
+    [GenderID]                         INT                CONSTRAINT [DF_users_GenderID] DEFAULT ((-1)) NOT NULL,
+    [PreferredLanguageID]              INT                NOT NULL,
+    [PreferredCountryID]               INT                NOT NULL,
+    [IsProvider]                       BIT                CONSTRAINT [DF__users__IsProvide__3943762B] DEFAULT ((0)) NOT NULL,
+    [IsCustomer]                       BIT                CONSTRAINT [DF__users__IsCustome__3A379A64] DEFAULT ((0)) NOT NULL,
+    [IsAdmin]                          BIT                DEFAULT ((0)) NOT NULL,
+    [IsCollaborator]                   BIT                DEFAULT ((0)) NOT NULL,
+    [Photo]                            VARCHAR (150)      NULL,
+    [MobilePhone]                      VARCHAR (20)       NULL,
+    [AlternatePhone]                   VARCHAR (20)       NULL,
+    [CanReceiveSms]                    BIT                DEFAULT ((0)) NOT NULL,
+    [ProviderProfileURL]               VARCHAR (2078)     NULL,
+    [ProviderWebsiteURL]               VARCHAR (2078)     NULL,
+    [SMSBookingCommunication]          BIT                DEFAULT ((1)) NOT NULL,
+    [PhoneBookingCommunication]        BIT                DEFAULT ((1)) NOT NULL,
+    [LoconomicsMarketingCampaigns]     BIT                DEFAULT ((1)) NOT NULL,
+    [ProfileSEOPermission]             BIT                DEFAULT ((1)) NOT NULL,
+    [CreatedDate]                      DATETIME           NULL,
+    [UpdatedDate]                      DATETIME           NULL,
+    [ModifiedBy]                       VARCHAR (50)       NULL,
+    [Active]                           BIT                NULL,
+    [LoconomicsCommunityCommunication] BIT                DEFAULT ((1)) NOT NULL,
+    [IAuthZumigoVerification]          BIT                NULL,
+    [IAuthZumigoLocation]              BIT                NULL,
+    [LoconomicsDBMCampaigns]           BIT                DEFAULT ((1)) NOT NULL,
+    [AccountStatusID]                  INT                DEFAULT ((1)) NOT NULL,
+    [CoBrandedPartnerPermissions]      BIT                DEFAULT ((1)) NOT NULL,
+    [MarketingSource]                  VARCHAR (2055)     COLLATE Modern_Spanish_CI_AS NULL,
+    [BookCode]                         VARCHAR (64)       NULL,
+    [OnboardingStep]                   VARCHAR (60)       NULL,
+    [BirthMonthDay]                    INT                NULL,
+    [BirthMonth]                       INT                NULL,
+    [BusinessName]                     NVARCHAR (145)     NULL,
+    [AlternativeEmail]                 NVARCHAR (56)      NULL,
+    [ReferredByUserID]                 INT                NULL,
+    [SignupDevice]                     NVARCHAR (20)      NULL,
+    [OwnerStatusID]                    INT                NULL,
+    [OwnerAnniversaryDate]             DATETIME           NULL,
+    [IsHipaaAdmin]                     BIT                DEFAULT ((0)) NOT NULL,
+    [IsContributor]                    BIT                CONSTRAINT [users_IsContributor_default] DEFAULT (CONVERT([bit],(0),0)) NULL,
+    [TrialEndDate]                     DATETIMEOFFSET (7) NULL,
+    [BirthYear]                        INT                NULL,
+    [IsOrganization]                   BIT                DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_users] PRIMARY KEY CLUSTERED ([UserID] ASC) WITH (FILLFACTOR = 100)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[usersignup]...';
+GO
+CREATE TABLE [dbo].[usersignup] (
+    [UserId] INT           IDENTITY (1, 1) NOT NULL,
+    [Email]  NVARCHAR (56) NOT NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC),
+    UNIQUE NONCLUSTERED ([Email] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserSolution]...';
+GO
+CREATE TABLE [dbo].[UserSolution] (
+    [UserSolutionID] INT                IDENTITY (1, 1) NOT NULL,
+    [UserID]         INT                NOT NULL,
+    [UserListingID]  INT                NOT NULL,
+    [SolutionID]     INT                NOT NULL,
+    [LanguageID]     INT                NOT NULL,
+    [CountryID]      INT                NOT NULL,
+    [DisplayRank]    INT                NULL,
+    [CreatedDate]    DATETIMEOFFSET (7) NOT NULL,
+    [UpdatedDate]    DATETIMEOFFSET (7) NOT NULL,
+    [ModifiedBy]     NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
+    [Active]         BIT                DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_UserSolution] PRIMARY KEY CLUSTERED ([UserSolutionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[UserStats]...';
+GO
+CREATE TABLE [dbo].[UserStats] (
+    [UserID]              INT             NOT NULL,
+    [ResponseTimeMinutes] DECIMAL (18, 2) NULL,
+    [LastLoginTime]       DATETIME        NULL,
+    [LastActivityTime]    DATETIME        NULL,
+    CONSTRAINT [PK_UserStats] PRIMARY KEY CLUSTERED ([UserID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[userverification]...';
+GO
+CREATE TABLE [dbo].[userverification] (
+    [UserID]               INT            NOT NULL,
+    [VerificationID]       INT            NOT NULL,
+    [PositionID]           INT            CONSTRAINT [DF_userverification_PositionID] DEFAULT ((0)) NOT NULL,
+    [DateVerified]         DATETIME       NOT NULL,
+    [CreatedDate]          DATETIME       NOT NULL,
+    [UpdatedDate]          DATETIME       NOT NULL,
+    [VerifiedBy]           VARCHAR (25)   NOT NULL,
+    [LastVerifiedDate]     DATETIME       NOT NULL,
+    [Active]               BIT            NOT NULL,
+    [VerificationStatusID] INT            NOT NULL,
+    [Comments]             VARCHAR (2000) NULL,
+    CONSTRAINT [PK_userverification] PRIMARY KEY CLUSTERED ([UserID] ASC, [VerificationID] ASC, [PositionID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[verification]...';
+GO
+CREATE TABLE [dbo].[verification] (
+    [VerificationID]          INT            NOT NULL,
+    [VerificationType]        VARCHAR (100)  NOT NULL,
+    [VerificationDescription] VARCHAR (1000) NOT NULL,
+    [VerificationProcess]     VARCHAR (500)  NULL,
+    [Icon]                    VARCHAR (15)   NULL,
+    [LanguageID]              INT            NOT NULL,
+    [CountryID]               INT            NOT NULL,
+    [CreatedDate]             DATETIME       NOT NULL,
+    [ModifiedDate]            DATETIME       NOT NULL,
+    [ModifiedBy]              VARCHAR (25)   NULL,
+    [Active]                  BIT            NOT NULL,
+    [VerificationCategoryID]  INT            NOT NULL,
+    [RankPosition]            INT            NULL,
+    [SummaryGroup]            VARCHAR (20)   NULL,
+    CONSTRAINT [PK__verficat__25EE1D1F0C1BC9F9] PRIMARY KEY CLUSTERED ([VerificationID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[verificationcategory]...';
+GO
+CREATE TABLE [dbo].[verificationcategory] (
+    [VerificationCategoryID]          INT            NOT NULL,
+    [LanguageID]                      INT            NOT NULL,
+    [CountryID]                       INT            NOT NULL,
+    [VerificationCategoryName]        VARCHAR (100)  NOT NULL,
+    [VerificationCategoryDescription] VARCHAR (1000) NULL,
+    [CreatedDate]                     DATETIME       NOT NULL,
+    [UpdatedDate]                     DATETIME       NOT NULL,
+    [ModifiedBy]                      VARCHAR (25)   NOT NULL,
+    [Active]                          BIT            NOT NULL,
+    [RankPosition]                    INT            NULL,
+    PRIMARY KEY CLUSTERED ([VerificationCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[verificationstatus]...';
+GO
+CREATE TABLE [dbo].[verificationstatus] (
+    [VerificationStatusID]                 INT           NOT NULL,
+    [LanguageID]                           INT           NOT NULL,
+    [CountryID]                            INT           NOT NULL,
+    [VerificationStatusName]               VARCHAR (50)  NOT NULL,
+    [VerificationStatusDisplayDescription] VARCHAR (300) NULL,
+    [CreatedDate]                          DATETIME      NOT NULL,
+    [UpdatedDate]                          DATETIME      NOT NULL,
+    [ModifiedBy]                           VARCHAR (25)  NOT NULL,
+    [Active]                               BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([VerificationStatusID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[VOCElement]...';
+GO
+CREATE TABLE [dbo].[VOCElement] (
+    [VOCElementID]    INT           NOT NULL,
+    [LanguageID]      INT           NOT NULL,
+    [CountryID]       INT           NOT NULL,
+    [VOCElementName]  VARCHAR (100) NULL,
+    [ScoreStartValue] INT           NULL,
+    [ScoreMidValue]   INT           NULL,
+    [ScoreEndValue]   INT           NULL,
+    [ScoreStartLabel] VARCHAR (25)  NULL,
+    [ScoreMidLabel]   VARCHAR (25)  NULL,
+    [ScoreEndLabel]   VARCHAR (25)  NULL,
+    [CreateDate]      DATETIME      NOT NULL,
+    [UpdatedDate]     DATETIME      NOT NULL,
+    [ModifiedBy]      VARCHAR (3)   NOT NULL,
+    [Active]          BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([VOCElementID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[VOCExperienceCategory]...';
+GO
+CREATE TABLE [dbo].[VOCExperienceCategory] (
+    [VOCExperienceCategoryID]          INT           NOT NULL,
+    [LanguageID]                       INT           NOT NULL,
+    [CountryID]                        INT           NOT NULL,
+    [VOCExperienceCategoryName]        VARCHAR (50)  NULL,
+    [VOCExperienceCategoryDescription] VARCHAR (200) NULL,
+    [CreateDate]                       DATETIME      NOT NULL,
+    [UpdatedDate]                      DATETIME      NOT NULL,
+    [ModifiedBy]                       VARCHAR (3)   NOT NULL,
+    [Active]                           BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([VOCExperienceCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[VOCFeedback]...';
+GO
+CREATE TABLE [dbo].[VOCFeedback] (
+    [VOCFeedbackID]           INT          IDENTITY (1, 1) NOT NULL,
+    [VOCElementID]            INT          NOT NULL,
+    [VOCExperienceCategoryID] INT          NOT NULL,
+    [UserID]                  INT          NOT NULL,
+    [Feedback]                TEXT         NOT NULL,
+    [VOCFlag1]                VARCHAR (50) NULL,
+    [VOCFlag2]                VARCHAR (50) NULL,
+    [VOCFlag3]                VARCHAR (50) NULL,
+    [VOCFlag4]                VARCHAR (50) NULL,
+    [UserDevice]              TEXT         NULL,
+    [ZenDeskTicketNumber]     INT          NULL,
+    [ProviderUserID]          INT          NULL,
+    [ProviderPositionID]      INT          NULL,
+    [CreatedDate]             DATETIME     NOT NULL,
+    [UpdatedDate]             DATETIME     NOT NULL,
+    [ModifiedBy]              VARCHAR (3)  NOT NULL,
+    CONSTRAINT [PK__VOCFeedb__B6FF22780B528E49] PRIMARY KEY CLUSTERED ([VOCFeedbackID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[VOCFlag]...';
+GO
+CREATE TABLE [dbo].[VOCFlag] (
+    [VOCFlagID]           INT           NOT NULL,
+    [LanguageID]          INT           NOT NULL,
+    [CountryID]           INT           NOT NULL,
+    [VOCFlagName]         VARCHAR (50)  NOT NULL,
+    [VOCFlagNDescription] VARCHAR (500) NULL,
+    [CreateDate]          DATETIME      NOT NULL,
+    [UpdatedDate]         DATETIME      NOT NULL,
+    [ModifiedBy]          VARCHAR (3)   NOT NULL,
+    [Active]              BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([VOCFlagID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[VOCScores]...';
+GO
+CREATE TABLE [dbo].[VOCScores] (
+    [VOCScoresID]             INT           NOT NULL,
+    [UserID]                  INT           NOT NULL,
+    [VOCElementID]            INT           NOT NULL,
+    [Score]                   INT           NOT NULL,
+    [Date]                    DATETIME      NOT NULL,
+    [ProviderUserID]          INT           NULL,
+    [ProviderPositionID]      INT           NULL,
+    [UserDevice]              VARCHAR (100) NULL,
+    [VOCExperienceCategoryID] INT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([VOCScoresID] ASC, [UserID] ASC, [VOCElementID] ASC, [Score] ASC, [Date] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[webpages_FacebookCredentials]...';
+GO
+CREATE TABLE [dbo].[webpages_FacebookCredentials] (
+    [UserId]     INT    NOT NULL,
+    [FacebookId] BIGINT NOT NULL
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[webpages_Membership]...';
+GO
+CREATE TABLE [dbo].[webpages_Membership] (
+    [UserId]                                  INT            NOT NULL,
+    [CreateDate]                              DATETIME       NULL,
+    [ConfirmationToken]                       NVARCHAR (128) NULL,
+    [IsConfirmed]                             BIT            DEFAULT ((0)) NULL,
+    [LastPasswordFailureDate]                 DATETIME       NULL,
+    [PasswordFailuresSinceLastSuccess]        INT            DEFAULT ((0)) NOT NULL,
+    [Password]                                NVARCHAR (128) NOT NULL,
+    [PasswordChangedDate]                     DATETIME       NULL,
+    [PasswordSalt]                            NVARCHAR (128) NOT NULL,
+    [PasswordVerificationToken]               NVARCHAR (128) NULL,
+    [PasswordVerificationTokenExpirationDate] DATETIME       NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[webpages_OAuthMembership]...';
+GO
+CREATE TABLE [dbo].[webpages_OAuthMembership] (
+    [Provider]       NVARCHAR (30)  NOT NULL,
+    [ProviderUserId] NVARCHAR (100) NOT NULL,
+    [UserId]         INT            NOT NULL,
+    PRIMARY KEY CLUSTERED ([Provider] ASC, [ProviderUserId] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[webpages_Roles]...';
+GO
+CREATE TABLE [dbo].[webpages_Roles] (
+    [RoleId]   INT            IDENTITY (1, 1) NOT NULL,
+    [RoleName] NVARCHAR (256) NOT NULL,
+    PRIMARY KEY CLUSTERED ([RoleId] ASC),
+    UNIQUE NONCLUSTERED ([RoleName] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[webpages_UsersInRoles]...';
+GO
+CREATE TABLE [dbo].[webpages_UsersInRoles] (
+    [UserId] INT NOT NULL,
+    [RoleId] INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC, [RoleId] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[xJobTitlePricing]...';
+GO
+CREATE TABLE [dbo].[xJobTitlePricing] (
+    [JobTitlePricingID]                INT           NOT NULL,
+    [JobTitleID]                       INT           NOT NULL,
+    [PricingTypeID]                    INT           NOT NULL,
+    [LanguageID]                       INT           NOT NULL,
+    [CountryID]                        INT           NOT NULL,
+    [PricingTypeLabel]                 VARCHAR (100) NOT NULL,
+    [PricingNameDefaultValue]          VARCHAR (100) NOT NULL,
+    [PricingDescriptionPlaceholder]    VARCHAR (200) NOT NULL,
+    [PricingRateUnitDefaultValue]      VARCHAR (100) NOT NULL,
+    [PricingHelperLanguagePlaceholder] VARCHAR (500) NOT NULL,
+    [IncludeTaskListOption]            BIT           NOT NULL,
+    [RecurringEligible]                BIT           NOT NULL,
+    [ShowFirstTimeClientsOnlyOption]   BIT           NOT NULL,
+    [ShowExisitingClientsOnlyOption]   BIT           NOT NULL,
+    [ShowSpecificClientOnlyOption]     BIT           NOT NULL,
+    [ShowSlidingScaleOption]           BIT           NOT NULL,
+    [ShowTradeOption]                  BIT           NOT NULL,
+    [ShowServiceAreaOption]            BIT           NOT NULL,
+    [ShowServiceLocationOption]        BIT           NOT NULL,
+    [ShowRemoteLocationOption]         BIT           NOT NULL,
+    [CreatedDate]                      DATETIME      NOT NULL,
+    [UpdatedDate]                      DATETIME      NOT NULL,
+    [ModifiedBy]                       VARCHAR (25)  NOT NULL,
+    [Active]                           BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([JobTitlePricingID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[xJobTitleReviewRules]...';
+GO
+CREATE TABLE [dbo].[xJobTitleReviewRules] (
+    [JobTitleID]                          INT         NOT NULL,
+    [LanguageID]                          INT         NOT NULL,
+    [CountryID]                           INT         NOT NULL,
+    [SuppressReviewOfClient]              BIT         NOT NULL,
+    [SuppressReviewOfServiceProfessional] BIT         NOT NULL,
+    [RequestToReview]                     BIT         NOT NULL,
+    [CreatedDate]                         DATETIME    NOT NULL,
+    [UpdatedDate]                         DATETIME    NOT NULL,
+    [ModifiedBy]                          VARCHAR (3) NOT NULL,
+    [Active]                              BIT         NOT NULL,
+    PRIMARY KEY CLUSTERED ([JobTitleID] ASC, [LanguageID] ASC, [CountryID] ASC)
+);
+
+
+GO
+    
+PRINT N'Creating [dbo].[xServiceProfessionalPricing]...';
+GO
+CREATE TABLE [dbo].[xServiceProfessionalPricing] (
+    [ServiceProfessionalPricingID] INT            IDENTITY (1, 1) NOT NULL,
+    [PricingTypeID]                INT            NOT NULL,
+    [ServiceProfessionalUserID]    INT            NOT NULL,
+    [JobTitleID]                   INT            NOT NULL,
+    [LanguageID]                   INT            NOT NULL,
+    [CountryID]                    INT            NOT NULL,
+    [Name]                         VARCHAR (50)   NOT NULL,
+    [Description]                  VARCHAR (1000) NULL,
+    [Price]                        DECIMAL (7, 2) NULL,
+    [Duration]                     INT            NOT NULL,
+    [FirstTimeClientsOnly]         BIT            DEFAULT ((0)) NOT NULL,
+    [NumberOfSessions]             INT            DEFAULT ((1)) NOT NULL,
+    [CreatedDate]                  DATETIME       NOT NULL,
+    [UpdatedDate]                  DATETIME       NOT NULL,
+    [ModifiedBy]                   VARCHAR (25)   NOT NULL,
+    [Active]                       BIT            NOT NULL,
+    [IsAddOn]                      BIT            DEFAULT ((0)) NOT NULL,
+    [PriceRate]                    DECIMAL (7, 2) NULL,
+    [PriceRateUnit]                NVARCHAR (30)  NULL,
+    [IsPhone]                      BIT            DEFAULT ((0)) NOT NULL,
+    [VisibleToClientID]            INT            DEFAULT ((0)) NOT NULL,
+    [ParentBookingID]              INT            NULL,
+    [MaxAvailableSpots]            INT            DEFAULT ((1)) NOT NULL,
+    [MaxCapacity]                  INT            DEFAULT ((1)) NOT NULL,
+    [MinSpots]                     INT            DEFAULT ((1)) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ServiceProfessionalPricingID] ASC)
+);
+
+
+GO
+    
+PRINT N'Altering [dbo].[accountstatus]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[address]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[addresstype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[alert]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[alerttype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[authorizations]...';
+GO
+
+CREATE UNIQUE NONCLUSTERED INDEX [IX_authorizations_token]
+    ON [dbo].[authorizations]([Token] ASC);
+
+
+GO
+    
+PRINT N'Altering [dbo].[backgroundcheck]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[booking]...';
+GO
+
+
+ALTER TABLE [dbo].[booking] ADD
+    CONSTRAINT [FK__booking__alternativeDate1] FOREIGN KEY ([AlternativeDate1ID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
+    CONSTRAINT [FK__booking__alternativeDate2] FOREIGN KEY ([AlternativeDate2ID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
+    CONSTRAINT [FK__booking__AwaitingResponseFromUserID] FOREIGN KEY ([AwaitingResponseFromUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK__booking__cancellationPolicy] FOREIGN KEY ([CancellationPolicyID], [LanguageID], [CountryID]) REFERENCES [dbo].[cancellationpolicy] ([CancellationPolicyID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK__booking__client] FOREIGN KEY ([ClientUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK__booking__jobtitle] FOREIGN KEY ([JobTitleID], [LanguageID], [CountryID]) REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK__booking__parentbooking] FOREIGN KEY ([ParentBookingID]) REFERENCES [dbo].[booking] ([BookingID]),
+    CONSTRAINT [FK__booking__pricingSummary] FOREIGN KEY ([PricingSummaryID], [PricingSummaryRevision]) REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision]),
+    CONSTRAINT [FK__booking__serviceAddress] FOREIGN KEY ([ServiceAddressID]) REFERENCES [dbo].[address] ([AddressID]),
+    CONSTRAINT [FK__booking__serviceDate] FOREIGN KEY ([ServiceDateID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
+    CONSTRAINT [FK__booking__serviceProfessional] FOREIGN KEY ([ServiceProfessionalUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK__booking__status] FOREIGN KEY ([BookingStatusID]) REFERENCES [dbo].[bookingStatus] ([BookingStatusID]),
+    CONSTRAINT [FK__booking__type] FOREIGN KEY ([BookingTypeID]) REFERENCES [dbo].[bookingType] ([BookingTypeID])
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'The languageID related to the jobTitleID, and the one used on the API call by the creator of the booking', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'booking', @level2type = N'COLUMN', @level2name = N'LanguageID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'The countryID related to the jobTitleID, and the one used on the API call by the creator of the booking', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'booking', @level2type = N'COLUMN', @level2name = N'CountryID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'It''s an initial setup flag, set on creation and no updated later. It lets know that payment processing is enabled on this booking, and later payment MUST be collected and performed. Payment must be enabled on the service professional account and optionally enable/disable for bookNow bookings depending on jobTitle and user setup', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'booking', @level2type = N'COLUMN', @level2name = N'PaymentEnabled';
+
+
+GO
+    
+PRINT N'Altering [dbo].[bookingStatus]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[bookingType]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarAvailabilityType]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventComments]...';
+GO
+
+ALTER TABLE [dbo].[CalendarEventComments] ADD
+    CONSTRAINT [FK_Comments_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventExceptionsPeriod]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarEventExceptionsPeriod] ADD
+    CONSTRAINT [FK_CalendarEventExceptionsPeriods_CalendarEventExceptionsDates] FOREIGN KEY ([IdException]) REFERENCES [dbo].[CalendarEventExceptionsPeriodsList] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventExceptionsPeriodsList]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarEventExceptionsPeriodsList] ADD
+    CONSTRAINT [FK_CalendarEventExceptions_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventRecurrencesPeriod]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarEventRecurrencesPeriod] ADD
+    CONSTRAINT [FK_CalendarEventRecurrencesPeriod_CalendarEventRecurrencesPeriodList] FOREIGN KEY ([IdRecurrence]) REFERENCES [dbo].[CalendarEventRecurrencesPeriodList] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventRecurrencesPeriodList]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarEventRecurrencesPeriodList] ADD
+    CONSTRAINT [FK_CalendarEventRecurrencesPeriodList_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEvents]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarEvents] ADD
+    CONSTRAINT [FK_CalendarEvents_CalendarAvailabilityType] FOREIGN KEY ([CalendarAvailabilityTypeID]) REFERENCES [dbo].[CalendarAvailabilityType] ([CalendarAvailabilityTypeID]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_CalendarEvents_CalendarEventType] FOREIGN KEY ([EventType]) REFERENCES [dbo].[CalendarEventType] ([EventTypeId]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventsAttendees]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarEventsAttendees] ADD
+    CONSTRAINT [FK_CalendarEventsAttendees_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventsContacts]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarEventsContacts] ADD
+    CONSTRAINT [FK_CalendarEventsContacts_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarEventType]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarProviderAttributes]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarProviderAttributes] ADD
+    CONSTRAINT [FK_CalendarProviderAttributes_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarReccurrence]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarReccurrence] ADD
+    CONSTRAINT [FK_CalendarReccurrence_CalendarRecurrenceFrequencyTypes] FOREIGN KEY ([Frequency]) REFERENCES [dbo].[CalendarRecurrenceFrequencyTypes] ([ID]),
+    CONSTRAINT [FK_CalendarReccursive_CalendarEvents] FOREIGN KEY ([EventID]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarReccurrenceFrequency]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarReccurrenceFrequency] ADD
+    CONSTRAINT [FK_CalendarFrecuency_CalendarReccursive] FOREIGN KEY ([CalendarReccursiveID]) REFERENCES [dbo].[CalendarReccurrence] ([ID]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[CalendarRecurrenceFrequencyTypes]...';
+GO
+
+
+ALTER TABLE [dbo].[CalendarRecurrenceFrequencyTypes] ADD
+    CONSTRAINT [FK_CalendarRecurrenceFrequencyTypes_CalendarRecurrenceFrequencyTypes] FOREIGN KEY ([ID]) REFERENCES [dbo].[CalendarRecurrenceFrequencyTypes] ([ID])
+
+GO
+    
+PRINT N'Altering [dbo].[cancellationpolicy]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[CCCUsers]...';
+GO
+
+
+ALTER TABLE [dbo].[CCCUsers] ADD
+    CONSTRAINT [FK__CCCUsers__FieldOfStudyID] FOREIGN KEY ([FieldOfStudyID]) REFERENCES [dbo].[FieldOfStudy] ([FieldOfStudyID]),
+    CONSTRAINT [FK__CCCUsers__InstitutionID] FOREIGN KEY ([InstitutionID]) REFERENCES [dbo].[institution] ([InstitutionID]),
+    CONSTRAINT [FK__CCCUsers__UserID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK__CCCUsers__UserID__6EA14102] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[clienttype]...';
+GO
+
+CREATE NONCLUSTERED INDEX [idx_clienttype]
+    ON [dbo].[clienttype]([CllientTypeID] ASC, [CountryID] ASC);
+
+
+GO
+    
+PRINT N'Altering [dbo].[country]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[county]...';
+GO
+
+
+ALTER TABLE [dbo].[county] ADD
+    CONSTRAINT [FK__county__StateProvinceID] FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])
+GO
+    
+PRINT N'Altering [dbo].[ExperienceLevel]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[FieldOfStudy]...';
+GO
+
+
+ALTER TABLE [dbo].[FieldOfStudy] ADD
+    CONSTRAINT [FK__FieldOfStudy__LanguageID__CountryID] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[Gender]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[institution]...';
+GO
+
+
+ALTER TABLE [dbo].[institution] ADD
+    CONSTRAINT [FK__instituti__State__153B1FDF] FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])
+
+GO
+    
+PRINT N'Altering [dbo].[jobTitleLicense]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[JobTitlePlatform]...';
+GO
+
+
+ALTER TABLE [dbo].[JobTitlePlatform] ADD
+    CONSTRAINT [FK_JobTitlePlatform_Platform] FOREIGN KEY ([PlatformID], [LanguageID], [CountryID]) REFERENCES [dbo].[Platform] ([PlatformID], [LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[JobTitleSolution]...';
+GO
+
+
+ALTER TABLE [dbo].[JobTitleSolution] ADD
+    CONSTRAINT [FK_JobTitleSolution_positions] FOREIGN KEY ([JobTitleID], [LanguageID], [CountryID]) REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_JobTitleSolution_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[language]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[languagelevel]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[licensecertification]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[Messages]...';
+GO
+
+CREATE NONCLUSTERED INDEX [idx_Messages]
+    ON [dbo].[Messages]([MessageTypeID] ASC);
+
+
+GO
+-- =============================================
+-- Author:		Iago Lorenzo Salgueiro
+-- Create date: 2014-02-18
+-- Description:	Set field SentByUserId based on
+-- the MessageTypeID
+-- =============================================
+CREATE TRIGGER AutoSetMessageSentByUserId
+   ON  dbo.Messages
+   AFTER INSERT
+AS 
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	UPDATE Messages SET
+		SentByUserId = CASE 
+		WHEN MessageTypeID IN (1, 2, 4, 5, 6, 9, 12, 14, 16, 18) THEN T.CustomerUserID
+		WHEN MessageTypeID IN (3, 7, 10, 13, 15, 17) THEN T.ProviderUserID
+		WHEN MessageTypeID IN (8, 19) THEN 0 -- the system
+		END
+	FROM MessagingThreads AS T
+	WHERE T.ThreadID = Messages.ThreadID
+	AND SentByUserId is null
+END
+
+GO
+    
+PRINT N'Altering [dbo].[messagethreadstatus]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[messagetype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[MessagingThreads]...';
+GO
+
+
+ALTER TABLE [dbo].[MessagingThreads] ADD
+    CONSTRAINT [Fk_MessagingThreads_2] FOREIGN KEY ([CustomerUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK_MessagingThreads_Messages] FOREIGN KEY ([LastMessageID]) REFERENCES [dbo].[Messages] ([MessageID]),
+    CONSTRAINT [FK_MessagingThreads_messagethreadstatus] FOREIGN KEY ([MessageThreadStatusID]) REFERENCES [dbo].[messagethreadstatus] ([MessageThreadStatusID]),
+    CONSTRAINT [FK_MessagingThreads_users] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[municipality]...';
+GO
+
+
+ALTER TABLE [dbo].[municipality] ADD
+    FOREIGN KEY ([CountyID]) REFERENCES [dbo].[county] ([CountyID])
+
+GO
+    
+PRINT N'Altering [dbo].[OwnerAcknowledgment]...';
+GO
+
+
+ALTER TABLE [dbo].[OwnerAcknowledgment] ADD
+    CONSTRAINT [FK_OwnerAcknowledgment_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[OwnerStatus]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[OwnerStatusHistory]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[Platform]...';
+GO
+
+
+ALTER TABLE [dbo].[Platform] ADD
+    CONSTRAINT [FK_Platform_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[positionbackgroundcheck]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[positionpricingtype]...';
+GO
+
+
+ALTER TABLE [dbo].[positionpricingtype] ADD
+    CONSTRAINT [Fk_positionpricingtype] FOREIGN KEY ([PricingTypeID], [LanguageID], [CountryID]) REFERENCES [dbo].[pricingtype] ([PricingTypeID], [LanguageID], [CountryID]),
+    CONSTRAINT [Fk_positionpricingtype_0] FOREIGN KEY ([PositionID], [LanguageID], [CountryID]) REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID]),
+    CONSTRAINT [Fk_positionpricingtype_1] FOREIGN KEY ([ClientTypeID], [LanguageID], [CountryID]) REFERENCES [dbo].[clienttype] ([CllientTypeID], [LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[positionratings]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[positions]...';
+GO
+
+CREATE NONCLUSTERED INDEX [idx_positions]
+    ON [dbo].[positions]([PositionID] ASC);
+
+
+GO
+    
+PRINT N'Altering [dbo].[postalcode]...';
+GO
+
+
+ALTER TABLE [dbo].[postalcode] ADD
+    CONSTRAINT [FK__postalcode__CountyID] FOREIGN KEY ([CountyID]) REFERENCES [dbo].[county] ([CountyID]),
+    CONSTRAINT [FK__postalcode__MunicipalityID] FOREIGN KEY ([MunicipalityID]) REFERENCES [dbo].[municipality] ([MunicipalityID]),
+    CONSTRAINT [FK__postalcode__StateProvinceID] FOREIGN KEY ([StateProvinceID]) REFERENCES [dbo].[stateprovince] ([StateProvinceID])
+
+GO
+    
+PRINT N'Altering [dbo].[postingTemplate]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[postingTemplateQuestion]...';
+GO
+
+
+ALTER TABLE [dbo].[postingTemplateQuestion] ADD
+    CONSTRAINT [FK_postingTemplateQuestion_postingTemplate] FOREIGN KEY ([postingTemplateID]) REFERENCES [dbo].[postingTemplate] ([postingTemplateID]),
+    CONSTRAINT [FK_postingTemplateQuestion_question] FOREIGN KEY ([questionID]) REFERENCES [dbo].[question] ([questionID])
+
+GO
+    
+PRINT N'Altering [dbo].[PricingGroups]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[pricingSummary]...';
+GO
+
+
+ALTER TABLE [dbo].[pricingSummary] ADD
+    CONSTRAINT [FK_pricingestimate_pricingestimate] FOREIGN KEY ([PricingSummaryID], [PricingSummaryRevision]) REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision])
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Payment processing fees price', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'pricingSummary', @level2type = N'COLUMN', @level2name = N'ServiceFeeAmount';
+
+
+GO
+    
+PRINT N'Altering [dbo].[pricingSummaryDetail]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[pricingtype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[PricingVariableDefinition]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[PricingVariableValue]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[providerpackage]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[providerpackagedetail]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[ProviderPaymentAccount]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[providerpaymentpreference]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[providerpaymentpreferencetype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[providerservicephoto]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[providertaxform]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[question]...';
+GO
+
+
+ALTER TABLE [dbo].[question] ADD
+    CONSTRAINT [FK_question_questionType] FOREIGN KEY ([questionTypeID]) REFERENCES [dbo].[questionType] ([questionTypeID])
+
+GO
+    
+PRINT N'Altering [dbo].[questionType]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[ReferralSource]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[SearchCategory]...';
+GO
+
+
+ALTER TABLE [dbo].[SearchCategory] ADD
+    CONSTRAINT [FK_SearchCategory_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[SearchSubCategory]...';
+GO
+
+
+ALTER TABLE [dbo].[SearchSubCategory] ADD
+    CONSTRAINT [FK_SearchSubCategory_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID]),
+    CONSTRAINT [FK_SearchSubCategory_SearchCategory] FOREIGN KEY ([SearchCategoryID], [LanguageID], [CountryID]) REFERENCES [dbo].[SearchCategory] ([SearchCategoryID], [LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[SearchSubCategorySolution]...';
+GO
+
+
+ALTER TABLE [dbo].[SearchSubCategorySolution] ADD
+    CONSTRAINT [FK_SearchSubCategorySolution_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID]),
+    CONSTRAINT [FK_SearchSubCategorySolution_SearchSubCategory] FOREIGN KEY ([SearchSubCategoryID], [LanguageID], [CountryID]) REFERENCES [dbo].[SearchSubCategory] ([SearchSubCategoryID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_SearchSubCategorySolution_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[serviceaddress]...';
+GO
+
+
+ALTER TABLE [dbo].[serviceaddress] ADD
+    CONSTRAINT [FK__servicead__UserI__56F3D4A3] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[serviceattribute]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[serviceattributecategory]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[ServiceAttributeExperienceLevel]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[ServiceAttributeLanguageLevel]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[servicecategory]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[servicecategoryposition]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[servicecategorypositionattribute]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[ServiceProfessionalClient]...';
+GO
+
+
+ALTER TABLE [dbo].[ServiceProfessionalClient] ADD
+    CONSTRAINT [FK_ProviderCustomer_ReferralSource] FOREIGN KEY ([ReferralSourceID]) REFERENCES [dbo].[ReferralSource] ([ReferralSourceID]),
+    CONSTRAINT [FK_ProviderCustomer_users] FOREIGN KEY ([ServiceProfessionalUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK_ProviderCustomer_users1] FOREIGN KEY ([ClientUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK_ServiceProfessionalClient_booking] FOREIGN KEY ([CreatedByBookingID]) REFERENCES [dbo].[booking] ([BookingID])
+
+GO
+    
+PRINT N'Altering [dbo].[servicesubcategory]...';
+GO
+
+
+ALTER TABLE [dbo].[servicesubcategory] ADD
+    CONSTRAINT [FK_servicesubcategory_servicecategory] FOREIGN KEY ([ServiceCategoryID], [LanguageID], [CountryID]) REFERENCES [dbo].[servicecategory] ([ServiceCategoryID], [LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[Solution]...';
+GO
+
+
+ALTER TABLE [dbo].[Solution] ADD
+    CONSTRAINT [FK_Solution_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[Specialization]...';
+GO
+
+
+ALTER TABLE [dbo].[Specialization] ADD
+    CONSTRAINT [FK_Specialization_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
+
+GO
+    
+PRINT N'Altering [dbo].[stateprovince]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[taxentitytype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[tintype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[Tmp_users]...';
+GO
+
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Is a contributor developer with access to some parts before only for admins like ''test'' pages', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'Tmp_users', @level2type = N'COLUMN', @level2name = N'IsContributor';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Optional field for customer users created by freelancers when adding them to their clients list. The referredByUserID is a freelancer that created, and can edit, the record (until the customer enables its marketplace account, this field value is preserved but status change)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'Tmp_users', @level2type = N'COLUMN', @level2name = N'ReferredByUserID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Choosen device from list on the signup form', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'Tmp_users', @level2type = N'COLUMN', @level2name = N'SignupDevice';
+
+
+GO
+    
+PRINT N'Altering [dbo].[transporttype]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[UserAlert]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[userbackgroundcheck]...';
+GO
+
+
+ALTER TABLE [dbo].[userbackgroundcheck] ADD
+    CONSTRAINT [FK__userbackg__Provi__4BB72C21] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[UserBadge]...';
+GO
+
+
+ALTER TABLE [dbo].[UserBadge] ADD
+    CONSTRAINT [FK_UserBadge_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_UserBadge_UserBadge] FOREIGN KEY ([UserBadgeID]) REFERENCES [dbo].[UserBadge] ([UserBadgeID]),
+    CONSTRAINT [FK_UserBadge_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Special value ''user'' means createdy by the userID', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserBadge', @level2type = N'COLUMN', @level2name = N'CreatedBy';
+
+
+GO
+    
+PRINT N'Altering [dbo].[UserEarnings]...';
+GO
+
+
+ALTER TABLE [dbo].[UserEarnings] ADD
+    CONSTRAINT [FK_UserEarnings_UserEarnings] FOREIGN KEY ([UserEarningsID]) REFERENCES [dbo].[UserEarnings] ([UserEarningsID]),
+    CONSTRAINT [FK_UserEarnings_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK_UserEarnings_users1] FOREIGN KEY ([ClientID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[UserEarningsEntry]...';
+GO
+
+
+ALTER TABLE [dbo].[UserEarningsEntry] ADD
+    CONSTRAINT [FK_UserEarningsEntry_ServiceProfessionalClient] FOREIGN KEY ([UserID], [ClientUserID]) REFERENCES [dbo].[ServiceProfessionalClient] ([ServiceProfessionalUserID], [ClientUserID]),
+    CONSTRAINT [FK_UserEarningsEntry_UserExternalListing] FOREIGN KEY ([UserExternalListingID]) REFERENCES [dbo].[UserExternalListing] ([UserExternalListingID]),
+    CONSTRAINT [FK_UserEarningsEntry_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[usereducation]...';
+GO
+
+
+ALTER TABLE [dbo].[usereducation] ADD
+    CONSTRAINT [FK__usereduca__Insti__2D12A970] FOREIGN KEY ([InstitutionID]) REFERENCES [dbo].[institution] ([InstitutionID]),
+    CONSTRAINT [FK__usereduca__UserI__2C1E8537] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[UserExternalListing]...';
+GO
+
+
+ALTER TABLE [dbo].[UserExternalListing] ADD
+    CONSTRAINT [FK_UserExternalListing_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'JSON array with { jobTitleID: jobTitleSingularName }', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserExternalListing', @level2type = N'COLUMN', @level2name = N'JobTitles';
+
+
+GO
+    
+PRINT N'Altering [dbo].[UserFeePayments]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[UserLicenseCertifications]...';
+GO
+
+
+ALTER TABLE [dbo].[UserLicenseCertifications] ADD
+    CONSTRAINT [FK_userlicen__ProviderUserID] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID]),
+    CONSTRAINT [FK__userlicen__Provi__5B045CA9] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[UserListingSpecialization]...';
+GO
+
+
+ALTER TABLE [dbo].[UserListingSpecialization] ADD
+    CONSTRAINT [FK_UserListingSpecialization_Specialization] FOREIGN KEY ([SpecializationID], [LanguageID], [CountryID]) REFERENCES [dbo].[Specialization] ([SpecializationID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_UserListingSpecialization_userprofilepositions] FOREIGN KEY ([UserListingID]) REFERENCES [dbo].[userprofilepositions] ([UserListingID]),
+    CONSTRAINT [FK_UserListingSpecialization_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[userOrganization]...';
+GO
+
+
+ALTER TABLE [dbo].[userOrganization] ADD
+    CONSTRAINT [FK_userOrganization_users] FOREIGN KEY ([userID]) REFERENCES [dbo].[users] ([UserID]) ON DELETE CASCADE ON UPDATE CASCADE
+
+GO
+    
+PRINT N'Altering [dbo].[UserPaymentPlan]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[UserPosting]...';
+GO
+
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Comma separated list of integers (JSON like but don''t need to be surrounded by square brackets)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserPosting', @level2type = N'COLUMN', @level2name = N'neededSpecializationIDs';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Comma separated list of integers (JSON like but don''t need to be surrounded by square brackets)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserPosting', @level2type = N'COLUMN', @level2name = N'desiredSpecializationIDs';
+
+
+GO
+    
+PRINT N'Altering [dbo].[UserPostingQuestionResponse]...';
+GO
+
+
+ALTER TABLE [dbo].[UserPostingQuestionResponse] ADD
+    CONSTRAINT [FK_UserPostingQuestionResponse_question] FOREIGN KEY ([questionID]) REFERENCES [dbo].[question] ([questionID]),
+    CONSTRAINT [FK_UserPostingQuestionResponse_questionType] FOREIGN KEY ([questionTypeID]) REFERENCES [dbo].[questionType] ([questionTypeID]),
+    CONSTRAINT [FK_UserPostingQuestionResponse_UserPosting] FOREIGN KEY ([userPostingID]) REFERENCES [dbo].[UserPosting] ([userPostingID])
+
+GO
+    
+PRINT N'Altering [dbo].[UserPostingReaction]...';
+GO
+
+
+ALTER TABLE [dbo].[UserPostingReaction] ADD
+    CONSTRAINT [FK_UserPostingReaction_UserPosting] FOREIGN KEY ([userPostingID]) REFERENCES [dbo].[UserPosting] ([userPostingID]),
+    CONSTRAINT [FK_UserPostingReaction_users] FOREIGN KEY ([serviceProfessionalUserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[userprofile]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[userprofilepositions]...';
+GO
+
+
+ALTER TABLE [dbo].[userprofilepositions] ADD
+    CONSTRAINT [FK_userprofilepositions_accountstatus] FOREIGN KEY ([StatusID]) REFERENCES [dbo].[accountstatus] ([AccountStatusID]),
+    CONSTRAINT [FK_userprofilepositions_positions] FOREIGN KEY ([PositionID], [LanguageID], [CountryID]) REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_userprofilepositions_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_userprofilepositions]
+    ON [dbo].[userprofilepositions]([UserID] ASC, [PositionID] ASC, [LanguageID] ASC, [CountryID] ASC);
+
+
+GO
+-- =============================================
+-- Author:		Iago Lorenzo Salgueiro
+-- Create date: 2012-06-01
+-- Description:	Execute all user tests on insert
+--  to active all the alerts
+-- =============================================
+CREATE TRIGGER trigInitialProviderPositionAlertTest
+   ON  dbo.userprofilepositions
+   AFTER INSERT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	DECLARE @UserID int, @PositionID int
+
+	SELECT @UserID = UserID, @PositionID = PositionID FROM INSERTED
+
+    EXEC TestAllUserAlerts @UserID, @PositionID
+
+END
+
+GO
+    
+PRINT N'Altering [dbo].[userprofileserviceattributes]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[UserReviews]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[UserReviewScores]...';
+GO
+
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Average of total ratings for Rating1 value', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserReviewScores', @level2type = N'COLUMN', @level2name = N'Rating1';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Average of total ratings for Rating1 value', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserReviewScores', @level2type = N'COLUMN', @level2name = N'Rating2';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Average of total ratings for Rating1 value', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserReviewScores', @level2type = N'COLUMN', @level2name = N'Rating3';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Average of total ratings for Rating1 value', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserReviewScores', @level2type = N'COLUMN', @level2name = N'Rating4';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Number of ratings with a positive answer in Answer1 (value 1, true, yes)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserReviewScores', @level2type = N'COLUMN', @level2name = N'Answer1';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Number of ratings with a positive answer in Answer2 (value 1, true, yes)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'UserReviewScores', @level2type = N'COLUMN', @level2name = N'Answer2';
+
+
+GO
+    
+PRINT N'Altering [dbo].[users]...';
+GO
+
+
+ALTER TABLE [dbo].[users] ADD
+    CONSTRAINT [FK_users_accountstatus] FOREIGN KEY ([AccountStatusID]) REFERENCES [dbo].[accountstatus] ([AccountStatusID]),
+    CONSTRAINT [FK_users_OwnerStatus] FOREIGN KEY ([OwnerStatusID]) REFERENCES [dbo].[OwnerStatus] ([OwnserStatusID])
+
+GO
+-- =============================================
+-- Author:		Iago Lorenzo Salgueiro
+-- Create date: 2012-06-01
+-- Description:	Execute all user tests on insert
+--  to active all the alerts
+-- =============================================
+CREATE TRIGGER trigInitialUserAlertTest
+   ON  dbo.users
+   AFTER INSERT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	DECLARE @UserID int
+
+	SELECT @UserID = UserID FROM INSERTED
+
+    EXEC TestAllUserAlerts @UserID
+
+END
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Optional field for customer users created by freelancers when adding them to their clients list. The referredByUserID is a freelancer that created, and can edit, the record (until the customer enables its marketplace account, this field value is preserved but status change)', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'users', @level2type = N'COLUMN', @level2name = N'ReferredByUserID';
+
+
+GO
+EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'Choosen device from list on the signup form', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'users', @level2type = N'COLUMN', @level2name = N'SignupDevice';
+
+
+GO
+    
+PRINT N'Altering [dbo].[usersignup]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[UserSolution]...';
+GO
+
+
+ALTER TABLE [dbo].[UserSolution] ADD
+    CONSTRAINT [FK_UserSolution_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_UserSolution_userprofilepositions] FOREIGN KEY ([UserListingID]) REFERENCES [dbo].[userprofilepositions] ([UserListingID]),
+    CONSTRAINT [FK_UserSolution_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[UserStats]...';
+GO
+
+ALTER TABLE [dbo].[UserStats] ADD
+    CONSTRAINT [FK_UserStats_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
+
+GO
+    
+PRINT N'Altering [dbo].[userverification]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[verification]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[verificationcategory]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[verificationstatus]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[VOCElement]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[VOCExperienceCategory]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[VOCFeedback]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[VOCFlag]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[VOCScores]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[webpages_FacebookCredentials]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[webpages_Membership]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[webpages_OAuthMembership]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[webpages_Roles]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[webpages_UsersInRoles]...';
+GO
+
+
+ALTER TABLE [dbo].[webpages_UsersInRoles] ADD
+    CONSTRAINT [fk_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[webpages_Roles] ([RoleId]),
+    CONSTRAINT [fk_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[userprofile] ([UserId])
+
+GO
+    
+PRINT N'Altering [dbo].[xJobTitlePricing]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[xJobTitleReviewRules]...';
+GO
+
+GO
+    
+PRINT N'Altering [dbo].[xServiceProfessionalPricing]...';
+GO
+
+GO
+    
+
+PRINT N'Creating [dbo].[fx_concat]...';
 GO
 
 /* Iago Lorenzo Salgueiro:
@@ -90,10 +3875,8 @@ BEGIN
 END
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[fx_concatBothOrNothing]    Script Date: 11/8/18 3:10:34 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[fx_concatBothOrNothing]...';
 GO
 /* Iago Lorenzo Salgueiro:
  * Concat two strings with a nexus
@@ -119,15 +3902,13 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[fx_IfNW]    Script Date: 11/8/18 3:10:34 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[fx_IfNW]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
--- Description:	Returns the @value if is not
+-- Description:	Returns the @value if is not 
 -- null, not empty and not a white spaces string
 -- In that cases, the @default value is returned
 -- Default can be null, empty, whitespaces
@@ -154,10 +3935,8 @@ BEGIN
 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[fxCheckAlertAffectsUser]    Script Date: 11/8/18 3:10:34 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[fxCheckAlertAffectsUser]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -177,24 +3956,22 @@ AS BEGIN
 	DECLARE @AlertTypeID int
 	SELECT @IsProvider = IsProvider FROM Users WHERE UserID = @UserID
 	SELECT @IsCustomer = IsCustomer FROM Users WHERE UserID = @UserID
-
+	
 	DECLARE @Checked bit
 	SET @Checked = Cast (0 As bit)
-
+	
 	IF @IsProvider = 1 AND @AlertID IN (SELECT AlertID FROM Alert WHERE ProviderAlert = 1)
 		SET @Checked = Cast (1 As bit)
 	IF @IsCustomer = 1 AND @AlertID IN (SELECT AlertID FROM Alert WHERE CustomerAlert = 1)
 		SET @Checked = Cast (1 As bit)
-
+		
 	RETURN @Checked
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPositionString]    Script Date: 11/8/18 3:10:34 PM ******/
-SET ANSI_NULLS ON
+        
+PRINT N'Creating [dbo].[GetPositionString]...';
 GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE FUNCTION [dbo].[GetPositionString] ( @UserID INT,@LangaugeID INT, @CountryID INT, @PositionCnt INT )
+CREATE FUNCTION dbo.GetPositionString ( @UserID INT,@LangaugeID INT, @CountryID INT, @PositionCnt INT )
 
 RETURNS VARCHAR(8000) AS BEGIN
 
@@ -205,23 +3982,23 @@ RETURNS VARCHAR(8000) AS BEGIN
           JOIN dbo.userprofilepositions up
               on a.positionid = up.PositionID
               AND a.LanguageID = up.LanguageID
-              AND a.CountryID = up.CountryID
+              AND a.CountryID = up.CountryID 
         WHERE up.UserID = @UserID and up.LanguageID = @LangaugeID and up.CountryID = @CountryID
-
-
+        
+              
            AND @PositionCnt = ( SELECT COUNT(*) FROM positions a2
                           JOIN dbo.userprofilepositions up2
                           on a2.positionid = up2.PositionID
                           AND a2.LanguageID = up2.LanguageID
-                          AND a2.CountryID = up2.CountryID
-
+                          AND a2.CountryID = up2.CountryID 
+                          
                        WHERE up.UserID = up2.UserID
-                         AND a.PositionSingular <= a2.PositionSingular
+                         AND a.PositionSingular <= a2.PositionSingular 
                          AND up.LanguageID = up2.LanguageID
                          AND up.CountryID = up2.CountryID
-
-
-
+                          
+                         
+                         
                     ) ;
         IF @PositionCnt > 0 BEGIN
               EXEC @l = dbo.GetPositionString @UserID,@LangaugeID,@CountryID, @PositionCnt ;
@@ -230,10 +4007,8 @@ END
 RETURN @r ;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[isMarketplacePaymentAccountActive]    Script Date: 11/8/18 3:10:34 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[isMarketplacePaymentAccountActive]...';
 GO
 
 -- =============================================
@@ -243,7 +4018,7 @@ GO
 -- to collect payments on the marketplace
 -- bookings for a given userID is active.
 -- =============================================
-CREATE FUNCTION [dbo].[isMarketplacePaymentAccountActive]
+CREATE FUNCTION isMarketplacePaymentAccountActive
 (
 	@userID int
 )
@@ -268,3252 +4043,11 @@ BEGIN
 
 END
 GO
-/****** Object:  Table [dbo].[accountstatus]    Script Date: 11/8/18 3:10:34 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[accountstatus](
-	[AccountStatusID] [int] NOT NULL,
-	[AccountStatusName] [varchar](25) NOT NULL,
-	[AccountStatusDescription] [varchar](200) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[AccountStatusID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[address]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[address](
-	[AddressID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[AddressTypeID] [int] NOT NULL,
-	[AddressName] [varchar](50) NOT NULL,
-	[AddressLine1] [varchar](100) NOT NULL,
-	[AddressLine2] [varchar](100) NULL,
-	[City] [varchar](100) NOT NULL,
-	[StateProvinceID] [int] NOT NULL,
-	[PostalCodeID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Latitude] [float] NULL,
-	[Longitude] [float] NULL,
-	[GoogleMapsURL] [varchar](2073) NULL,
-	[SpecialInstructions] [varchar](1000) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NULL,
-	[CreatedBy] [int] NOT NULL,
- CONSTRAINT [PK_address_1] PRIMARY KEY CLUSTERED
-(
-	[AddressID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[addresstype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[addresstype](
-	[AddressTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[AddressType] [varchar](50) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[UniquePerUser] [bit] NOT NULL,
-	[Selectable] [bit] NOT NULL,
- CONSTRAINT [PK__addresst__9E7638F92C88998B] PRIMARY KEY CLUSTERED
-(
-	[AddressTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[alert]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[alert](
-	[AlertID] [int] NOT NULL,
-	[AlertTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[AlertName] [varchar](30) NOT NULL,
-	[AlertHeadlineDisplay] [varchar](100) NULL,
-	[AlertTextDisplay] [varchar](300) NOT NULL,
-	[AlertDescription] [varchar](500) NULL,
-	[AlertEmailText] [varchar](25) NULL,
-	[ProviderProfileCompletePoints] [int] NOT NULL,
-	[CustomerProfileCompletePoints] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[AlertPageURL] [varchar](2000) NULL,
-	[Required] [bit] NOT NULL,
-	[PositionSpecific] [bit] NOT NULL,
-	[DisplayRank] [int] NOT NULL,
-	[ProviderAlert] [bit] NOT NULL,
-	[CustomerAlert] [bit] NOT NULL,
-	[bookMeButtonRequired] [bit] NOT NULL,
- CONSTRAINT [PK__alert__AAFF8BB7025D5595] PRIMARY KEY CLUSTERED
-(
-	[AlertID] ASC,
-	[AlertTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[alerttype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[alerttype](
-	[AlertTypeID] [int] NOT NULL,
-	[AlertTypeName] [varchar](200) NOT NULL,
-	[AlertTypeDescription] [varchar](200) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[DisplayRank] [int] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[AlertTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[authorizations]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[authorizations](
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[Token] [varchar](216) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[Scope] [varchar](100) NOT NULL,
-	[CreatedDate] [datetimeoffset](0) NOT NULL,
-	[DeletedDate] [datetimeoffset](0) NULL,
-	[ClientAddress] [varchar](64) NULL,
-	[UserAgent] [text] NULL,
-PRIMARY KEY CLUSTERED
-(
-	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[backgroundcheck]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[backgroundcheck](
-	[BackgroundCheckID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[BackgroundCheckName] [varchar](100) NOT NULL,
-	[BackgroundCheckDescription] [varchar](1000) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[BackGroundCheckPrice] [decimal](5, 2) NULL,
-PRIMARY KEY CLUSTERED
-(
-	[BackgroundCheckID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[booking]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[booking](
-	[BookingID] [int] IDENTITY(1,1) NOT NULL,
-	[ClientUserID] [int] NULL,
-	[ServiceProfessionalUserID] [int] NULL,
-	[JobTitleID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[BookingStatusID] [int] NOT NULL,
-	[BookingTypeID] [int] NOT NULL,
-	[CancellationPolicyID] [int] NOT NULL,
-	[ParentBookingID] [int] NULL,
-	[ServiceAddressID] [int] NULL,
-	[ServiceDateID] [int] NULL,
-	[AlternativeDate1ID] [int] NULL,
-	[AlternativeDate2ID] [int] NULL,
-	[PricingSummaryID] [int] NOT NULL,
-	[PricingSummaryRevision] [int] NOT NULL,
-	[PaymentTransactionID] [varchar](250) NULL,
-	[PaymentLastFourCardNumberDigits] [varchar](64) NULL,
-	[paymentMethodID] [varchar](250) NULL,
-	[cancellationPaymentTransactionID] [varchar](250) NULL,
-	[ClientPayment] [decimal](25, 2) NULL,
-	[ServiceProfessionalPaid] [decimal](25, 2) NULL,
-	[ServiceProfessionalPPFeePaid] [decimal](25, 2) NULL,
-	[LoconomicsPaid] [decimal](25, 2) NULL,
-	[LoconomicsPPFeePaid] [decimal](25, 2) NULL,
-	[InstantBooking] [bit] NOT NULL,
-	[FirstTimeBooking] [bit] NOT NULL,
-	[SendReminder] [bit] NOT NULL,
-	[SendPromotional] [bit] NOT NULL,
-	[Recurrent] [bit] NOT NULL,
-	[MultiSession] [bit] NOT NULL,
-	[PricingAdjustmentApplied] [bit] NOT NULL,
-	[PaymentEnabled] [bit] NOT NULL,
-	[PaymentCollected] [bit] NOT NULL,
-	[PaymentAuthorized] [bit] NOT NULL,
-	[AwaitingResponseFromUserID] [int] NULL,
-	[PricingAdjustmentRequested] [bit] NOT NULL,
-	[SupportTicketNumber] [varchar](200) NULL,
-	[MessagingLog] [nvarchar](400) NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[SpecialRequests] [text] NULL,
-	[PreNotesToClient] [text] NULL,
-	[PostNotesToClient] [text] NULL,
-	[PreNotesToSelf] [text] NULL,
-	[PostNotesToSelf] [text] NULL,
- CONSTRAINT [PK__booking__bookingIDKey] PRIMARY KEY CLUSTERED
-(
-	[BookingID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[bookingStatus]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[bookingStatus](
-	[BookingStatusID] [int] NOT NULL,
-	[BookingStatusName] [varchar](50) NOT NULL,
-	[BookingStatusDescription] [varchar](500) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[BookingStatusID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[bookingType]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[bookingType](
-	[BookingTypeID] [int] NOT NULL,
-	[BookingTypeName] [varchar](50) NOT NULL,
-	[BookingTypeDescription] [varchar](500) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[FirstTimeServiceFeeFixed] [decimal](5, 2) NOT NULL,
-	[FirstTimeServiceFeePercentage] [decimal](5, 2) NOT NULL,
-	[PaymentProcessingFeePercentage] [decimal](5, 2) NOT NULL,
-	[PaymentProcessingFeeFixed] [decimal](5, 2) NOT NULL,
-	[FirstTimeServiceFeeMaximum] [decimal](5, 2) NOT NULL,
-	[FirstTimeServiceFeeMinimum] [decimal](5, 2) NOT NULL,
- CONSTRAINT [PK__bookingt__649EC4B15090EFD7] PRIMARY KEY CLUSTERED
-(
-	[BookingTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarAvailabilityType]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarAvailabilityType](
-	[CalendarAvailabilityTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CalendarAvailabilityTypeName] [nvarchar](50) NOT NULL,
-	[CalendarAvailabilityTypeDescription] [nvarchar](300) NOT NULL,
-	[UserDescription] [varchar](500) NULL,
-	[AddAppointmentType] [bit] NOT NULL,
-	[SelectableAs] [nvarchar](50) NULL,
- CONSTRAINT [PK_CalendarAvailabilityType_1] PRIMARY KEY CLUSTERED
-(
-	[CalendarAvailabilityTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventComments]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventComments](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[IdEvent] [int] NOT NULL,
-	[Comment] [nvarchar](max) NULL,
- CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventExceptionsPeriod]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventExceptionsPeriod](
-	[IdException] [int] NOT NULL,
-	[DateStart] [datetimeoffset](0) NOT NULL,
-	[DateEnd] [datetimeoffset](0) NULL,
- CONSTRAINT [PK_CalendarEventExceptionsPeriod] PRIMARY KEY CLUSTERED
-(
-	[IdException] ASC,
-	[DateStart] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventExceptionsPeriodsList]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventExceptionsPeriodsList](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[IdEvent] [int] NOT NULL,
- CONSTRAINT [PK_CalendarEventExceptions] PRIMARY KEY CLUSTERED
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventRecurrencesPeriod]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventRecurrencesPeriod](
-	[IdRecurrence] [int] NOT NULL,
-	[DateStart] [datetimeoffset](0) NOT NULL,
-	[DateEnd] [datetimeoffset](0) NULL,
- CONSTRAINT [PK_CalendarEventRecurrencesPeriod_1] PRIMARY KEY CLUSTERED
-(
-	[IdRecurrence] ASC,
-	[DateStart] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventRecurrencesPeriodList]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventRecurrencesPeriodList](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[IdEvent] [int] NOT NULL,
- CONSTRAINT [PK_CalendarEventRecurrenceDates] PRIMARY KEY CLUSTERED
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEvents]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEvents](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[UserId] [int] NOT NULL,
-	[EventType] [int] NOT NULL,
-	[Summary] [varchar](500) NULL,
-	[StarTtime] [datetimeoffset](0) NULL,
-	[EndTime] [datetimeoffset](0) NULL,
-	[UID] [varchar](150) NULL,
-	[CalendarAvailabilityTypeID] [int] NOT NULL,
-	[Transparency] [bit] NOT NULL,
-	[IsAllDay] [bit] NOT NULL,
-	[StampTime] [datetimeoffset](0) NULL,
-	[TimeZone] [nvarchar](100) NULL,
-	[Priority] [int] NULL,
-	[Location] [nvarchar](100) NULL,
-	[UpdatedDate] [datetimeoffset](0) NULL,
-	[CreatedDate] [datetimeoffset](0) NULL,
-	[ModifyBy] [nvarchar](50) NULL,
-	[Class] [nvarchar](50) NULL,
-	[Organizer] [nvarchar](max) NULL,
-	[Sequence] [int] NULL,
-	[Geo] [nvarchar](100) NULL,
-	[RecurrenceId] [datetimeoffset](0) NULL,
-	[TimeBlock] [time](7) NULL,
-	[DayofWeek] [int] NULL,
-	[Description] [nvarchar](max) NULL,
-	[Deleted] [datetimeoffset](0) NULL,
- CONSTRAINT [PK_CalendarEvents] PRIMARY KEY CLUSTERED
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventsAttendees]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventsAttendees](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[IdEvent] [int] NOT NULL,
-	[Attendee] [nvarchar](max) NULL,
-	[Role] [nvarchar](50) NULL,
-	[Uri] [nvarchar](200) NULL,
- CONSTRAINT [PK_CalendarEventsAttendees] PRIMARY KEY CLUSTERED
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventsContacts]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventsContacts](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[IdEvent] [int] NOT NULL,
-	[Contact] [nvarchar](500) NULL,
- CONSTRAINT [PK_CalendarEventsContacts] PRIMARY KEY CLUSTERED
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarEventType]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarEventType](
-	[EventTypeId] [int] NOT NULL,
-	[EventType] [nvarchar](100) NULL,
-	[Description] [nvarchar](max) NULL,
-	[DisplayName] [nvarchar](100) NULL,
- CONSTRAINT [PK_EventType] PRIMARY KEY CLUSTERED
-(
-	[EventTypeId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarProviderAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarProviderAttributes](
-	[UserID] [int] NOT NULL,
-	[AdvanceTime] [decimal](10, 2) NOT NULL,
-	[MinTime] [decimal](10, 2) NOT NULL,
-	[MaxTime] [decimal](10, 2) NOT NULL,
-	[BetweenTime] [decimal](10, 2) NOT NULL,
-	[UseCalendarProgram] [bit] NOT NULL,
-	[CalendarType] [varchar](200) NULL,
-	[CalendarURL] [varchar](500) NULL,
-	[PrivateCalendarToken] [varchar](128) NULL,
-	[IncrementsSizeInMinutes] [int] NOT NULL,
-	[TimeZone] [varchar](50) NULL,
- CONSTRAINT [PK__Calendar__1788CCAC22B5168E] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarReccurrence]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarReccurrence](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[EventID] [int] NULL,
-	[Count] [int] NULL,
-	[EvaluationMode] [nvarchar](50) NULL,
-	[Frequency] [int] NULL,
-	[Interval] [int] NULL,
-	[RestristionType] [int] NULL,
-	[Until] [datetimeoffset](0) NULL,
-	[FirstDayOfWeek] [int] NULL,
- CONSTRAINT [PK_CalendarReccursive] PRIMARY KEY CLUSTERED
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarReccurrenceFrequency]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarReccurrenceFrequency](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[CalendarReccursiveID] [int] NULL,
-	[ByDay] [bit] NULL,
-	[ByHour] [bit] NULL,
-	[ByMinute] [bit] NULL,
-	[ByMonth] [bit] NULL,
-	[ByMonthDay] [bit] NULL,
-	[BySecond] [bit] NULL,
-	[BySetPosition] [bit] NULL,
-	[ByWeekNo] [bit] NULL,
-	[ByYearDay] [bit] NULL,
-	[ExtraValue] [int] NULL,
-	[FrequencyDay] [int] NULL,
-	[DayOfWeek] [int] NULL,
- CONSTRAINT [PK_CalendarRecurrence] PRIMARY KEY CLUSTERED
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CalendarRecurrenceFrequencyTypes]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CalendarRecurrenceFrequencyTypes](
-	[ID] [int] NOT NULL,
-	[FrequencyType] [nvarchar](30) NULL,
-	[UnitPlural] [nvarchar](30) NULL,
- CONSTRAINT [PK_CalendarRecurrenceFrequencyTypes] PRIMARY KEY CLUSTERED
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[cancellationpolicy]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[cancellationpolicy](
-	[CancellationPolicyID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CancellationPolicyName] [varchar](50) NOT NULL,
-	[CancellationPolicyDescription] [varchar](1000) NULL,
-	[HoursRequired] [int] NULL,
-	[CancellationFeeAfter] [decimal](5, 2) NULL,
-	[CancellationFeeBefore] [decimal](5, 2) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK__cancella__4BAA8CCE7A0806B6] PRIMARY KEY CLUSTERED
-(
-	[CancellationPolicyID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CCCUsers]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CCCUsers](
-	[UserID] [int] NOT NULL,
-	[InstitutionID] [int] NULL,
-	[FieldOfStudyID] [int] NULL,
-	[PlanExpirationDate] [datetime] NULL,
-	[UserType] [varchar](25) NULL,
-	[StudentID] [int] NULL,
-PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[clienttype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[clienttype](
-	[CllientTypeID] [int] NOT NULL,
-	[ClientTypeName] [varchar](50) NOT NULL,
-	[ClientTypeDescription] [varchar](500) NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[CllientTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[country]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[country](
-	[CountryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryName] [varchar](100) NOT NULL,
-	[CountryCode] [varchar](3) NOT NULL,
-	[CountryCodeAlpha2] [char](2) NULL,
-	[CountryCallingCode] [varchar](3) NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](25) NULL,
-	[Active] [bit] NOT NULL,
-	[numcode] [int] NULL,
- CONSTRAINT [PK__country__BB42E5E768D28DBC] PRIMARY KEY CLUSTERED
-(
-	[CountryID] ASC,
-	[LanguageID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[county]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[county](
-	[CountyID] [int] NOT NULL,
-	[CountyName] [varchar](100) NULL,
-	[FIPSCode] [int] NULL,
-	[StateProvinceID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[CountyID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ExperienceLevel]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ExperienceLevel](
-	[ExperienceLevelID] [int] IDENTITY(1,1) NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[ExperienceLevelName] [varchar](140) NOT NULL,
-	[ExperienceLevelDescription] [varchar](140) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
- CONSTRAINT [PK__Experien__2F4E34695728DECD] PRIMARY KEY CLUSTERED
-(
-	[ExperienceLevelID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[FieldOfStudy]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[FieldOfStudy](
-	[FieldOfStudyID] [int] IDENTITY(1,1) NOT NULL,
-	[FieldOfStudyName] [varchar](50) NOT NULL,
-	[CCCTOPCode] [int] NULL,
-	[LanguageID] [int] NULL,
-	[CountryID] [int] NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](10) NULL,
-PRIMARY KEY CLUSTERED
-(
-	[FieldOfStudyID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Gender]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Gender](
-	[GenderID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[GenderSingular] [nvarchar](16) NOT NULL,
-	[GenderPlural] [nvarchar](16) NOT NULL,
-	[SubjectPronoun] [varchar](25) NULL,
-	[ObjectPronoun] [varchar](25) NULL,
-	[PossesivePronoun] [varchar](25) NULL,
- CONSTRAINT [PK_Gender] PRIMARY KEY CLUSTERED
-(
-	[GenderID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[institution]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[institution](
-	[InstitutionID] [int] IDENTITY(1,1) NOT NULL,
-	[DeptOfEdInstitutionID] [varchar](25) NULL,
-	[InstitutionName] [varchar](200) NOT NULL,
-	[InstitutionAddress] [varchar](200) NULL,
-	[InstitutionCity] [varchar](100) NULL,
-	[InstitutionState] [varchar](25) NULL,
-	[StateProvinceID] [int] NULL,
-	[InstitutionZip] [varchar](25) NULL,
-	[InstitutionPhone] [varchar](25) NULL,
-	[InstitutionOPEID] [varchar](25) NULL,
-	[InstitutionIPEDSUnitID] [varchar](25) NULL,
-	[InstitutionURL] [varchar](2083) NULL,
-	[CountryID] [int] NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[SchoolID] [varchar](3) NULL,
-	[DistrictName] [varchar](50) NULL,
-	[DistrictID] [varchar](3) NULL,
- CONSTRAINT [PK__institut__8DF6B94D047AA831] PRIMARY KEY CLUSTERED
-(
-	[InstitutionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[jobTitleLicense]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[jobTitleLicense](
-	[PositionID] [int] NOT NULL,
-	[LicenseCertificationID] [int] NOT NULL,
-	[StateProvinceID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Required] [bit] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[MunicipalityID] [int] NOT NULL,
-	[CountyID] [int] NOT NULL,
-	[OptionGroup] [varchar](100) NULL,
- CONSTRAINT [PK__jobTitle__5E077F7A5FC911C6] PRIMARY KEY CLUSTERED
-(
-	[PositionID] ASC,
-	[LicenseCertificationID] ASC,
-	[StateProvinceID] ASC,
-	[CountryID] ASC,
-	[MunicipalityID] ASC,
-	[CountyID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[JobTitlePlatform]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[JobTitlePlatform](
-	[JobTitleID] [int] NOT NULL,
-	[PlatformID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CreatedDate] [datetimeoffset](0) NOT NULL,
-	[UpdatedDate] [datetimeoffset](0) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_JobTitlePlatform] PRIMARY KEY CLUSTERED
-(
-	[JobTitleID] ASC,
-	[PlatformID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[JobTitleSolution]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[JobTitleSolution](
-	[JobTitleID] [int] NOT NULL,
-	[SolutionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[DefaultSelected] [bit] NULL,
-	[DisplayRank] [int] NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[JobTitleID] ASC,
-	[SolutionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[language]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[language](
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[LanguageName] [varchar](50) NOT NULL,
-	[Active] [bit] NULL,
-	[LanguageCode] [varchar](2) NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](25) NULL,
-PRIMARY KEY CLUSTERED
-(
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[languagelevel]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[languagelevel](
-	[LanguageLevelID] [int] IDENTITY(1,1) NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[LanguageLevelName] [varchar](140) NOT NULL,
-	[LanguageLevelDescription] [varchar](2000) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
- CONSTRAINT [PK__language__F5325F2353584DE9] PRIMARY KEY CLUSTERED
-(
-	[LanguageLevelID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[licensecertification]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[licensecertification](
-	[LicenseCertificationID] [int] NOT NULL,
-	[LicenseCertificationType] [varchar](100) NOT NULL,
-	[LicenseCertificationTypeDescription] [varchar](4000) NULL,
-	[LicenseCertificationAuthority] [varchar](500) NULL,
-	[VerificationWebsiteURL] [varchar](2078) NULL,
-	[HowToGetLicensedURL] [varchar](2078) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[LanguageID] [int] NOT NULL,
- CONSTRAINT [PK__licensec__65E993A46F0B5556] PRIMARY KEY CLUSTERED
-(
-	[LicenseCertificationID] ASC,
-	[LanguageID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Messages]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Messages](
-	[MessageID] [int] IDENTITY(1,1) NOT NULL,
-	[ThreadID] [int] NOT NULL,
-	[MessageTypeID] [int] NOT NULL,
-	[AuxID] [int] NULL,
-	[AuxT] [nvarchar](50) NULL,
-	[BodyText] [varchar](4000) NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NOT NULL,
-	[SentByUserId] [int] NOT NULL,
- CONSTRAINT [PK_Messages_messageID] PRIMARY KEY CLUSTERED
-(
-	[MessageID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[messagethreadstatus]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[messagethreadstatus](
-	[MessageThreadStatusID] [int] NOT NULL,
-	[MessageThreadStatusName] [varchar](25) NOT NULL,
-	[MessageThreadStatusDescription] [varchar](100) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[MessageStatusColor] [varchar](7) NOT NULL,
- CONSTRAINT [Pk_messagethreadstatus_0] PRIMARY KEY CLUSTERED
-(
-	[MessageThreadStatusID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [Pk_messagethreadstatus] UNIQUE NONCLUSTERED
-(
-	[MessageThreadStatusID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[messagetype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[messagetype](
-	[MessageTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[MessageTypeName] [varchar](50) NULL,
-	[MessageTypeDescription] [varchar](200) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[MessageTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [Pk_messagetype] UNIQUE NONCLUSTERED
-(
-	[MessageTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[MessagingThreads]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[MessagingThreads](
-	[ThreadID] [int] IDENTITY(1,1) NOT NULL,
-	[CustomerUserID] [int] NOT NULL,
-	[ProviderUserID] [int] NOT NULL,
-	[PositionID] [int] NULL,
-	[MessageThreadStatusID] [int] NOT NULL,
-	[Subject] [nvarchar](100) NULL,
-	[LastMessageID] [int] NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NOT NULL,
- CONSTRAINT [PK__Messagin__688356E41EC48A19] PRIMARY KEY CLUSTERED
-(
-	[ThreadID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[municipality]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[municipality](
-	[MunicipalityID] [int] NOT NULL,
-	[CountyID] [int] NOT NULL,
-	[MunicipalityName] [varchar](100) NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[MunicipalityID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[OwnerAcknowledgment]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[OwnerAcknowledgment](
-	[UserID] [int] NOT NULL,
-	[DateAcknowledged] [datetimeoffset](7) NOT NULL,
-	[AcknowledgedFromIP] [varchar](25) NOT NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[DetectedIPs] [varchar](200) NOT NULL,
- CONSTRAINT [PK_OwnerAcknowledgment] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[OwnerStatus]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[OwnerStatus](
-	[OwnserStatusID] [int] NOT NULL,
-	[OwnerStatusName] [varchar](50) NOT NULL,
-	[OwnerStatusDescription] [varchar](200) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[Active] [bit] NOT NULL,
-	[UpdatedBy] [varchar](3) NULL,
- CONSTRAINT [PK_OwnerStatus] PRIMARY KEY CLUSTERED
-(
-	[OwnserStatusID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[OwnerStatusHistory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[OwnerStatusHistory](
-	[UserID] [int] NOT NULL,
-	[OwnerStatusChangedDate] [datetime] NOT NULL,
-	[OwnerStatusID] [int] NOT NULL,
-	[OwnerStatusChangedBy] [varchar](3) NOT NULL,
- CONSTRAINT [PK__OwnerSta__1788CCAC7F76C749] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[OwnerStatusChangedDate] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Platform]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Platform](
-	[PlatformID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Name] [nvarchar](20) NOT NULL,
-	[ShortDescription] [nvarchar](50) NOT NULL,
-	[LongDescription] [text] NOT NULL,
-	[FeesDescription] [text] NOT NULL,
-	[PositiveAspects] [text] NOT NULL,
-	[NegativeAspects] [text] NOT NULL,
-	[Advice] [text] NOT NULL,
-	[SignUpURL] [nvarchar](255) NOT NULL,
-	[SignInURL] [nvarchar](255) NOT NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](0) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_Platform] PRIMARY KEY CLUSTERED
-(
-	[PlatformID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[positionbackgroundcheck]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[positionbackgroundcheck](
-	[PositionID] [int] NOT NULL,
-	[BackgroundCheckID] [varchar](25) NOT NULL,
-	[StateProvinceID] [varchar](25) NOT NULL,
-	[CountryID] [varchar](25) NOT NULL,
-	[Required] [bit] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[CountryID] ASC,
-	[BackgroundCheckID] ASC,
-	[PositionID] ASC,
-	[StateProvinceID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[positionpricingtype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[positionpricingtype](
-	[PositionID] [int] NOT NULL,
-	[PricingTypeID] [int] NOT NULL,
-	[ClientTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[PositionID] ASC,
-	[PricingTypeID] ASC,
-	[ClientTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[positionratings]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[positionratings](
-	[PositionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Rating1] [varchar](25) NOT NULL,
-	[Rating2] [varchar](25) NOT NULL,
-	[Rating3] [varchar](25) NOT NULL,
-	[Rating4] [varchar](25) NULL,
-	[Rating1FormDescription] [varchar](1000) NULL,
-	[Rating2FormDescription] [varchar](1000) NULL,
-	[Rating3FormDescription] [varchar](1000) NULL,
-	[Rating4FormDescription] [varchar](1000) NULL,
-	[Rating1ProfileDescription] [varchar](1000) NULL,
-	[Rating2ProfileDescription] [varchar](1000) NULL,
-	[Rating3ProfileDescription] [varchar](1000) NULL,
-	[Rating4ProfileDescription] [varchar](1000) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
- CONSTRAINT [PK__position__E3225E7D52EE3995] PRIMARY KEY CLUSTERED
-(
-	[CountryID] ASC,
-	[LanguageID] ASC,
-	[PositionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[positions]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[positions](
-	[PositionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[PositionSingular] [varchar](250) NULL,
-	[PositionPlural] [varchar](250) NULL,
-	[Aliases] [varchar](200) NULL,
-	[PositionDescription] [varchar](2000) NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](2) NULL,
-	[GovID] [varchar](20) NULL,
-	[GovPosition] [varchar](200) NULL,
-	[GovPositionDescription] [varchar](2000) NULL,
-	[Active] [bit] NULL,
-	[DisplayRank] [int] NULL,
-	[PositionSearchDescription] [varchar](1000) NULL,
-	[AttributesComplete] [bit] NOT NULL,
-	[StarRatingsComplete] [bit] NOT NULL,
-	[PricingTypeComplete] [bit] NOT NULL,
-	[EnteredByUserID] [int] NULL,
-	[Approved] [bit] NULL,
-	[AddGratuity] [int] NOT NULL,
-	[HIPAA] [bit] NOT NULL,
-	[SendReviewReminderToClient] [bit] NOT NULL,
-	[CanBeRemote] [bit] NOT NULL,
-	[SuppressReviewOfClient] [bit] NOT NULL,
- CONSTRAINT [PK_positions_1] PRIMARY KEY CLUSTERED
-(
-	[PositionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[postalcode]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[postalcode](
-	[PostalCodeID] [int] NOT NULL,
-	[PostalCode] [varchar](25) NULL,
-	[City] [varchar](250) NULL,
-	[StateProvinceID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Latitude] [float] NULL,
-	[Longitude] [float] NULL,
-	[StandardOffset] [decimal](18, 0) NULL,
-	[DST] [bit] NULL,
-	[Location] [varchar](250) NULL,
-	[PostalCodeType] [varchar](50) NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](25) NULL,
-	[MunicipalityID] [int] NOT NULL,
-	[CountyID] [int] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[PostalCodeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[postingTemplate]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[postingTemplate](
-	[postingTemplateID] [int] NOT NULL,
-	[name] [nvarchar](200) NOT NULL,
-	[languageID] [int] NOT NULL,
-	[countryID] [int] NOT NULL,
-	[createdDate] [datetimeoffset](0) NOT NULL,
-	[updatedDate] [datetimeoffset](0) NOT NULL,
-	[modifiedBy] [nchar](5) NOT NULL,
- CONSTRAINT [PK_postingTemplate] PRIMARY KEY CLUSTERED
-(
-	[postingTemplateID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[postingTemplateQuestion]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[postingTemplateQuestion](
-	[postingTemplateQuestionID] [int] IDENTITY(1,1) NOT NULL,
-	[postingTemplateID] [int] NOT NULL,
-	[questionID] [int] NOT NULL,
-	[legend] [nvarchar](150) NOT NULL,
-	[branchLogic] [text] NULL,
-	[createdDate] [datetimeoffset](0) NOT NULL,
-	[updatedDate] [datetimeoffset](0) NOT NULL,
-	[modifiedby] [nchar](5) NOT NULL,
-	[active] [tinyint] NOT NULL,
- CONSTRAINT [PK_postingTemplateQuestion] PRIMARY KEY CLUSTERED
-(
-	[postingTemplateQuestionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[PricingGroups]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[PricingGroups](
-	[PricingGroupID] [int] NOT NULL,
-	[InternalGroupName] [varchar](50) NOT NULL,
-	[SelectionTitle] [varchar](100) NOT NULL,
-	[SummaryTitle] [varchar](100) NOT NULL,
-	[DynamicSummaryTitle] [varchar](100) NOT NULL,
-	[LanguageID] [int] NULL,
-	[CountryID] [int] NULL,
- CONSTRAINT [PK_PricingGroups] PRIMARY KEY CLUSTERED
-(
-	[PricingGroupID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[pricingSummary]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[pricingSummary](
-	[PricingSummaryID] [int] NOT NULL,
-	[PricingSummaryRevision] [int] NOT NULL,
-	[ServiceDurationMinutes] [int] NULL,
-	[FirstSessionDurationMinutes] [int] NULL,
-	[SubtotalPrice] [decimal](7, 2) NULL,
-	[ClientServiceFeePrice] [decimal](7, 2) NULL,
-	[TotalPrice] [decimal](7, 2) NULL,
-	[ServiceFeeAmount] [decimal](7, 2) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[CancellationDate] [datetime] NULL,
-	[CancellationFeeCharged] [decimal](7, 2) NULL,
-	[FirstTimeServiceFeeFixed] [decimal](5, 2) NOT NULL,
-	[FirstTimeServiceFeePercentage] [decimal](5, 2) NOT NULL,
-	[PaymentProcessingFeePercentage] [decimal](5, 2) NOT NULL,
-	[PaymentProcessingFeeFixed] [decimal](5, 2) NOT NULL,
-	[FirstTimeServiceFeeMaximum] [decimal](5, 2) NOT NULL,
-	[FirstTimeServiceFeeMinimum] [decimal](5, 2) NOT NULL,
- CONSTRAINT [PK__pricinge__7F7D375D21D600EE] PRIMARY KEY CLUSTERED
-(
-	[PricingSummaryID] ASC,
-	[PricingSummaryRevision] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[pricingSummaryDetail]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[pricingSummaryDetail](
-	[PricingSummaryID] [int] NOT NULL,
-	[PricingSummaryRevision] [int] NOT NULL,
-	[ServiceProfessionalServiceID] [int] NOT NULL,
-	[ServiceProfessionalDataInput] [varchar](100) NULL,
-	[ClientDataInput] [varchar](500) NULL,
-	[HourlyPrice] [decimal](5, 2) NULL,
-	[Price] [decimal](7, 2) NULL,
-	[ServiceDurationMinutes] [int] NULL,
-	[FirstSessionDurationMinutes] [int] NULL,
-	[ServiceName] [varchar](50) NOT NULL,
-	[ServiceDescription] [varchar](1000) NULL,
-	[NumberOfSessions] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[IsRemoteService] [bit] NOT NULL,
- CONSTRAINT [PK_pricingestimatedetail_1] PRIMARY KEY CLUSTERED
-(
-	[PricingSummaryID] ASC,
-	[PricingSummaryRevision] ASC,
-	[ServiceProfessionalServiceID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[pricingtype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[pricingtype](
-	[PricingTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Description] [varchar](50) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[DisplayRank] [int] NOT NULL,
- CONSTRAINT [PK_pricingtype_PricingTypeID] PRIMARY KEY CLUSTERED
-(
-	[PricingTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [Pk_pricingtype] UNIQUE NONCLUSTERED
-(
-	[PricingTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[PricingVariableDefinition]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[PricingVariableDefinition](
-	[PricingVariableID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[PricingTypeID] [int] NOT NULL,
-	[InternalName] [varchar](60) NOT NULL,
-	[IsProviderVariable] [bit] NOT NULL,
-	[IsCustomerVariable] [bit] NOT NULL,
-	[DataType] [varchar](50) NOT NULL,
-	[VariableLabel] [nvarchar](100) NULL,
-	[VariableLabelPopUp] [nvarchar](200) NULL,
-	[VariableNameSingular] [nvarchar](60) NULL,
-	[VariableNamePlural] [nvarchar](60) NULL,
-	[NumberIncludedLabel] [nvarchar](100) NULL,
-	[NumberIncludedLabelPopUp] [nvarchar](200) NULL,
-	[HourlySurchargeLabel] [nvarchar](100) NULL,
-	[MinNumberAllowedLabel] [nvarchar](100) NULL,
-	[MinNumberAllowedLabelPopUp] [nvarchar](200) NULL,
-	[MaxNumberAllowedLabel] [nvarchar](100) NULL,
-	[MaxNumberAllowedLabelPopUp] [nvarchar](200) NULL,
-	[CalculateWithVariableID] [int] NULL,
-	[Active] [bit] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[MinMaxValuesList] [nvarchar](max) NULL,
- CONSTRAINT [PK_PricingVariableDefinition] PRIMARY KEY CLUSTERED
-(
-	[PricingVariableID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC,
-	[PositionID] ASC,
-	[PricingTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[PricingVariableValue]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[PricingVariableValue](
-	[PricingVariableID] [int] NOT NULL,
-	[ProviderPackageID] [int] NOT NULL,
-	[UserID] [int] NOT NULL,
-	[PricingEstimateID] [int] NOT NULL,
-	[PricingEstimateRevision] [int] NOT NULL,
-	[Value] [varchar](100) NOT NULL,
-	[ProviderNumberIncluded] [decimal](7, 2) NULL,
-	[ProviderMinNumberAllowed] [decimal](7, 2) NULL,
-	[ProviderMaxNumberAllowed] [decimal](7, 2) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_PricingVariableValue] PRIMARY KEY CLUSTERED
-(
-	[PricingVariableID] ASC,
-	[ProviderPackageID] ASC,
-	[UserID] ASC,
-	[PricingEstimateID] ASC,
-	[PricingEstimateRevision] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[providerpackage]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[providerpackage](
-	[ProviderPackageID] [int] IDENTITY(1,1) NOT NULL,
-	[PricingTypeID] [int] NOT NULL,
-	[ProviderUserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[ProviderPackageName] [varchar](50) NOT NULL,
-	[ProviderPackageDescription] [varchar](1000) NULL,
-	[ProviderPackagePrice] [decimal](7, 2) NULL,
-	[ProviderPackageServiceDuration] [int] NOT NULL,
-	[FirstTimeClientsOnly] [bit] NOT NULL,
-	[NumberOfSessions] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[IsAddOn] [bit] NOT NULL,
-	[PriceRate] [decimal](7, 2) NULL,
-	[PriceRateUnit] [nvarchar](30) NULL,
-	[IsPhone] [bit] NOT NULL,
-	[VisibleToClientID] [int] NOT NULL,
-	[SolutionID] [int] NOT NULL,
- CONSTRAINT [PK_providerpackage] PRIMARY KEY CLUSTERED
-(
-	[ProviderPackageID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[providerpackagedetail]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[providerpackagedetail](
-	[ProviderPackageID] [int] NOT NULL,
-	[ServiceAttributeID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_providerpackagedetail] PRIMARY KEY CLUSTERED
-(
-	[ProviderPackageID] ASC,
-	[ServiceAttributeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ProviderPaymentAccount]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ProviderPaymentAccount](
-	[ProviderUserID] [int] NOT NULL,
-	[MerchantAccountID] [nvarchar](100) NOT NULL,
-	[Status] [nvarchar](50) NOT NULL,
-	[Message] [nvarchar](400) NULL,
-	[bt_signature] [nvarchar](max) NULL,
-	[bt_payload] [nvarchar](max) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
- CONSTRAINT [PK_ProviderPaymentAccount] PRIMARY KEY CLUSTERED
-(
-	[ProviderUserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[providerpaymentpreference]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[providerpaymentpreference](
-	[ProviderUserID] [int] NOT NULL,
-	[ProviderPaymentPreferenceTypeID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[Modifiedby] [varchar](25) NOT NULL,
-	[Verified] [bit] NOT NULL,
-	[AccountName] [varchar](100) NULL,
-	[ABANumber] [numeric](9, 0) NULL,
-	[LastThreeAccountDigits] [varchar](64) NULL,
- CONSTRAINT [PK_providerpaymentpreference] PRIMARY KEY CLUSTERED
-(
-	[ProviderUserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[providerpaymentpreferencetype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[providerpaymentpreferencetype](
-	[ProviderPaymentPreferenceTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[ProviderPaymentPreferenceTypeName] [varchar](50) NOT NULL,
-	[ProviderPaymentPreferenceTypeDescription] [varchar](300) NULL,
-	[DependsOnID] [int] NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK__provider__A7C3000A031C6FA4] PRIMARY KEY CLUSTERED
-(
-	[ProviderPaymentPreferenceTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[providerservicephoto]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[providerservicephoto](
-	[ProviderServicePhotoID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[PhotoCaption] [varchar](150) NULL,
-	[PhotoAddress] [varchar](2073) NOT NULL,
-	[RankPosition] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[IsPrimaryPhoto] [bit] NOT NULL,
- CONSTRAINT [PK__servicep__D5090DBE39E294A9] PRIMARY KEY CLUSTERED
-(
-	[ProviderServicePhotoID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[providertaxform]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[providertaxform](
-	[ProviderUserID] [int] NOT NULL,
-	[FullName] [varchar](200) NOT NULL,
-	[BusinessName] [varchar](200) NULL,
-	[StreetApt] [varchar](100) NOT NULL,
-	[City] [varchar](100) NOT NULL,
-	[PostalCodeID] [int] NULL,
-	[StateProvinceID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[TaxEntityTypeID] [int] NOT NULL,
-	[ExemptPayee] [bit] NOT NULL,
-	[TINTypeID] [varchar](25) NOT NULL,
-	[Signature] [varchar](200) NOT NULL,
-	[UserIPAddress] [varchar](500) NOT NULL,
-	[DateTimeSubmitted] [datetime] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NULL,
-	[Active] [bit] NOT NULL,
-	[LastThreeTINDigits] [varchar](64) NULL,
- CONSTRAINT [PK_providertaxform] PRIMARY KEY CLUSTERED
-(
-	[ProviderUserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[question]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[question](
-	[questionID] [int] NOT NULL,
-	[questionTypeID] [int] NOT NULL,
-	[question] [nvarchar](120) NOT NULL,
-	[helpBlock] [nvarchar](300) NULL,
-	[options] [text] NOT NULL,
-	[languageID] [int] NOT NULL,
-	[countryID] [int] NOT NULL,
-	[createdDate] [datetimeoffset](0) NOT NULL,
-	[updatedDate] [datetimeoffset](0) NOT NULL,
-	[modifiedBy] [nvarchar](10) NOT NULL,
-	[label] [nvarchar](120) NOT NULL,
- CONSTRAINT [PK_question] PRIMARY KEY CLUSTERED
-(
-	[questionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[questionType]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[questionType](
-	[questionTypeID] [int] NOT NULL,
-	[name] [nvarchar](50) NOT NULL,
-	[description] [nvarchar](500) NOT NULL,
-	[createdDate] [datetimeoffset](0) NOT NULL,
-	[updatedDate] [datetimeoffset](0) NOT NULL,
-	[modifiedBy] [nvarchar](10) NOT NULL,
- CONSTRAINT [PK_questionType] PRIMARY KEY CLUSTERED
-(
-	[questionTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ReferralSource]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ReferralSource](
-	[ReferralSourceID] [int] NOT NULL,
-	[Name] [nvarchar](80) NOT NULL,
- CONSTRAINT [PK_ReferralSource] PRIMARY KEY CLUSTERED
-(
-	[ReferralSourceID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[SearchCategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SearchCategory](
-	[SearchCategoryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Name] [nvarchar](20) NOT NULL,
-	[ShortDescription] [nvarchar](100) NULL,
-	[LongDescription] [nvarchar](300) NULL,
-	[SmallImage] [nvarchar](255) NULL,
-	[BannerImage] [nvarchar](255) NULL,
-	[DisplayRank] [int] NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[SearchCategoryID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[SearchSubCategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SearchSubCategory](
-	[SearchSubCategoryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[SearchCategoryID] [int] NOT NULL,
-	[Name] [nvarchar](40) NOT NULL,
-	[Description] [nvarchar](100) NULL,
-	[Image] [nvarchar](255) NULL,
-	[DisplayRank] [int] NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[SearchSubCategoryID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[SearchSubCategorySolution]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SearchSubCategorySolution](
-	[SearchSubCategoryID] [int] NOT NULL,
-	[SolutionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[DisplayRank] [int] NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[SearchSubCategoryID] ASC,
-	[SolutionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[serviceaddress]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[serviceaddress](
-	[AddressID] [int] NOT NULL,
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[ServicesPerformedAtLocation] [bit] NOT NULL,
-	[TravelFromLocation] [bit] NOT NULL,
-	[ServiceRadiusFromLocation] [varchar](25) NULL,
-	[TransportType] [int] NULL,
-	[PreferredAddress] [bit] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK__servicea__8F1793BE58DC1D15] PRIMARY KEY CLUSTERED
-(
-	[AddressID] ASC,
-	[UserID] ASC,
-	[PositionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[serviceattribute]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[serviceattribute](
-	[ServiceAttributeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[SourceID] [int] NULL,
-	[Name] [varchar](100) NULL,
-	[ServiceAttributeDescription] [varchar](2000) NULL,
-	[CreateDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](45) NULL,
-	[Active] [bit] NULL,
-	[DisplayRank] [int] NOT NULL,
-	[PositionReference] [int] NULL,
-	[EnteredByUserID] [int] NULL,
-	[Approved] [bit] NULL,
- CONSTRAINT [PK_serviceattribute] PRIMARY KEY CLUSTERED
-(
-	[ServiceAttributeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[serviceattributecategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[serviceattributecategory](
-	[ServiceAttributeCategoryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[ServiceAttributeCategory] [varchar](200) NULL,
-	[CreateDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](20) NULL,
-	[Active] [bit] NULL,
-	[SourceID] [int] NULL,
-	[PricingOptionCategory] [bit] NULL,
-	[ServiceAttributeCategoryDescription] [varchar](500) NULL,
-	[RequiredInput] [bit] NOT NULL,
-	[SideBarCategory] [bit] NOT NULL,
-	[EligibleForPackages] [bit] NOT NULL,
-	[DisplayRank] [int] NOT NULL,
-	[PositionReference] [int] NULL,
-	[BookingPathSelection] [bit] NOT NULL,
- CONSTRAINT [PK_serviceattributecategory] PRIMARY KEY CLUSTERED
-(
-	[ServiceAttributeCategoryID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ServiceAttributeExperienceLevel]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ServiceAttributeExperienceLevel](
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[ExperienceLevelID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
- CONSTRAINT [PK_ServiceAttributeExperienceLevel_1] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[PositionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ServiceAttributeLanguageLevel]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ServiceAttributeLanguageLevel](
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[ServiceAttributeID] [int] NOT NULL,
-	[LanguageLevelID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
- CONSTRAINT [PK_ServiceAttributeLanguageLevel] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[PositionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC,
-	[ServiceAttributeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[servicecategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[servicecategory](
-	[ServiceCategoryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Name] [varchar](45) NULL,
-	[Description] [varchar](350) NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](2) NULL,
-	[Active] [bit] NULL,
-	[ImagePath] [varchar](200) NULL,
-	[headline] [varchar](250) NULL,
- CONSTRAINT [PK_servicecategory] PRIMARY KEY CLUSTERED
-(
-	[ServiceCategoryID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[servicecategoryposition]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[servicecategoryposition](
-	[ServiceCategoryID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Rank] [int] NOT NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [int] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[ServiceCategoryID] ASC,
-	[PositionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[servicecategorypositionattribute]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[servicecategorypositionattribute](
-	[PositionID] [int] NOT NULL,
-	[ServiceAttributeCategoryID] [int] NOT NULL,
-	[ServiceAttributeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](20) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[EnteredByUserID] [int] NULL,
-	[Approved] [bit] NULL,
-PRIMARY KEY CLUSTERED
-(
-	[PositionID] ASC,
-	[ServiceAttributeCategoryID] ASC,
-	[ServiceAttributeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ServiceProfessionalClient]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ServiceProfessionalClient](
-	[ServiceProfessionalUserID] [int] NOT NULL,
-	[ClientUserID] [int] NOT NULL,
-	[NotesAboutClient] [ntext] NOT NULL,
-	[ReferralSourceID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[Active] [bit] NOT NULL,
-	[CreatedByBookingID] [int] NULL,
-	[DeletedByServiceProfessional] [bit] NOT NULL,
- CONSTRAINT [PK_ProviderCustomer] PRIMARY KEY CLUSTERED
-(
-	[ServiceProfessionalUserID] ASC,
-	[ClientUserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[servicesubcategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[servicesubcategory](
-	[ServiceSubCategoryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Name] [varchar](45) NULL,
-	[Description] [varchar](250) NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](2) NULL,
-	[Active] [bit] NULL,
-	[ServiceCategoryID] [int] NULL,
-	[Rank] [int] NULL,
-	[RankQuery] [varchar](200) NULL,
- CONSTRAINT [PK_servicesubcategory] PRIMARY KEY CLUSTERED
-(
-	[ServiceSubCategoryID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Solution]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Solution](
-	[SolutionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
-	[CredentialCheckRequired] [bit] NOT NULL,
-	[BackgroundCheckRequired] [bit] NOT NULL,
-	[IsHIPAA] [bit] NOT NULL,
-	[TaxActivityID] [int] NULL,
-	[PostingTemplateID] [int] NULL,
-	[Image] [nvarchar](255) NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[SolutionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Specialization]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Specialization](
-	[SpecializationID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[SolutionID] [int] NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
-	[DisplayRank] [int] NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[CreatedBy] [nvarchar](12) NOT NULL,
-	[Approved] [bit] NULL,
-	[Active] [bit] NOT NULL,
-	[EnteredByUserID] [int] NULL,
- CONSTRAINT [PK_Specialization] PRIMARY KEY CLUSTERED
-(
-	[SpecializationID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[stateprovince]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[stateprovince](
-	[StateProvinceID] [int] NOT NULL,
-	[StateProvinceName] [varchar](100) NULL,
-	[StateProvinceCode] [varchar](25) NULL,
-	[CountryID] [int] NOT NULL,
-	[RegionCode] [varchar](25) NULL,
-	[PostalCodePrefix] [varchar](25) NULL,
-PRIMARY KEY CLUSTERED
-(
-	[StateProvinceID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[taxentitytype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[taxentitytype](
-	[TaxEntityTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[TaxEntityTypeName] [varchar](75) NULL,
-	[TaxEntityTypeDescription] [varchar](300) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[TaxEntityTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[tintype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[tintype](
-	[TINTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[TINTypeAbbr] [nvarchar](10) NOT NULL,
-	[TINTypeName] [nvarchar](70) NOT NULL,
-	[TINTypeDescription] [nvarchar](200) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK__tintype__5B7925DB119F9925] PRIMARY KEY CLUSTERED
-(
-	[TINTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Tmp_users]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Tmp_users](
-	[UserID] [int] NOT NULL,
-	[FirstName] [varchar](50) NOT NULL,
-	[MiddleIn] [varchar](1) NOT NULL,
-	[LastName] [varchar](145) NOT NULL,
-	[SecondLastName] [varchar](145) NOT NULL,
-	[NickName] [varchar](50) NULL,
-	[PublicBio] [varchar](4000) NULL,
-	[GenderID] [int] NOT NULL,
-	[PreferredLanguageID] [int] NULL,
-	[PreferredCountryID] [int] NULL,
-	[IsProvider] [bit] NOT NULL,
-	[IsCustomer] [bit] NOT NULL,
-	[IsMember] [bit] NOT NULL,
-	[IsAdmin] [bit] NOT NULL,
-	[IsContributor] [bit] NOT NULL,
-	[IsCollaborator] [bit] NOT NULL,
-	[Photo] [varchar](150) NULL,
-	[MobilePhone] [varchar](20) NULL,
-	[AlternatePhone] [varchar](20) NULL,
-	[CanReceiveSms] [bit] NOT NULL,
-	[ProviderProfileURL] [varchar](2078) NULL,
-	[ProviderWebsiteURL] [varchar](2078) NULL,
-	[SMSBookingCommunication] [bit] NOT NULL,
-	[PhoneBookingCommunication] [bit] NOT NULL,
-	[LoconomicsMarketingCampaigns] [bit] NOT NULL,
-	[ProfileSEOPermission] [bit] NOT NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](50) NULL,
-	[Active] [bit] NULL,
-	[LoconomicsCommunityCommunication] [bit] NOT NULL,
-	[IAuthZumigoVerification] [bit] NULL,
-	[IAuthZumigoLocation] [bit] NULL,
-	[LoconomicsDBMCampaigns] [bit] NOT NULL,
-	[AccountStatusID] [int] NOT NULL,
-	[CoBrandedPartnerPermissions] [bit] NOT NULL,
-	[MarketingSource] [varchar](2055) NULL,
-	[BookCode] [varchar](64) NULL,
-	[OnboardingStep] [varchar](60) NULL,
-	[BirthMonthDay] [int] NULL,
-	[BirthMonth] [int] NULL,
-	[BusinessName] [nvarchar](145) NULL,
-	[AlternativeEmail] [nvarchar](56) NULL,
-	[ReferredByUserID] [int] NULL,
-	[SignupDevice] [nvarchar](20) NULL,
-	[OwnerStatusID] [int] NULL,
-	[OwnerAnniversaryDate] [datetime] NULL,
-	[IsHipaaAdmin] [bit] NOT NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[transporttype]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[transporttype](
-	[TransportTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[TransportTypeName] [varchar](50) NOT NULL,
-	[TransportTypeDescription] [varchar](300) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[TransportTypeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserAlert]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserAlert](
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[AlertID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[CompletedDate] [datetime] NULL,
-	[Active] [bit] NOT NULL,
-	[AlertQuery] [varchar](1000) NULL,
-	[Dismissed] [bit] NOT NULL,
- CONSTRAINT [PK__provider__D933DA027BB05806] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[PositionID] ASC,
-	[AlertID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[userbackgroundcheck]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[userbackgroundcheck](
-	[UserID] [int] NOT NULL,
-	[BackgroundCheckID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[ModifiedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[StatusID] [int] NOT NULL,
-	[Summary] [varchar](200) NULL,
-	[VerifiedBy] [varchar](25) NULL,
-	[LastVerifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED
-(
-	[BackgroundCheckID] ASC,
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserBadge]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserBadge](
-	[UserBadgeID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[SolutionID] [int] NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[BadgeURL] [nvarchar](255) NOT NULL,
-	[Type] [nvarchar](20) NOT NULL,
-	[Category] [nvarchar](50) NOT NULL,
-	[ExpiryDate] [datetimeoffset](0) NULL,
-	[CreatedDate] [datetimeoffset](0) NOT NULL,
-	[UpdatedDate] [datetimeoffset](0) NOT NULL,
-	[CreatedBy] [nvarchar](4) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_UserBadge] PRIMARY KEY CLUSTERED
-(
-	[UserBadgeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserEarnings]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserEarnings](
-	[UserEarningsID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[PlatformID] [int] NOT NULL,
-	[ClientID] [int] NOT NULL,
-	[JobTitleID] [int] NOT NULL,
-	[Amount] [decimal](10, 2) NOT NULL,
-	[Minutes] [int] NOT NULL,
-	[PaidDate] [datetimeoffset](0) NOT NULL,
-	[Notes] [text] NOT NULL,
-	[CreatedDate] [datetimeoffset](0) NOT NULL,
-	[UpdatedDate] [datetimeoffset](0) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_UserEarnings] PRIMARY KEY CLUSTERED
-(
-	[UserEarningsID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserEarningsEntry]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserEarningsEntry](
-	[UserID] [int] NOT NULL,
-	[EarningsEntryID] [int] NOT NULL,
-	[Amount] [decimal](10, 2) NOT NULL,
-	[PaidDate] [datetimeoffset](0) NOT NULL,
-	[DurationMinutes] [int] NOT NULL,
-	[UserExternalListingID] [int] NOT NULL,
-	[JobTitleID] [int] NOT NULL,
-	[ClientUserID] [int] NULL,
-	[CreatedDate] [datetimeoffset](0) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[Notes] [text] NULL,
- CONSTRAINT [PK_UserEarningsEntry] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[EarningsEntryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[usereducation]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[usereducation](
-	[UserEducationID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[InstitutionID] [int] NOT NULL,
-	[DegreeCertificate] [varchar](200) NOT NULL,
-	[FieldOfStudy] [varchar](200) NOT NULL,
-	[FromYearAttended] [numeric](4, 0) NULL,
-	[ToYearAttended] [numeric](4, 0) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[ModifiedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[VerifiedDate] [datetime] NULL,
-	[VerifiedBy] [varchar](25) NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK__usereduc__A31C69552A363CC5] PRIMARY KEY CLUSTERED
-(
-	[UserEducationID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserExternalListing]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserExternalListing](
-	[UserExternalListingID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[PlatformID] [int] NOT NULL,
-	[Title] [nvarchar](50) NOT NULL,
-	[JobTitles] [text] NOT NULL,
-	[Notes] [text] NOT NULL,
-	[CreatedDate] [datetimeoffset](0) NOT NULL,
-	[UpdatedDate] [datetimeoffset](0) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_UserExternalListing] PRIMARY KEY CLUSTERED
-(
-	[UserExternalListingID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserFeePayments]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserFeePayments](
-	[UserFeePaymentID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[PaymentTransactionID] [varchar](250) NOT NULL,
-	[SubscriptionID] [varchar](250) NOT NULL,
-	[PaymentDate] [datetimeoffset](0) NOT NULL,
-	[PaymentAmount] [money] NOT NULL,
-	[PaymentPlan] [varchar](25) NOT NULL,
-	[PaymentMethod] [varchar](50) NOT NULL,
-	[PaymentStatus] [varchar](50) NOT NULL,
-	[CreatedDate] [datetimeoffset](0) NOT NULL,
-	[ModifiedDate] [datetimeoffset](0) NOT NULL,
- CONSTRAINT [PK__UserFeeP__1788CCAC0347582D] PRIMARY KEY CLUSTERED
-(
-	[UserFeePaymentID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserLicenseCertifications]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserLicenseCertifications](
-	[userLicenseCertificationID] [int] IDENTITY(1,1) NOT NULL,
-	[ProviderUserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[LicenseCertificationID] [int] NOT NULL,
-	[VerificationStatusID] [int] NOT NULL,
-	[LicenseCertificationURL] [varchar](2073) NULL,
-	[LastName] [varchar](100) NOT NULL,
-	[FirstName] [varchar](100) NOT NULL,
-	[MiddleInitial] [varchar](1) NULL,
-	[SecondLastName] [varchar](100) NULL,
-	[BusinessName] [varchar](200) NULL,
-	[LicenseCertificationNumber] [varchar](100) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[ExpirationDate] [datetime] NULL,
-	[IssueDate] [datetime] NULL,
-	[Comments] [varchar](500) NULL,
-	[VerifiedBy] [varchar](25) NULL,
-	[LastVerifiedDate] [datetime] NULL,
-	[SubmittedBy] [varchar](25) NULL,
-	[SubmittedImageLocalURL] [varchar](255) NULL,
-PRIMARY KEY CLUSTERED
-(
-	[userLicenseCertificationID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserListingSpecialization]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserListingSpecialization](
-	[UserID] [int] NOT NULL,
-	[UserListingID] [int] NOT NULL,
-	[SpecializationID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[DisplayRank] [int] NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[UserListingID] ASC,
-	[SpecializationID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[userOrganization]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[userOrganization](
-	[userID] [int] NOT NULL,
-	[orgName] [nvarchar](200) NOT NULL,
-	[orgDescription] [nvarchar](400) NULL,
-	[orgWebsite] [nvarchar](255) NULL,
-	[updatedDate] [datetimeoffset](0) NULL,
- CONSTRAINT [PK_userOrganization] PRIMARY KEY CLUSTERED
-(
-	[userID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserPaymentPlan]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserPaymentPlan](
-	[UserPaymentPlanID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[SubscriptionID] [varchar](250) NOT NULL,
-	[PaymentPlan] [varchar](25) NOT NULL,
-	[PaymentMethod] [varchar](50) NOT NULL,
-	[PaymentPlanLastChangedDate] [datetimeoffset](0) NOT NULL,
-	[NextPaymentDueDate] [datetimeoffset](0) NULL,
-	[NextPaymentAmount] [money] NULL,
-	[FirstBillingDate] [datetimeoffset](0) NOT NULL,
-	[SubscriptionEndDate] [datetimeoffset](0) NULL,
-	[PaymentMethodToken] [varchar](250) NOT NULL,
-	[PaymentExpiryDate] [datetimeoffset](0) NULL,
-	[PlanStatus] [varchar](50) NOT NULL,
-	[DaysPastDue] [int] NOT NULL,
- CONSTRAINT [PK__Owner__1788CCAC6A7BAA63] PRIMARY KEY CLUSTERED
-(
-	[UserPaymentPlanID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserPosting]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserPosting](
-	[userPostingID] [int] IDENTITY(1,1) NOT NULL,
-	[userID] [int] NOT NULL,
-	[solutionID] [int] NOT NULL,
-	[postingTemplateID] [int] NULL,
-	[title] [nvarchar](50) NOT NULL,
-	[statusID] [int] NOT NULL,
-	[neededSpecializationIDs] [varchar](300) NULL,
-	[desiredSpecializationIDs] [varchar](300) NULL,
-	[languageID] [int] NOT NULL,
-	[countryID] [int] NOT NULL,
-	[createdDate] [datetimeoffset](0) NOT NULL,
-	[updatedDate] [datetimeoffset](0) NOT NULL,
-	[modifiedBy] [nvarchar](10) NOT NULL,
- CONSTRAINT [PK_UserPosting] PRIMARY KEY CLUSTERED
-(
-	[userPostingID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserPostingQuestionResponse]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserPostingQuestionResponse](
-	[userPostingID] [int] NOT NULL,
-	[questionID] [int] NOT NULL,
-	[questionTypeID] [int] NOT NULL,
-	[question] [nvarchar](120) NOT NULL,
-	[helpBlock] [nvarchar](300) NULL,
-	[options] [text] NOT NULL,
-	[responses] [text] NOT NULL,
-	[legend] [nvarchar](60) NOT NULL,
-	[branchLogic] [text] NULL,
-	[label] [nvarchar](120) NOT NULL,
- CONSTRAINT [PK_UserPostingQuestionResponse_1] PRIMARY KEY CLUSTERED
-(
-	[userPostingID] ASC,
-	[questionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserPostingReaction]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserPostingReaction](
-	[userPostingID] [int] NOT NULL,
-	[serviceProfessionalUserID] [int] NOT NULL,
-	[reactionTypeID] [int] NOT NULL,
-	[createdDate] [datetimeoffset](0) NOT NULL,
-	[updatedDate] [datetimeoffset](0) NOT NULL,
-	[message] [text] NULL,
- CONSTRAINT [PK_UserPostingReaction] PRIMARY KEY CLUSTERED
-(
-	[userPostingID] ASC,
-	[serviceProfessionalUserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[userprofile]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[userprofile](
-	[UserId] [int] IDENTITY(1,1) NOT NULL,
-	[Email] [nvarchar](254) NOT NULL,
- CONSTRAINT [PK__userprof__1788CC4C023D5A04] PRIMARY KEY CLUSTERED
-(
-	[UserId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [UQ__userprof__C9F284560519C6AF] UNIQUE NONCLUSTERED
-(
-	[Email] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[userprofilepositions]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[userprofilepositions](
-	[UserListingID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CreateDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](3) NULL,
-	[Active] [bit] NULL,
-	[PositionIntro] [varchar](2000) NULL,
-	[StatusID] [int] NOT NULL,
-	[CancellationPolicyID] [int] NULL,
-	[InstantBooking] [bit] NOT NULL,
-	[bookMeButtonReady] [bit] NOT NULL,
-	[collectPaymentAtBookMeButton] [bit] NOT NULL,
-	[Title] [nvarchar](50) NULL,
- CONSTRAINT [PK_userprofilepositions] PRIMARY KEY CLUSTERED
-(
-	[UserListingID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[userprofileserviceattributes]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[userprofileserviceattributes](
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[ServiceAttributeCategoryID] [int] NOT NULL,
-	[ServiceAttributeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CreateDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](3) NULL,
-	[Active] [bit] NULL,
- CONSTRAINT [PK_userprofileserviceattributes_2] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[PositionID] ASC,
-	[ServiceAttributeCategoryID] ASC,
-	[ServiceAttributeID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserReviews]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserReviews](
-	[BookingID] [int] NOT NULL,
-	[CustomerUserID] [int] NOT NULL,
-	[ProviderUserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[PrivateReview] [nvarchar](1000) NULL,
-	[PublicReview] [nvarchar](500) NULL,
-	[Rating1] [tinyint] NULL,
-	[Rating2] [tinyint] NULL,
-	[Rating3] [tinyint] NULL,
-	[Rating4] [tinyint] NULL,
-	[Answer1] [bit] NULL,
-	[Answer2] [bit] NULL,
-	[Answer1Comment] [nvarchar](1000) NULL,
-	[Answer2Comment] [nvarchar](1000) NULL,
-	[ServiceHours] [decimal](18, 5) NULL,
-	[HelpfulReviewCount] [bigint] NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NOT NULL,
- CONSTRAINT [PK_UserReviews] PRIMARY KEY CLUSTERED
-(
-	[BookingID] ASC,
-	[CustomerUserID] ASC,
-	[ProviderUserID] ASC,
-	[PositionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserReviewScores]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserReviewScores](
-	[UserID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[TotalRatings] [bigint] NULL,
-	[Rating1] [decimal](18, 2) NULL,
-	[Rating2] [decimal](18, 2) NULL,
-	[Rating3] [decimal](18, 2) NULL,
-	[Rating4] [decimal](18, 2) NULL,
-	[Answer1] [bigint] NULL,
-	[Answer2] [bigint] NULL,
-	[ServiceHours] [decimal](18, 2) NULL,
-	[LastRatingDate] [datetime] NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NOT NULL,
- CONSTRAINT [PK_ReviewScores_positionID_userID] PRIMARY KEY CLUSTERED
-(
-	[PositionID] ASC,
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[users]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[users](
-	[UserID] [int] NOT NULL,
-	[FirstName] [varchar](50) NOT NULL,
-	[MiddleIn] [varchar](1) NOT NULL,
-	[LastName] [varchar](145) NOT NULL,
-	[SecondLastName] [varchar](145) NOT NULL,
-	[NickName] [varchar](50) NULL,
-	[PublicBio] [varchar](4000) NULL,
-	[GenderID] [int] NOT NULL,
-	[PreferredLanguageID] [int] NOT NULL,
-	[PreferredCountryID] [int] NOT NULL,
-	[IsProvider] [bit] NOT NULL,
-	[IsCustomer] [bit] NOT NULL,
-	[IsAdmin] [bit] NOT NULL,
-	[IsCollaborator] [bit] NOT NULL,
-	[Photo] [varchar](150) NULL,
-	[MobilePhone] [varchar](20) NULL,
-	[AlternatePhone] [varchar](20) NULL,
-	[CanReceiveSms] [bit] NOT NULL,
-	[ProviderProfileURL] [varchar](2078) NULL,
-	[ProviderWebsiteURL] [varchar](2078) NULL,
-	[SMSBookingCommunication] [bit] NOT NULL,
-	[PhoneBookingCommunication] [bit] NOT NULL,
-	[LoconomicsMarketingCampaigns] [bit] NOT NULL,
-	[ProfileSEOPermission] [bit] NOT NULL,
-	[CreatedDate] [datetime] NULL,
-	[UpdatedDate] [datetime] NULL,
-	[ModifiedBy] [varchar](50) NULL,
-	[Active] [bit] NULL,
-	[LoconomicsCommunityCommunication] [bit] NOT NULL,
-	[IAuthZumigoVerification] [bit] NULL,
-	[IAuthZumigoLocation] [bit] NULL,
-	[LoconomicsDBMCampaigns] [bit] NOT NULL,
-	[AccountStatusID] [int] NOT NULL,
-	[CoBrandedPartnerPermissions] [bit] NOT NULL,
-	[MarketingSource] [varchar](2055) NULL,
-	[BookCode] [varchar](64) NULL,
-	[OnboardingStep] [varchar](60) NULL,
-	[BirthMonthDay] [int] NULL,
-	[BirthMonth] [int] NULL,
-	[BusinessName] [nvarchar](145) NULL,
-	[AlternativeEmail] [nvarchar](56) NULL,
-	[ReferredByUserID] [int] NULL,
-	[SignupDevice] [nvarchar](20) NULL,
-	[OwnerStatusID] [int] NULL,
-	[OwnerAnniversaryDate] [datetime] NULL,
-	[IsHipaaAdmin] [bit] NOT NULL,
-	[IsContributor] [bit] NULL,
-	[TrialEndDate] [datetimeoffset](7) NULL,
-	[BirthYear] [int] NULL,
-	[IsOrganization] [bit] NOT NULL,
- CONSTRAINT [PK_users] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[usersignup]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[usersignup](
-	[UserId] [int] IDENTITY(1,1) NOT NULL,
-	[Email] [nvarchar](56) NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[UserId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
-UNIQUE NONCLUSTERED
-(
-	[Email] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserSolution]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserSolution](
-	[UserSolutionID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NOT NULL,
-	[UserListingID] [int] NOT NULL,
-	[SolutionID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[DisplayRank] [int] NULL,
-	[CreatedDate] [datetimeoffset](7) NOT NULL,
-	[UpdatedDate] [datetimeoffset](7) NOT NULL,
-	[ModifiedBy] [nvarchar](4) NOT NULL,
-	[Active] [bit] NOT NULL,
- CONSTRAINT [PK_UserSolution] PRIMARY KEY CLUSTERED
-(
-	[UserSolutionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserStats]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserStats](
-	[UserID] [int] NOT NULL,
-	[ResponseTimeMinutes] [decimal](18, 2) NULL,
-	[LastLoginTime] [datetime] NULL,
-	[LastActivityTime] [datetime] NULL,
- CONSTRAINT [PK_UserStats] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[userverification]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[userverification](
-	[UserID] [int] NOT NULL,
-	[VerificationID] [int] NOT NULL,
-	[PositionID] [int] NOT NULL,
-	[DateVerified] [datetime] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[VerifiedBy] [varchar](25) NOT NULL,
-	[LastVerifiedDate] [datetime] NOT NULL,
-	[Active] [bit] NOT NULL,
-	[VerificationStatusID] [int] NOT NULL,
-	[Comments] [varchar](2000) NULL,
- CONSTRAINT [PK_userverification] PRIMARY KEY CLUSTERED
-(
-	[UserID] ASC,
-	[VerificationID] ASC,
-	[PositionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[verification]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[verification](
-	[VerificationID] [int] NOT NULL,
-	[VerificationType] [varchar](100) NOT NULL,
-	[VerificationDescription] [varchar](1000) NOT NULL,
-	[VerificationProcess] [varchar](500) NULL,
-	[Icon] [varchar](15) NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[ModifiedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NULL,
-	[Active] [bit] NOT NULL,
-	[VerificationCategoryID] [int] NOT NULL,
-	[RankPosition] [int] NULL,
-	[SummaryGroup] [varchar](20) NULL,
- CONSTRAINT [PK__verficat__25EE1D1F0C1BC9F9] PRIMARY KEY CLUSTERED
-(
-	[VerificationID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[verificationcategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[verificationcategory](
-	[VerificationCategoryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[VerificationCategoryName] [varchar](100) NOT NULL,
-	[VerificationCategoryDescription] [varchar](1000) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[RankPosition] [int] NULL,
-PRIMARY KEY CLUSTERED
-(
-	[VerificationCategoryID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[verificationstatus]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[verificationstatus](
-	[VerificationStatusID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[VerificationStatusName] [varchar](50) NOT NULL,
-	[VerificationStatusDisplayDescription] [varchar](300) NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[VerificationStatusID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[VOCElement]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[VOCElement](
-	[VOCElementID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[VOCElementName] [varchar](100) NULL,
-	[ScoreStartValue] [int] NULL,
-	[ScoreMidValue] [int] NULL,
-	[ScoreEndValue] [int] NULL,
-	[ScoreStartLabel] [varchar](25) NULL,
-	[ScoreMidLabel] [varchar](25) NULL,
-	[ScoreEndLabel] [varchar](25) NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](3) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[VOCElementID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[VOCExperienceCategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[VOCExperienceCategory](
-	[VOCExperienceCategoryID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[VOCExperienceCategoryName] [varchar](50) NULL,
-	[VOCExperienceCategoryDescription] [varchar](200) NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](3) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[VOCExperienceCategoryID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[VOCFeedback]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[VOCFeedback](
-	[VOCFeedbackID] [int] IDENTITY(1,1) NOT NULL,
-	[VOCElementID] [int] NOT NULL,
-	[VOCExperienceCategoryID] [int] NOT NULL,
-	[UserID] [int] NOT NULL,
-	[Feedback] [text] NOT NULL,
-	[VOCFlag1] [varchar](50) NULL,
-	[VOCFlag2] [varchar](50) NULL,
-	[VOCFlag3] [varchar](50) NULL,
-	[VOCFlag4] [varchar](50) NULL,
-	[UserDevice] [text] NULL,
-	[ZenDeskTicketNumber] [int] NULL,
-	[ProviderUserID] [int] NULL,
-	[ProviderPositionID] [int] NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](3) NOT NULL,
- CONSTRAINT [PK__VOCFeedb__B6FF22780B528E49] PRIMARY KEY CLUSTERED
-(
-	[VOCFeedbackID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[VOCFlag]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[VOCFlag](
-	[VOCFlagID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[VOCFlagName] [varchar](50) NOT NULL,
-	[VOCFlagNDescription] [varchar](500) NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](3) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[VOCFlagID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[VOCScores]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[VOCScores](
-	[VOCScoresID] [int] NOT NULL,
-	[UserID] [int] NOT NULL,
-	[VOCElementID] [int] NOT NULL,
-	[Score] [int] NOT NULL,
-	[Date] [datetime] NOT NULL,
-	[ProviderUserID] [int] NULL,
-	[ProviderPositionID] [int] NULL,
-	[UserDevice] [varchar](100) NULL,
-	[VOCExperienceCategoryID] [int] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[VOCScoresID] ASC,
-	[UserID] ASC,
-	[VOCElementID] ASC,
-	[Score] ASC,
-	[Date] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[webpages_FacebookCredentials]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[webpages_FacebookCredentials](
-	[UserId] [int] NOT NULL,
-	[FacebookId] [bigint] NOT NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[webpages_Membership]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[webpages_Membership](
-	[UserId] [int] NOT NULL,
-	[CreateDate] [datetime] NULL,
-	[ConfirmationToken] [nvarchar](128) NULL,
-	[IsConfirmed] [bit] NULL,
-	[LastPasswordFailureDate] [datetime] NULL,
-	[PasswordFailuresSinceLastSuccess] [int] NOT NULL,
-	[Password] [nvarchar](128) NOT NULL,
-	[PasswordChangedDate] [datetime] NULL,
-	[PasswordSalt] [nvarchar](128) NOT NULL,
-	[PasswordVerificationToken] [nvarchar](128) NULL,
-	[PasswordVerificationTokenExpirationDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED
-(
-	[UserId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[webpages_OAuthMembership]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[webpages_OAuthMembership](
-	[Provider] [nvarchar](30) NOT NULL,
-	[ProviderUserId] [nvarchar](100) NOT NULL,
-	[UserId] [int] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[Provider] ASC,
-	[ProviderUserId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[webpages_Roles]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[webpages_Roles](
-	[RoleId] [int] IDENTITY(1,1) NOT NULL,
-	[RoleName] [nvarchar](256) NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[RoleId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
-UNIQUE NONCLUSTERED
-(
-	[RoleName] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[webpages_UsersInRoles]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[webpages_UsersInRoles](
-	[UserId] [int] NOT NULL,
-	[RoleId] [int] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[UserId] ASC,
-	[RoleId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[xJobTitlePricing]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[xJobTitlePricing](
-	[JobTitlePricingID] [int] NOT NULL,
-	[JobTitleID] [int] NOT NULL,
-	[PricingTypeID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[PricingTypeLabel] [varchar](100) NOT NULL,
-	[PricingNameDefaultValue] [varchar](100) NOT NULL,
-	[PricingDescriptionPlaceholder] [varchar](200) NOT NULL,
-	[PricingRateUnitDefaultValue] [varchar](100) NOT NULL,
-	[PricingHelperLanguagePlaceholder] [varchar](500) NOT NULL,
-	[IncludeTaskListOption] [bit] NOT NULL,
-	[RecurringEligible] [bit] NOT NULL,
-	[ShowFirstTimeClientsOnlyOption] [bit] NOT NULL,
-	[ShowExisitingClientsOnlyOption] [bit] NOT NULL,
-	[ShowSpecificClientOnlyOption] [bit] NOT NULL,
-	[ShowSlidingScaleOption] [bit] NOT NULL,
-	[ShowTradeOption] [bit] NOT NULL,
-	[ShowServiceAreaOption] [bit] NOT NULL,
-	[ShowServiceLocationOption] [bit] NOT NULL,
-	[ShowRemoteLocationOption] [bit] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[JobTitlePricingID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[xJobTitleReviewRules]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[xJobTitleReviewRules](
-	[JobTitleID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[SuppressReviewOfClient] [bit] NOT NULL,
-	[SuppressReviewOfServiceProfessional] [bit] NOT NULL,
-	[RequestToReview] [bit] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](3) NOT NULL,
-	[Active] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[JobTitleID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[xServiceProfessionalPricing]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[xServiceProfessionalPricing](
-	[ServiceProfessionalPricingID] [int] IDENTITY(1,1) NOT NULL,
-	[PricingTypeID] [int] NOT NULL,
-	[ServiceProfessionalUserID] [int] NOT NULL,
-	[JobTitleID] [int] NOT NULL,
-	[LanguageID] [int] NOT NULL,
-	[CountryID] [int] NOT NULL,
-	[Name] [varchar](50) NOT NULL,
-	[Description] [varchar](1000) NULL,
-	[Price] [decimal](7, 2) NULL,
-	[Duration] [int] NOT NULL,
-	[FirstTimeClientsOnly] [bit] NOT NULL,
-	[NumberOfSessions] [int] NOT NULL,
-	[CreatedDate] [datetime] NOT NULL,
-	[UpdatedDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](25) NOT NULL,
-	[Active] [bit] NOT NULL,
-	[IsAddOn] [bit] NOT NULL,
-	[PriceRate] [decimal](7, 2) NULL,
-	[PriceRateUnit] [nvarchar](30) NULL,
-	[IsPhone] [bit] NOT NULL,
-	[VisibleToClientID] [int] NOT NULL,
-	[ParentBookingID] [int] NULL,
-	[MaxAvailableSpots] [int] NOT NULL,
-	[MaxCapacity] [int] NOT NULL,
-	[MinSpots] [int] NOT NULL,
-PRIMARY KEY CLUSTERED
-(
-	[ServiceProfessionalPricingID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  View [dbo].[vwServiceCategoryPositionAttribute]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE VIEW [dbo].[vwServiceCategoryPositionAttribute] AS
+        
+
+PRINT N'Creating [dbo].[vwServiceCategoryPositionAttribute]...';
+GO
+CREATE VIEW [vwServiceCategoryPositionAttribute] AS
 
 	SELECT TOP 100 PERCENT
 		d.PositionID
@@ -3521,20 +4055,20 @@ CREATE VIEW [dbo].[vwServiceCategoryPositionAttribute] AS
 		,s.ServiceAttributeID
 		,s.LanguageID
 		,s.CountryID
-
+		
 		,d.Active As ServiceCategoryPositionAttributeActive
 		,s.Active As ServiceAttributeActive
 		,se.Active As ServiceAttributeCategoryActive
-
+		
 		,s.SourceID As ServiceAttributeSourceID
 		,s.Name As ServiceAttributeName
 		,s.ServiceAttributeDescription
-
+		
 		,s.DisplayRank As ServiceAttributeDisplayRank
-
+		
 		,se.ServiceAttributeCategory
 		,se.ServiceAttributeCategoryDescription
-
+		
 		,se.SourceID As ServiceAttributeCategorySourceID
 		,se.PricingOptionCategory
 		,se.RequiredInput As ServiceAttributeCategoryRequiredInput
@@ -3543,10 +4077,10 @@ CREATE VIEW [dbo].[vwServiceCategoryPositionAttribute] AS
 		,se.DisplayRank As ServiceAttributeCategoryDisplayRank
 
 	FROM servicecategorypositionattribute d
-	  join serviceattribute s
-	  on d.ServiceAttributeID = s.ServiceAttributeID
-	  join serviceattributecategory se
-	  on d.ServiceAttributeCategoryID = se.ServiceAttributeCategoryID
+	  join serviceattribute s 
+	  on d.ServiceAttributeID = s.ServiceAttributeID 
+	  join serviceattributecategory se 
+	  on d.ServiceAttributeCategoryID = se.ServiceAttributeCategoryID 
 	  and d.LanguageID = se.LanguageID
 	  and d.CountryID = se.CountryID
 	  and se.LanguageID = s.LanguageID
@@ -3554,10 +4088,8 @@ CREATE VIEW [dbo].[vwServiceCategoryPositionAttribute] AS
 
 	ORDER BY s.DisplayRank ASC, s.Name ASC
 GO
-/****** Object:  View [dbo].[vwUsersContactData]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[vwUsersContactData]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -3568,7 +4100,7 @@ GO
 -- its address list that is assigned as 'home'
 -- location.
 -- =============================================
-CREATE VIEW [dbo].[vwUsersContactData] AS
+CREATE VIEW vwUsersContactData AS
 
     SELECT
         -- Basic data
@@ -3582,7 +4114,7 @@ CREATE VIEW [dbo].[vwUsersContactData] AS
         ,SecondLastName
         ,MiddleIn
         ,(dbo.fx_concat(dbo.fx_concat(dbo.fx_concat(FirstName, dbo.fx_concatBothOrNothing(MiddleIn, '.', ''), ' '), LastName, ' '), SecondLastName, ' ')) As FullName
-
+    
         -- DEPRECATED PHOTO
         ,Photo
 
@@ -3605,7 +4137,7 @@ CREATE VIEW [dbo].[vwUsersContactData] AS
         -- Contact data
         ,MobilePhone
         ,AlternatePhone
-
+    
         -- Address
         ,L.AddressLine1
         ,L.AddressLine2
@@ -3625,7 +4157,7 @@ CREATE VIEW [dbo].[vwUsersContactData] AS
         ,SubjectPronoun
         ,ObjectPronoun
         ,PossesivePronoun
-
+                                    
         -- Some preferences
         ,PreferredLanguageID
         ,PreferredCountryID
@@ -3639,8 +4171,8 @@ CREATE VIEW [dbo].[vwUsersContactData] AS
          INNER JOIN
         Gender As G
           ON G.GenderID = A.GenderID
-          	AND G.LanguageID = A.PreferredLanguageID
-          	AND G.CountryID = A.PreferredCountryID
+          	AND G.LanguageID = A.PreferredLanguageID  
+          	AND G.CountryID = A.PreferredCountryID                                
          LEFT JOIN
         Address As L
           ON L.UserID = A.UserID
@@ -3652,922 +4184,16 @@ CREATE VIEW [dbo].[vwUsersContactData] AS
         PostalCode As PC
           ON PC.PostalCodeID = L.PostalCodeID
 GO
-SET ANSI_PADDING ON
-GO
-/****** Object:  Index [IX_authorizations_token]    Script Date: 11/8/18 3:10:35 PM ******/
-CREATE UNIQUE NONCLUSTERED INDEX [IX_authorizations_token] ON [dbo].[authorizations]
-(
-	[Token] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-/****** Object:  Index [idx_clienttype]    Script Date: 11/8/18 3:10:35 PM ******/
-CREATE NONCLUSTERED INDEX [idx_clienttype] ON [dbo].[clienttype]
-(
-	[CllientTypeID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-/****** Object:  Index [idx_Messages]    Script Date: 11/8/18 3:10:35 PM ******/
-CREATE NONCLUSTERED INDEX [idx_Messages] ON [dbo].[Messages]
-(
-	[MessageTypeID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-/****** Object:  Index [idx_positions]    Script Date: 11/8/18 3:10:35 PM ******/
-CREATE NONCLUSTERED INDEX [idx_positions] ON [dbo].[positions]
-(
-	[PositionID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-/****** Object:  Index [IX_userprofilepositions]    Script Date: 11/8/18 3:10:35 PM ******/
-CREATE UNIQUE NONCLUSTERED INDEX [IX_userprofilepositions] ON [dbo].[userprofilepositions]
-(
-	[UserID] ASC,
-	[PositionID] ASC,
-	[LanguageID] ASC,
-	[CountryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[accountstatus] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[accountstatus] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[addresstype] ADD  CONSTRAINT [DF_addresstype_Selectable]  DEFAULT ((1)) FOR [Selectable]
-GO
-ALTER TABLE [dbo].[alert] ADD  CONSTRAINT [DF__alert__PositionS__5E94F66B]  DEFAULT ((0)) FOR [PositionSpecific]
-GO
-ALTER TABLE [dbo].[alert] ADD  CONSTRAINT [DF__alert__DisplayRa__3CFEF876]  DEFAULT ((1)) FOR [DisplayRank]
-GO
-ALTER TABLE [dbo].[alert] ADD  DEFAULT ((1)) FOR [ProviderAlert]
-GO
-ALTER TABLE [dbo].[alert] ADD  DEFAULT ((0)) FOR [CustomerAlert]
-GO
-ALTER TABLE [dbo].[alert] ADD  CONSTRAINT [DF_alert_bookMeButtonRequired]  DEFAULT ((0)) FOR [bookMeButtonRequired]
-GO
-ALTER TABLE [dbo].[alerttype] ADD  DEFAULT ((1)) FOR [LanguageID]
-GO
-ALTER TABLE [dbo].[alerttype] ADD  DEFAULT ((1)) FOR [CountryID]
-GO
-ALTER TABLE [dbo].[alerttype] ADD  DEFAULT ((1)) FOR [DisplayRank]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_InstantBooking]  DEFAULT ((0)) FOR [InstantBooking]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_SendReminder]  DEFAULT ((0)) FOR [SendReminder]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_SendPromotional]  DEFAULT ((0)) FOR [SendPromotional]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_Recurrent]  DEFAULT ((0)) FOR [Recurrent]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_MultiSession]  DEFAULT ((0)) FOR [MultiSession]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint__booking__PricingAdjustmentApplied]  DEFAULT ((0)) FOR [PricingAdjustmentApplied]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [DF_booking_PaymentEnabled]  DEFAULT ((0)) FOR [PaymentEnabled]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_PaymentCollected]  DEFAULT ((0)) FOR [PaymentCollected]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_PaymentAuthorized]  DEFAULT ((0)) FOR [PaymentAuthorized]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_PricingAdjustmentRequested]  DEFAULT ((0)) FOR [PricingAdjustmentRequested]
-GO
-ALTER TABLE [dbo].[booking] ADD  CONSTRAINT [Contraint_booking_MessagingLog]  DEFAULT ('') FOR [MessagingLog]
-GO
-ALTER TABLE [dbo].[bookingType] ADD  CONSTRAINT [DF__bookingty__Servi__2215F810]  DEFAULT ((0)) FOR [FirstTimeServiceFeeFixed]
-GO
-ALTER TABLE [dbo].[bookingType] ADD  CONSTRAINT [DF__bookingty__Servi__230A1C49]  DEFAULT ((0)) FOR [FirstTimeServiceFeePercentage]
-GO
-ALTER TABLE [dbo].[bookingType] ADD  CONSTRAINT [DF__bookingty__Payme__23FE4082]  DEFAULT ((0)) FOR [PaymentProcessingFeePercentage]
-GO
-ALTER TABLE [dbo].[bookingType] ADD  CONSTRAINT [DF_bookingtype_PaymentProcessingFeeFixed]  DEFAULT ((0)) FOR [PaymentProcessingFeeFixed]
-GO
-ALTER TABLE [dbo].[bookingType] ADD  CONSTRAINT [DF_bookingtype_FirstTimeServiceFeeMaximum]  DEFAULT ((0)) FOR [FirstTimeServiceFeeMaximum]
-GO
-ALTER TABLE [dbo].[bookingType] ADD  CONSTRAINT [DF_bookingtype_FirstTimeServiceFeeMinimum]  DEFAULT ((0)) FOR [FirstTimeServiceFeeMinimum]
-GO
-ALTER TABLE [dbo].[CalendarAvailabilityType] ADD  DEFAULT ((0)) FOR [AddAppointmentType]
-GO
-ALTER TABLE [dbo].[CalendarEvents] ADD  CONSTRAINT [DF_CalendarEvents_EventType]  DEFAULT ((1)) FOR [EventType]
-GO
-ALTER TABLE [dbo].[CalendarEvents] ADD  CONSTRAINT [DF_CalendarEvents_Transparency]  DEFAULT ((0)) FOR [Transparency]
-GO
-ALTER TABLE [dbo].[CalendarEvents] ADD  CONSTRAINT [DF_CalendarEvents_IsAllDay]  DEFAULT ((0)) FOR [IsAllDay]
-GO
-ALTER TABLE [dbo].[CalendarProviderAttributes] ADD  CONSTRAINT [DF_CalendarProviderAttributes_MinTime]  DEFAULT ((0)) FOR [MinTime]
-GO
-ALTER TABLE [dbo].[CalendarProviderAttributes] ADD  CONSTRAINT [DF_CalendarProviderAttributes_MaxTime]  DEFAULT ((0)) FOR [MaxTime]
-GO
-ALTER TABLE [dbo].[CalendarProviderAttributes] ADD  CONSTRAINT [DF_CalendarProviderAttributes_IncrementsSizeInMinutes]  DEFAULT ((15)) FOR [IncrementsSizeInMinutes]
-GO
-ALTER TABLE [dbo].[jobTitleLicense] ADD  DEFAULT ((0)) FOR [MunicipalityID]
-GO
-ALTER TABLE [dbo].[jobTitleLicense] ADD  DEFAULT ((0)) FOR [CountyID]
-GO
-ALTER TABLE [dbo].[JobTitlePlatform] ADD  CONSTRAINT [DF_JobTitlePlatform_Active]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[JobTitleSolution] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[licensecertification] ADD  CONSTRAINT [DF__licensece__Langu__5BF880E2]  DEFAULT ((1)) FOR [LanguageID]
-GO
-ALTER TABLE [dbo].[Messages] ADD  CONSTRAINT [DF_Messages_SentByUserId]  DEFAULT ((0)) FOR [SentByUserId]
-GO
-ALTER TABLE [dbo].[Platform] ADD  CONSTRAINT [DF_Platform_Active]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[positions] ADD  CONSTRAINT [DF_positions_AttributesComplete]  DEFAULT ((0)) FOR [AttributesComplete]
-GO
-ALTER TABLE [dbo].[positions] ADD  CONSTRAINT [DF_positions_StarRatingsComplete]  DEFAULT ((0)) FOR [StarRatingsComplete]
-GO
-ALTER TABLE [dbo].[positions] ADD  CONSTRAINT [DF_positions_PricingTypeComplete]  DEFAULT ((0)) FOR [PricingTypeComplete]
-GO
-ALTER TABLE [dbo].[positions] ADD  DEFAULT ((0)) FOR [AddGratuity]
-GO
-ALTER TABLE [dbo].[positions] ADD  DEFAULT ((0)) FOR [HIPAA]
-GO
-ALTER TABLE [dbo].[positions] ADD  DEFAULT ((1)) FOR [SendReviewReminderToClient]
-GO
-ALTER TABLE [dbo].[positions] ADD  DEFAULT ((0)) FOR [CanBeRemote]
-GO
-ALTER TABLE [dbo].[positions] ADD  DEFAULT ((0)) FOR [SuppressReviewOfClient]
-GO
-ALTER TABLE [dbo].[postalcode] ADD  DEFAULT ((0)) FOR [MunicipalityID]
-GO
-ALTER TABLE [dbo].[postalcode] ADD  DEFAULT ((0)) FOR [CountyID]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF__pricinges__Prici__04CFADEC]  DEFAULT ((1)) FOR [PricingSummaryRevision]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF_pricingestimate_PFeePrice]  DEFAULT ((0)) FOR [ServiceFeeAmount]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeFixed]  DEFAULT ((0)) FOR [FirstTimeServiceFeeFixed]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeePercentage]  DEFAULT ((0)) FOR [FirstTimeServiceFeePercentage]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF_pricingSummary_PaymentProcessingFeePercentage]  DEFAULT ((0)) FOR [PaymentProcessingFeePercentage]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF_pricingSummary_PaymentProcessingFeeFixed]  DEFAULT ((0)) FOR [PaymentProcessingFeeFixed]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeMaximum]  DEFAULT ((0)) FOR [FirstTimeServiceFeeMaximum]
-GO
-ALTER TABLE [dbo].[pricingSummary] ADD  CONSTRAINT [DF_pricingSummary_FirstTimeServiceFeeMinimum]  DEFAULT ((0)) FOR [FirstTimeServiceFeeMinimum]
-GO
-ALTER TABLE [dbo].[pricingSummaryDetail] ADD  CONSTRAINT [DF_pricingSummaryDetail_IsRemoteService]  DEFAULT ((0)) FOR [IsRemoteService]
-GO
-ALTER TABLE [dbo].[pricingtype] ADD  CONSTRAINT [DF__pricingty__Langu__086B34A6]  DEFAULT ((1)) FOR [LanguageID]
-GO
-ALTER TABLE [dbo].[pricingtype] ADD  CONSTRAINT [DF__pricingty__Count__095F58DF]  DEFAULT ((1)) FOR [CountryID]
-GO
-ALTER TABLE [dbo].[pricingtype] ADD  CONSTRAINT [DF__pricingty__Activ__0A537D18]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[PricingVariableDefinition] ADD  CONSTRAINT [DF_PricingVariableDefinition_IsProviderVariable]  DEFAULT ((0)) FOR [IsProviderVariable]
-GO
-ALTER TABLE [dbo].[PricingVariableDefinition] ADD  CONSTRAINT [DF_PricingVariableDefinition_IsCustomerVariable]  DEFAULT ((0)) FOR [IsCustomerVariable]
-GO
-ALTER TABLE [dbo].[PricingVariableDefinition] ADD  CONSTRAINT [DF_PricingVariableDefinition_Active]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[PricingVariableDefinition] ADD  CONSTRAINT [DF_PricingVariableDefinition_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
-GO
-ALTER TABLE [dbo].[PricingVariableDefinition] ADD  CONSTRAINT [DF_PricingVariableDefinition_UpdatedDate]  DEFAULT (getdate()) FOR [UpdatedDate]
-GO
-ALTER TABLE [dbo].[PricingVariableDefinition] ADD  CONSTRAINT [DF_PricingVariableDefinition_ModifiedBy]  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[PricingVariableValue] ADD  CONSTRAINT [DF_PricingVariableValue_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]
-GO
-ALTER TABLE [dbo].[PricingVariableValue] ADD  CONSTRAINT [DF_PricingVariableValue_UpdatedDate]  DEFAULT (getdate()) FOR [UpdatedDate]
-GO
-ALTER TABLE [dbo].[PricingVariableValue] ADD  CONSTRAINT [DF_PricingVariableValue_ModifiedBy]  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[PricingVariableValue] ADD  CONSTRAINT [DF_PricingVariableValue_Active]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[providerpackage] ADD  CONSTRAINT [DF__providerp__First__1BD30ED5]  DEFAULT ((0)) FOR [FirstTimeClientsOnly]
-GO
-ALTER TABLE [dbo].[providerpackage] ADD  CONSTRAINT [DF__providerp__Numbe__1CC7330E]  DEFAULT ((1)) FOR [NumberOfSessions]
-GO
-ALTER TABLE [dbo].[providerpackage] ADD  CONSTRAINT [DF__providerp__IsAdd__1F398B65]  DEFAULT ((0)) FOR [IsAddOn]
-GO
-ALTER TABLE [dbo].[providerpackage] ADD  CONSTRAINT [DF_providerpackage_IsPhone]  DEFAULT ((0)) FOR [IsPhone]
-GO
-ALTER TABLE [dbo].[providerpackage] ADD  DEFAULT ((0)) FOR [VisibleToClientID]
-GO
-ALTER TABLE [dbo].[providerpackage] ADD  CONSTRAINT [DF_providerpackage_SolutionID]  DEFAULT ((0)) FOR [SolutionID]
-GO
-ALTER TABLE [dbo].[providerpackagedetail] ADD  DEFAULT ('sysdate') FOR [CreatedDate]
-GO
-ALTER TABLE [dbo].[providerpackagedetail] ADD  DEFAULT ('sysdate') FOR [UpdatedDate]
-GO
-ALTER TABLE [dbo].[providerpackagedetail] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[providerpackagedetail] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[providerpaymentpreference] ADD  CONSTRAINT [DF__providerp__Verif__08D548FA]  DEFAULT ((0)) FOR [Verified]
-GO
-ALTER TABLE [dbo].[question] ADD  DEFAULT ('') FOR [label]
-GO
-ALTER TABLE [dbo].[SearchCategory] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[SearchCategory] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[SearchSubCategory] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[SearchSubCategory] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[SearchSubCategorySolution] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[serviceaddress] ADD  CONSTRAINT [DF__servicead__Servi__532343BF]  DEFAULT ((0)) FOR [ServicesPerformedAtLocation]
-GO
-ALTER TABLE [dbo].[serviceaddress] ADD  CONSTRAINT [DF__servicead__Trave__541767F8]  DEFAULT ((0)) FOR [TravelFromLocation]
-GO
-ALTER TABLE [dbo].[serviceaddress] ADD  CONSTRAINT [DF__servicead__Trans__550B8C31]  DEFAULT ((1)) FOR [TransportType]
-GO
-ALTER TABLE [dbo].[serviceaddress] ADD  CONSTRAINT [DF__servicead__Prefe__55FFB06A]  DEFAULT ((0)) FOR [PreferredAddress]
-GO
-ALTER TABLE [dbo].[serviceattribute] ADD  DEFAULT (NULL) FOR [SourceID]
-GO
-ALTER TABLE [dbo].[serviceattribute] ADD  DEFAULT ((1)) FOR [DisplayRank]
-GO
-ALTER TABLE [dbo].[serviceattributecategory] ADD  CONSTRAINT [DF_serviceattributecategory_SideBarCategory]  DEFAULT ((0)) FOR [SideBarCategory]
-GO
-ALTER TABLE [dbo].[serviceattributecategory] ADD  CONSTRAINT [DF_serviceattributecategory_EligibleForPackages]  DEFAULT ((0)) FOR [EligibleForPackages]
-GO
-ALTER TABLE [dbo].[serviceattributecategory] ADD  CONSTRAINT [DF__serviceat__Displ__3C0AD43D]  DEFAULT ((1)) FOR [DisplayRank]
-GO
-ALTER TABLE [dbo].[serviceattributecategory] ADD  DEFAULT ((0)) FOR [BookingPathSelection]
-GO
-ALTER TABLE [dbo].[servicecategoryposition] ADD  DEFAULT ((1)) FOR [Rank]
-GO
-ALTER TABLE [dbo].[servicecategoryposition] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[servicecategorypositionattribute] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient] ADD  CONSTRAINT [DF_ProviderCustomer_NotesAboutCustomer]  DEFAULT ('') FOR [NotesAboutClient]
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient] ADD  CONSTRAINT [DF_ServiceProfessionalClient_DeletedByServiceProfessional]  DEFAULT ((0)) FOR [DeletedByServiceProfessional]
-GO
-ALTER TABLE [dbo].[Solution] ADD  DEFAULT ((0)) FOR [CredentialCheckRequired]
-GO
-ALTER TABLE [dbo].[Solution] ADD  DEFAULT ((0)) FOR [BackgroundCheckRequired]
-GO
-ALTER TABLE [dbo].[Solution] ADD  DEFAULT ((0)) FOR [IsHIPAA]
-GO
-ALTER TABLE [dbo].[Solution] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[Solution] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[Specialization] ADD  CONSTRAINT [DF__Specializ__Creat__23D42350]  DEFAULT ('staff') FOR [CreatedBy]
-GO
-ALTER TABLE [dbo].[Specialization] ADD  CONSTRAINT [DF__Specializ__Appro__24C84789]  DEFAULT ((0)) FOR [Approved]
-GO
-ALTER TABLE [dbo].[Specialization] ADD  CONSTRAINT [DF__Specializ__Activ__25BC6BC2]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF_users_IsMember]  DEFAULT ((0)) FOR [IsMember]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF_users_IsAdmin]  DEFAULT ((0)) FOR [IsAdmin]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF_users_IsContributor]  DEFAULT ((0)) FOR [IsContributor]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__Collabora__5E7FE7D2]  DEFAULT ((0)) FOR [IsCollaborator]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF_users_CanReceiveSms]  DEFAULT ((0)) FOR [CanReceiveSms]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__SMSBookin__3B2BBE9D]  DEFAULT ((1)) FOR [SMSBookingCommunication]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__PhoneBook__3C1FE2D6]  DEFAULT ((1)) FOR [PhoneBookingCommunication]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__Loconomic__3D14070F]  DEFAULT ((1)) FOR [LoconomicsMarketingCampaigns]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__ProviderP__3E082B48]  DEFAULT ((1)) FOR [ProfileSEOPermission]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__Loconomic__3EFC4F81]  DEFAULT ((1)) FOR [LoconomicsCommunityCommunication]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__Loconomic__45FE52CB]  DEFAULT ((1)) FOR [LoconomicsDBMCampaigns]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__AccountSt__6265874F]  DEFAULT ((1)) FOR [AccountStatusID]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__CoBranded__691284DE]  DEFAULT ((1)) FOR [CoBrandedPartnerPermissions]
-GO
-ALTER TABLE [dbo].[Tmp_users] ADD  CONSTRAINT [DF__users__IsHipaaAd__70F39DC8]  DEFAULT ((0)) FOR [IsHipaaAdmin]
-GO
-ALTER TABLE [dbo].[UserAlert] ADD  CONSTRAINT [DF_UserAlert_Dismissed]  DEFAULT ((0)) FOR [Dismissed]
-GO
-ALTER TABLE [dbo].[UserBadge] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[UserEarnings] ADD  CONSTRAINT [DF_UserEarnings_Active]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[UserEarningsEntry] ADD  CONSTRAINT [DF_UserEarningsEntry_Amount]  DEFAULT ((0)) FOR [Amount]
-GO
-ALTER TABLE [dbo].[UserEarningsEntry] ADD  CONSTRAINT [DF_UserEarningsEntry_Active]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[UserExternalListing] ADD  CONSTRAINT [DF_UserExternalListing_Active]  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[UserListingSpecialization] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[UserListingSpecialization] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[UserPaymentPlan] ADD  CONSTRAINT [DF_UserPaymentPlan_DaysPastDue]  DEFAULT ((0)) FOR [DaysPastDue]
-GO
-ALTER TABLE [dbo].[UserPostingQuestionResponse] ADD  DEFAULT ('') FOR [label]
-GO
-ALTER TABLE [dbo].[userprofilepositions] ADD  CONSTRAINT [DF_userprofilepositions_StatusID]  DEFAULT ((1)) FOR [StatusID]
-GO
-ALTER TABLE [dbo].[userprofilepositions] ADD  CONSTRAINT [DF_userprofilepositions_InstantBooking]  DEFAULT ((0)) FOR [InstantBooking]
-GO
-ALTER TABLE [dbo].[userprofilepositions] ADD  CONSTRAINT [DF_userprofilepositions_bookMeButtonReady]  DEFAULT ((0)) FOR [bookMeButtonReady]
-GO
-ALTER TABLE [dbo].[userprofilepositions] ADD  CONSTRAINT [DF_userprofilepositions_collectPaymentAtBookMeButton]  DEFAULT ((1)) FOR [collectPaymentAtBookMeButton]
-GO
-ALTER TABLE [dbo].[UserReviews] ADD  CONSTRAINT [DF_UserReviews_ServiceHours]  DEFAULT ((0)) FOR [ServiceHours]
-GO
-ALTER TABLE [dbo].[UserReviews] ADD  CONSTRAINT [DF_UserReviews_HelpfulReviewCount]  DEFAULT ((0)) FOR [HelpfulReviewCount]
-GO
-ALTER TABLE [dbo].[users] ADD  CONSTRAINT [DF_users_GenderID]  DEFAULT ((-1)) FOR [GenderID]
-GO
-ALTER TABLE [dbo].[users] ADD  CONSTRAINT [DF__users__IsProvide__3943762B]  DEFAULT ((0)) FOR [IsProvider]
-GO
-ALTER TABLE [dbo].[users] ADD  CONSTRAINT [DF__users__IsCustome__3A379A64]  DEFAULT ((0)) FOR [IsCustomer]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((0)) FOR [IsAdmin]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((0)) FOR [IsCollaborator]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((0)) FOR [CanReceiveSms]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [SMSBookingCommunication]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [PhoneBookingCommunication]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [LoconomicsMarketingCampaigns]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [ProfileSEOPermission]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [LoconomicsCommunityCommunication]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [LoconomicsDBMCampaigns]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [AccountStatusID]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [CoBrandedPartnerPermissions]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((0)) FOR [IsHipaaAdmin]
-GO
-ALTER TABLE [dbo].[users] ADD  CONSTRAINT [users_IsContributor_default]  DEFAULT (CONVERT([bit],(0),0)) FOR [IsContributor]
-GO
-ALTER TABLE [dbo].[users] ADD  DEFAULT ((0)) FOR [IsOrganization]
-GO
-ALTER TABLE [dbo].[UserSolution] ADD  DEFAULT ('sys') FOR [ModifiedBy]
-GO
-ALTER TABLE [dbo].[UserSolution] ADD  DEFAULT ((1)) FOR [Active]
-GO
-ALTER TABLE [dbo].[userverification] ADD  CONSTRAINT [DF_userverification_PositionID]  DEFAULT ((0)) FOR [PositionID]
-GO
-ALTER TABLE [dbo].[webpages_Membership] ADD  DEFAULT ((0)) FOR [IsConfirmed]
-GO
-ALTER TABLE [dbo].[webpages_Membership] ADD  DEFAULT ((0)) FOR [PasswordFailuresSinceLastSuccess]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((0)) FOR [FirstTimeClientsOnly]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((1)) FOR [NumberOfSessions]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((0)) FOR [IsAddOn]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((0)) FOR [IsPhone]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((0)) FOR [VisibleToClientID]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((1)) FOR [MaxAvailableSpots]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((1)) FOR [MaxCapacity]
-GO
-ALTER TABLE [dbo].[xServiceProfessionalPricing] ADD  DEFAULT ((1)) FOR [MinSpots]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__alternativeDate1] FOREIGN KEY([AlternativeDate1ID])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__alternativeDate1]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__alternativeDate2] FOREIGN KEY([AlternativeDate2ID])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__alternativeDate2]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__AwaitingResponseFromUserID] FOREIGN KEY([AwaitingResponseFromUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__AwaitingResponseFromUserID]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__cancellationPolicy] FOREIGN KEY([CancellationPolicyID], [LanguageID], [CountryID])
-REFERENCES [dbo].[cancellationpolicy] ([CancellationPolicyID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__cancellationPolicy]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__client] FOREIGN KEY([ClientUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__client]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__jobtitle] FOREIGN KEY([JobTitleID], [LanguageID], [CountryID])
-REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__jobtitle]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__parentbooking] FOREIGN KEY([ParentBookingID])
-REFERENCES [dbo].[booking] ([BookingID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__parentbooking]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__pricingSummary] FOREIGN KEY([PricingSummaryID], [PricingSummaryRevision])
-REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__pricingSummary]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__serviceAddress] FOREIGN KEY([ServiceAddressID])
-REFERENCES [dbo].[address] ([AddressID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__serviceAddress]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__serviceDate] FOREIGN KEY([ServiceDateID])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__serviceDate]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__serviceProfessional] FOREIGN KEY([ServiceProfessionalUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__serviceProfessional]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__status] FOREIGN KEY([BookingStatusID])
-REFERENCES [dbo].[bookingStatus] ([BookingStatusID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__status]
-GO
-ALTER TABLE [dbo].[booking]  WITH CHECK ADD  CONSTRAINT [FK__booking__type] FOREIGN KEY([BookingTypeID])
-REFERENCES [dbo].[bookingType] ([BookingTypeID])
-GO
-ALTER TABLE [dbo].[booking] CHECK CONSTRAINT [FK__booking__type]
-GO
-ALTER TABLE [dbo].[CalendarEventComments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_CalendarEvents] FOREIGN KEY([IdEvent])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEventComments] CHECK CONSTRAINT [FK_Comments_CalendarEvents]
-GO
-ALTER TABLE [dbo].[CalendarEventExceptionsPeriod]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEventExceptionsPeriods_CalendarEventExceptionsDates] FOREIGN KEY([IdException])
-REFERENCES [dbo].[CalendarEventExceptionsPeriodsList] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEventExceptionsPeriod] CHECK CONSTRAINT [FK_CalendarEventExceptionsPeriods_CalendarEventExceptionsDates]
-GO
-ALTER TABLE [dbo].[CalendarEventExceptionsPeriodsList]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEventExceptions_CalendarEvents] FOREIGN KEY([IdEvent])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEventExceptionsPeriodsList] CHECK CONSTRAINT [FK_CalendarEventExceptions_CalendarEvents]
-GO
-ALTER TABLE [dbo].[CalendarEventRecurrencesPeriod]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEventRecurrencesPeriod_CalendarEventRecurrencesPeriodList] FOREIGN KEY([IdRecurrence])
-REFERENCES [dbo].[CalendarEventRecurrencesPeriodList] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEventRecurrencesPeriod] CHECK CONSTRAINT [FK_CalendarEventRecurrencesPeriod_CalendarEventRecurrencesPeriodList]
-GO
-ALTER TABLE [dbo].[CalendarEventRecurrencesPeriodList]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEventRecurrencesPeriodList_CalendarEvents] FOREIGN KEY([IdEvent])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEventRecurrencesPeriodList] CHECK CONSTRAINT [FK_CalendarEventRecurrencesPeriodList_CalendarEvents]
-GO
-ALTER TABLE [dbo].[CalendarEvents]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEvents_CalendarAvailabilityType] FOREIGN KEY([CalendarAvailabilityTypeID])
-REFERENCES [dbo].[CalendarAvailabilityType] ([CalendarAvailabilityTypeID])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEvents] CHECK CONSTRAINT [FK_CalendarEvents_CalendarAvailabilityType]
-GO
-ALTER TABLE [dbo].[CalendarEvents]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEvents_CalendarEventType] FOREIGN KEY([EventType])
-REFERENCES [dbo].[CalendarEventType] ([EventTypeId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEvents] CHECK CONSTRAINT [FK_CalendarEvents_CalendarEventType]
-GO
-ALTER TABLE [dbo].[CalendarEventsAttendees]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEventsAttendees_CalendarEvents] FOREIGN KEY([IdEvent])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEventsAttendees] CHECK CONSTRAINT [FK_CalendarEventsAttendees_CalendarEvents]
-GO
-ALTER TABLE [dbo].[CalendarEventsContacts]  WITH CHECK ADD  CONSTRAINT [FK_CalendarEventsContacts_CalendarEvents] FOREIGN KEY([IdEvent])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarEventsContacts] CHECK CONSTRAINT [FK_CalendarEventsContacts_CalendarEvents]
-GO
-ALTER TABLE [dbo].[CalendarProviderAttributes]  WITH CHECK ADD  CONSTRAINT [FK_CalendarProviderAttributes_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarProviderAttributes] CHECK CONSTRAINT [FK_CalendarProviderAttributes_users]
-GO
-ALTER TABLE [dbo].[CalendarReccurrence]  WITH CHECK ADD  CONSTRAINT [FK_CalendarReccurrence_CalendarRecurrenceFrequencyTypes] FOREIGN KEY([Frequency])
-REFERENCES [dbo].[CalendarRecurrenceFrequencyTypes] ([ID])
-GO
-ALTER TABLE [dbo].[CalendarReccurrence] CHECK CONSTRAINT [FK_CalendarReccurrence_CalendarRecurrenceFrequencyTypes]
-GO
-ALTER TABLE [dbo].[CalendarReccurrence]  WITH CHECK ADD  CONSTRAINT [FK_CalendarReccursive_CalendarEvents] FOREIGN KEY([EventID])
-REFERENCES [dbo].[CalendarEvents] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarReccurrence] CHECK CONSTRAINT [FK_CalendarReccursive_CalendarEvents]
-GO
-ALTER TABLE [dbo].[CalendarReccurrenceFrequency]  WITH CHECK ADD  CONSTRAINT [FK_CalendarFrecuency_CalendarReccursive] FOREIGN KEY([CalendarReccursiveID])
-REFERENCES [dbo].[CalendarReccurrence] ([ID])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CalendarReccurrenceFrequency] CHECK CONSTRAINT [FK_CalendarFrecuency_CalendarReccursive]
-GO
-ALTER TABLE [dbo].[CalendarRecurrenceFrequencyTypes]  WITH CHECK ADD  CONSTRAINT [FK_CalendarRecurrenceFrequencyTypes_CalendarRecurrenceFrequencyTypes] FOREIGN KEY([ID])
-REFERENCES [dbo].[CalendarRecurrenceFrequencyTypes] ([ID])
-GO
-ALTER TABLE [dbo].[CalendarRecurrenceFrequencyTypes] CHECK CONSTRAINT [FK_CalendarRecurrenceFrequencyTypes_CalendarRecurrenceFrequencyTypes]
-GO
-ALTER TABLE [dbo].[CCCUsers]  WITH CHECK ADD FOREIGN KEY([FieldOfStudyID])
-REFERENCES [dbo].[FieldOfStudy] ([FieldOfStudyID])
-GO
-ALTER TABLE [dbo].[CCCUsers]  WITH CHECK ADD FOREIGN KEY([InstitutionID])
-REFERENCES [dbo].[institution] ([InstitutionID])
-GO
-ALTER TABLE [dbo].[CCCUsers]  WITH CHECK ADD  CONSTRAINT [FK__CCCUsers__UserID__6EA14102] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[CCCUsers] CHECK CONSTRAINT [FK__CCCUsers__UserID__6EA14102]
-GO
-ALTER TABLE [dbo].[CCCUsers]  WITH CHECK ADD FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[county]  WITH CHECK ADD FOREIGN KEY([StateProvinceID])
-REFERENCES [dbo].[stateprovince] ([StateProvinceID])
-GO
-ALTER TABLE [dbo].[FieldOfStudy]  WITH CHECK ADD FOREIGN KEY([LanguageID], [CountryID])
-REFERENCES [dbo].[language] ([LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[institution]  WITH CHECK ADD  CONSTRAINT [FK__instituti__State__153B1FDF] FOREIGN KEY([StateProvinceID])
-REFERENCES [dbo].[stateprovince] ([StateProvinceID])
-GO
-ALTER TABLE [dbo].[institution] CHECK CONSTRAINT [FK__instituti__State__153B1FDF]
-GO
-ALTER TABLE [dbo].[JobTitlePlatform]  WITH CHECK ADD  CONSTRAINT [FK_JobTitlePlatform_Platform] FOREIGN KEY([PlatformID], [LanguageID], [CountryID])
-REFERENCES [dbo].[Platform] ([PlatformID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[JobTitlePlatform] CHECK CONSTRAINT [FK_JobTitlePlatform_Platform]
-GO
-ALTER TABLE [dbo].[JobTitleSolution]  WITH CHECK ADD  CONSTRAINT [FK_JobTitleSolution_positions] FOREIGN KEY([JobTitleID], [LanguageID], [CountryID])
-REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[JobTitleSolution] CHECK CONSTRAINT [FK_JobTitleSolution_positions]
-GO
-ALTER TABLE [dbo].[JobTitleSolution]  WITH CHECK ADD  CONSTRAINT [FK_JobTitleSolution_Solution] FOREIGN KEY([SolutionID], [LanguageID], [CountryID])
-REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[JobTitleSolution] CHECK CONSTRAINT [FK_JobTitleSolution_Solution]
-GO
-ALTER TABLE [dbo].[MessagingThreads]  WITH CHECK ADD  CONSTRAINT [Fk_MessagingThreads_2] FOREIGN KEY([CustomerUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[MessagingThreads] CHECK CONSTRAINT [Fk_MessagingThreads_2]
-GO
-ALTER TABLE [dbo].[MessagingThreads]  WITH CHECK ADD  CONSTRAINT [FK_MessagingThreads_Messages] FOREIGN KEY([LastMessageID])
-REFERENCES [dbo].[Messages] ([MessageID])
-GO
-ALTER TABLE [dbo].[MessagingThreads] CHECK CONSTRAINT [FK_MessagingThreads_Messages]
-GO
-ALTER TABLE [dbo].[MessagingThreads]  WITH CHECK ADD  CONSTRAINT [FK_MessagingThreads_messagethreadstatus] FOREIGN KEY([MessageThreadStatusID])
-REFERENCES [dbo].[messagethreadstatus] ([MessageThreadStatusID])
-GO
-ALTER TABLE [dbo].[MessagingThreads] CHECK CONSTRAINT [FK_MessagingThreads_messagethreadstatus]
-GO
-ALTER TABLE [dbo].[MessagingThreads]  WITH CHECK ADD  CONSTRAINT [FK_MessagingThreads_users] FOREIGN KEY([ProviderUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[MessagingThreads] CHECK CONSTRAINT [FK_MessagingThreads_users]
-GO
-ALTER TABLE [dbo].[municipality]  WITH CHECK ADD FOREIGN KEY([CountyID])
-REFERENCES [dbo].[county] ([CountyID])
-GO
-ALTER TABLE [dbo].[OwnerAcknowledgment]  WITH CHECK ADD  CONSTRAINT [FK_OwnerAcknowledgment_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[OwnerAcknowledgment] CHECK CONSTRAINT [FK_OwnerAcknowledgment_users]
-GO
-ALTER TABLE [dbo].[Platform]  WITH CHECK ADD  CONSTRAINT [FK_Platform_language] FOREIGN KEY([LanguageID], [CountryID])
-REFERENCES [dbo].[language] ([LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[Platform] CHECK CONSTRAINT [FK_Platform_language]
-GO
-ALTER TABLE [dbo].[positionpricingtype]  WITH CHECK ADD  CONSTRAINT [Fk_positionpricingtype] FOREIGN KEY([PricingTypeID], [LanguageID], [CountryID])
-REFERENCES [dbo].[pricingtype] ([PricingTypeID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[positionpricingtype] CHECK CONSTRAINT [Fk_positionpricingtype]
-GO
-ALTER TABLE [dbo].[positionpricingtype]  WITH CHECK ADD  CONSTRAINT [Fk_positionpricingtype_0] FOREIGN KEY([PositionID], [LanguageID], [CountryID])
-REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[positionpricingtype] CHECK CONSTRAINT [Fk_positionpricingtype_0]
-GO
-ALTER TABLE [dbo].[positionpricingtype]  WITH CHECK ADD  CONSTRAINT [Fk_positionpricingtype_1] FOREIGN KEY([ClientTypeID], [LanguageID], [CountryID])
-REFERENCES [dbo].[clienttype] ([CllientTypeID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[positionpricingtype] CHECK CONSTRAINT [Fk_positionpricingtype_1]
-GO
-ALTER TABLE [dbo].[postalcode]  WITH CHECK ADD FOREIGN KEY([CountyID])
-REFERENCES [dbo].[county] ([CountyID])
-GO
-ALTER TABLE [dbo].[postalcode]  WITH CHECK ADD FOREIGN KEY([MunicipalityID])
-REFERENCES [dbo].[municipality] ([MunicipalityID])
-GO
-ALTER TABLE [dbo].[postalcode]  WITH CHECK ADD FOREIGN KEY([StateProvinceID])
-REFERENCES [dbo].[stateprovince] ([StateProvinceID])
-GO
-ALTER TABLE [dbo].[postingTemplateQuestion]  WITH CHECK ADD  CONSTRAINT [FK_postingTemplateQuestion_postingTemplate] FOREIGN KEY([postingTemplateID])
-REFERENCES [dbo].[postingTemplate] ([postingTemplateID])
-GO
-ALTER TABLE [dbo].[postingTemplateQuestion] CHECK CONSTRAINT [FK_postingTemplateQuestion_postingTemplate]
-GO
-ALTER TABLE [dbo].[postingTemplateQuestion]  WITH CHECK ADD  CONSTRAINT [FK_postingTemplateQuestion_question] FOREIGN KEY([questionID])
-REFERENCES [dbo].[question] ([questionID])
-GO
-ALTER TABLE [dbo].[postingTemplateQuestion] CHECK CONSTRAINT [FK_postingTemplateQuestion_question]
-GO
-ALTER TABLE [dbo].[pricingSummary]  WITH CHECK ADD  CONSTRAINT [FK_pricingestimate_pricingestimate] FOREIGN KEY([PricingSummaryID], [PricingSummaryRevision])
-REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision])
-GO
-ALTER TABLE [dbo].[pricingSummary] CHECK CONSTRAINT [FK_pricingestimate_pricingestimate]
-GO
-ALTER TABLE [dbo].[question]  WITH CHECK ADD  CONSTRAINT [FK_question_questionType] FOREIGN KEY([questionTypeID])
-REFERENCES [dbo].[questionType] ([questionTypeID])
-GO
-ALTER TABLE [dbo].[question] CHECK CONSTRAINT [FK_question_questionType]
-GO
-ALTER TABLE [dbo].[SearchCategory]  WITH CHECK ADD  CONSTRAINT [FK_SearchCategory_language] FOREIGN KEY([LanguageID], [CountryID])
-REFERENCES [dbo].[language] ([LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[SearchCategory] CHECK CONSTRAINT [FK_SearchCategory_language]
-GO
-ALTER TABLE [dbo].[SearchSubCategory]  WITH CHECK ADD  CONSTRAINT [FK_SearchSubCategory_language] FOREIGN KEY([LanguageID], [CountryID])
-REFERENCES [dbo].[language] ([LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[SearchSubCategory] CHECK CONSTRAINT [FK_SearchSubCategory_language]
-GO
-ALTER TABLE [dbo].[SearchSubCategory]  WITH CHECK ADD  CONSTRAINT [FK_SearchSubCategory_SearchCategory] FOREIGN KEY([SearchCategoryID], [LanguageID], [CountryID])
-REFERENCES [dbo].[SearchCategory] ([SearchCategoryID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[SearchSubCategory] CHECK CONSTRAINT [FK_SearchSubCategory_SearchCategory]
-GO
-ALTER TABLE [dbo].[SearchSubCategorySolution]  WITH CHECK ADD  CONSTRAINT [FK_SearchSubCategorySolution_language] FOREIGN KEY([LanguageID], [CountryID])
-REFERENCES [dbo].[language] ([LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[SearchSubCategorySolution] CHECK CONSTRAINT [FK_SearchSubCategorySolution_language]
-GO
-ALTER TABLE [dbo].[SearchSubCategorySolution]  WITH CHECK ADD  CONSTRAINT [FK_SearchSubCategorySolution_SearchSubCategory] FOREIGN KEY([SearchSubCategoryID], [LanguageID], [CountryID])
-REFERENCES [dbo].[SearchSubCategory] ([SearchSubCategoryID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[SearchSubCategorySolution] CHECK CONSTRAINT [FK_SearchSubCategorySolution_SearchSubCategory]
-GO
-ALTER TABLE [dbo].[SearchSubCategorySolution]  WITH CHECK ADD  CONSTRAINT [FK_SearchSubCategorySolution_Solution] FOREIGN KEY([SolutionID], [LanguageID], [CountryID])
-REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[SearchSubCategorySolution] CHECK CONSTRAINT [FK_SearchSubCategorySolution_Solution]
-GO
-ALTER TABLE [dbo].[serviceaddress]  WITH CHECK ADD  CONSTRAINT [FK__servicead__UserI__56F3D4A3] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[serviceaddress] CHECK CONSTRAINT [FK__servicead__UserI__56F3D4A3]
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient]  WITH CHECK ADD  CONSTRAINT [FK_ProviderCustomer_ReferralSource] FOREIGN KEY([ReferralSourceID])
-REFERENCES [dbo].[ReferralSource] ([ReferralSourceID])
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient] CHECK CONSTRAINT [FK_ProviderCustomer_ReferralSource]
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient]  WITH CHECK ADD  CONSTRAINT [FK_ProviderCustomer_users] FOREIGN KEY([ServiceProfessionalUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient] CHECK CONSTRAINT [FK_ProviderCustomer_users]
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient]  WITH CHECK ADD  CONSTRAINT [FK_ProviderCustomer_users1] FOREIGN KEY([ClientUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient] CHECK CONSTRAINT [FK_ProviderCustomer_users1]
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient]  WITH CHECK ADD  CONSTRAINT [FK_ServiceProfessionalClient_booking] FOREIGN KEY([CreatedByBookingID])
-REFERENCES [dbo].[booking] ([BookingID])
-GO
-ALTER TABLE [dbo].[ServiceProfessionalClient] CHECK CONSTRAINT [FK_ServiceProfessionalClient_booking]
-GO
-ALTER TABLE [dbo].[servicesubcategory]  WITH CHECK ADD  CONSTRAINT [FK_servicesubcategory_servicecategory] FOREIGN KEY([ServiceCategoryID], [LanguageID], [CountryID])
-REFERENCES [dbo].[servicecategory] ([ServiceCategoryID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[servicesubcategory] CHECK CONSTRAINT [FK_servicesubcategory_servicecategory]
-GO
-ALTER TABLE [dbo].[Solution]  WITH CHECK ADD  CONSTRAINT [FK_Solution_language] FOREIGN KEY([LanguageID], [CountryID])
-REFERENCES [dbo].[language] ([LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[Solution] CHECK CONSTRAINT [FK_Solution_language]
-GO
-ALTER TABLE [dbo].[Specialization]  WITH CHECK ADD  CONSTRAINT [FK_Specialization_Solution] FOREIGN KEY([SolutionID], [LanguageID], [CountryID])
-REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[Specialization] CHECK CONSTRAINT [FK_Specialization_Solution]
-GO
-ALTER TABLE [dbo].[userbackgroundcheck]  WITH CHECK ADD  CONSTRAINT [FK__userbackg__Provi__4BB72C21] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[userbackgroundcheck] CHECK CONSTRAINT [FK__userbackg__Provi__4BB72C21]
-GO
-ALTER TABLE [dbo].[UserBadge]  WITH CHECK ADD  CONSTRAINT [FK_UserBadge_Solution] FOREIGN KEY([SolutionID], [LanguageID], [CountryID])
-REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[UserBadge] CHECK CONSTRAINT [FK_UserBadge_Solution]
-GO
-ALTER TABLE [dbo].[UserBadge]  WITH CHECK ADD  CONSTRAINT [FK_UserBadge_UserBadge] FOREIGN KEY([UserBadgeID])
-REFERENCES [dbo].[UserBadge] ([UserBadgeID])
-GO
-ALTER TABLE [dbo].[UserBadge] CHECK CONSTRAINT [FK_UserBadge_UserBadge]
-GO
-ALTER TABLE [dbo].[UserBadge]  WITH CHECK ADD  CONSTRAINT [FK_UserBadge_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserBadge] CHECK CONSTRAINT [FK_UserBadge_users]
-GO
-ALTER TABLE [dbo].[UserEarnings]  WITH CHECK ADD  CONSTRAINT [FK_UserEarnings_UserEarnings] FOREIGN KEY([UserEarningsID])
-REFERENCES [dbo].[UserEarnings] ([UserEarningsID])
-GO
-ALTER TABLE [dbo].[UserEarnings] CHECK CONSTRAINT [FK_UserEarnings_UserEarnings]
-GO
-ALTER TABLE [dbo].[UserEarnings]  WITH CHECK ADD  CONSTRAINT [FK_UserEarnings_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserEarnings] CHECK CONSTRAINT [FK_UserEarnings_users]
-GO
-ALTER TABLE [dbo].[UserEarnings]  WITH CHECK ADD  CONSTRAINT [FK_UserEarnings_users1] FOREIGN KEY([ClientID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserEarnings] CHECK CONSTRAINT [FK_UserEarnings_users1]
-GO
-ALTER TABLE [dbo].[UserEarningsEntry]  WITH CHECK ADD  CONSTRAINT [FK_UserEarningsEntry_ServiceProfessionalClient] FOREIGN KEY([UserID], [ClientUserID])
-REFERENCES [dbo].[ServiceProfessionalClient] ([ServiceProfessionalUserID], [ClientUserID])
-GO
-ALTER TABLE [dbo].[UserEarningsEntry] CHECK CONSTRAINT [FK_UserEarningsEntry_ServiceProfessionalClient]
-GO
-ALTER TABLE [dbo].[UserEarningsEntry]  WITH CHECK ADD  CONSTRAINT [FK_UserEarningsEntry_UserExternalListing] FOREIGN KEY([UserExternalListingID])
-REFERENCES [dbo].[UserExternalListing] ([UserExternalListingID])
-GO
-ALTER TABLE [dbo].[UserEarningsEntry] CHECK CONSTRAINT [FK_UserEarningsEntry_UserExternalListing]
-GO
-ALTER TABLE [dbo].[UserEarningsEntry]  WITH CHECK ADD  CONSTRAINT [FK_UserEarningsEntry_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserEarningsEntry] CHECK CONSTRAINT [FK_UserEarningsEntry_users]
-GO
-ALTER TABLE [dbo].[usereducation]  WITH CHECK ADD  CONSTRAINT [FK__usereduca__Insti__2D12A970] FOREIGN KEY([InstitutionID])
-REFERENCES [dbo].[institution] ([InstitutionID])
-GO
-ALTER TABLE [dbo].[usereducation] CHECK CONSTRAINT [FK__usereduca__Insti__2D12A970]
-GO
-ALTER TABLE [dbo].[usereducation]  WITH CHECK ADD  CONSTRAINT [FK__usereduca__UserI__2C1E8537] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[usereducation] CHECK CONSTRAINT [FK__usereduca__UserI__2C1E8537]
-GO
-ALTER TABLE [dbo].[UserExternalListing]  WITH CHECK ADD  CONSTRAINT [FK_UserExternalListing_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserExternalListing] CHECK CONSTRAINT [FK_UserExternalListing_users]
-GO
-ALTER TABLE [dbo].[UserLicenseCertifications]  WITH CHECK ADD FOREIGN KEY([ProviderUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserLicenseCertifications]  WITH CHECK ADD  CONSTRAINT [FK__userlicen__Provi__5B045CA9] FOREIGN KEY([ProviderUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserLicenseCertifications] CHECK CONSTRAINT [FK__userlicen__Provi__5B045CA9]
-GO
-ALTER TABLE [dbo].[UserListingSpecialization]  WITH CHECK ADD  CONSTRAINT [FK_UserListingSpecialization_Specialization] FOREIGN KEY([SpecializationID], [LanguageID], [CountryID])
-REFERENCES [dbo].[Specialization] ([SpecializationID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[UserListingSpecialization] CHECK CONSTRAINT [FK_UserListingSpecialization_Specialization]
-GO
-ALTER TABLE [dbo].[UserListingSpecialization]  WITH CHECK ADD  CONSTRAINT [FK_UserListingSpecialization_userprofilepositions] FOREIGN KEY([UserListingID])
-REFERENCES [dbo].[userprofilepositions] ([UserListingID])
-GO
-ALTER TABLE [dbo].[UserListingSpecialization] CHECK CONSTRAINT [FK_UserListingSpecialization_userprofilepositions]
-GO
-ALTER TABLE [dbo].[UserListingSpecialization]  WITH CHECK ADD  CONSTRAINT [FK_UserListingSpecialization_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserListingSpecialization] CHECK CONSTRAINT [FK_UserListingSpecialization_users]
-GO
-ALTER TABLE [dbo].[userOrganization]  WITH CHECK ADD  CONSTRAINT [FK_userOrganization_users] FOREIGN KEY([userID])
-REFERENCES [dbo].[users] ([UserID])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[userOrganization] CHECK CONSTRAINT [FK_userOrganization_users]
-GO
-ALTER TABLE [dbo].[UserPostingQuestionResponse]  WITH CHECK ADD  CONSTRAINT [FK_UserPostingQuestionResponse_question] FOREIGN KEY([questionID])
-REFERENCES [dbo].[question] ([questionID])
-GO
-ALTER TABLE [dbo].[UserPostingQuestionResponse] CHECK CONSTRAINT [FK_UserPostingQuestionResponse_question]
-GO
-ALTER TABLE [dbo].[UserPostingQuestionResponse]  WITH CHECK ADD  CONSTRAINT [FK_UserPostingQuestionResponse_questionType] FOREIGN KEY([questionTypeID])
-REFERENCES [dbo].[questionType] ([questionTypeID])
-GO
-ALTER TABLE [dbo].[UserPostingQuestionResponse] CHECK CONSTRAINT [FK_UserPostingQuestionResponse_questionType]
-GO
-ALTER TABLE [dbo].[UserPostingQuestionResponse]  WITH CHECK ADD  CONSTRAINT [FK_UserPostingQuestionResponse_UserPosting] FOREIGN KEY([userPostingID])
-REFERENCES [dbo].[UserPosting] ([userPostingID])
-GO
-ALTER TABLE [dbo].[UserPostingQuestionResponse] CHECK CONSTRAINT [FK_UserPostingQuestionResponse_UserPosting]
-GO
-ALTER TABLE [dbo].[UserPostingReaction]  WITH CHECK ADD  CONSTRAINT [FK_UserPostingReaction_UserPosting] FOREIGN KEY([userPostingID])
-REFERENCES [dbo].[UserPosting] ([userPostingID])
-GO
-ALTER TABLE [dbo].[UserPostingReaction] CHECK CONSTRAINT [FK_UserPostingReaction_UserPosting]
-GO
-ALTER TABLE [dbo].[UserPostingReaction]  WITH CHECK ADD  CONSTRAINT [FK_UserPostingReaction_users] FOREIGN KEY([serviceProfessionalUserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserPostingReaction] CHECK CONSTRAINT [FK_UserPostingReaction_users]
-GO
-ALTER TABLE [dbo].[userprofilepositions]  WITH CHECK ADD  CONSTRAINT [FK_userprofilepositions_accountstatus] FOREIGN KEY([StatusID])
-REFERENCES [dbo].[accountstatus] ([AccountStatusID])
-GO
-ALTER TABLE [dbo].[userprofilepositions] CHECK CONSTRAINT [FK_userprofilepositions_accountstatus]
-GO
-ALTER TABLE [dbo].[userprofilepositions]  WITH CHECK ADD  CONSTRAINT [FK_userprofilepositions_positions] FOREIGN KEY([PositionID], [LanguageID], [CountryID])
-REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[userprofilepositions] CHECK CONSTRAINT [FK_userprofilepositions_positions]
-GO
-ALTER TABLE [dbo].[userprofilepositions]  WITH CHECK ADD  CONSTRAINT [FK_userprofilepositions_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[userprofilepositions] CHECK CONSTRAINT [FK_userprofilepositions_users]
-GO
-ALTER TABLE [dbo].[users]  WITH CHECK ADD  CONSTRAINT [FK_users_accountstatus] FOREIGN KEY([AccountStatusID])
-REFERENCES [dbo].[accountstatus] ([AccountStatusID])
-GO
-ALTER TABLE [dbo].[users] CHECK CONSTRAINT [FK_users_accountstatus]
-GO
-ALTER TABLE [dbo].[users]  WITH CHECK ADD  CONSTRAINT [FK_users_OwnerStatus] FOREIGN KEY([OwnerStatusID])
-REFERENCES [dbo].[OwnerStatus] ([OwnserStatusID])
-GO
-ALTER TABLE [dbo].[users] CHECK CONSTRAINT [FK_users_OwnerStatus]
-GO
-ALTER TABLE [dbo].[UserSolution]  WITH CHECK ADD  CONSTRAINT [FK_UserSolution_Solution] FOREIGN KEY([SolutionID], [LanguageID], [CountryID])
-REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID])
-GO
-ALTER TABLE [dbo].[UserSolution] CHECK CONSTRAINT [FK_UserSolution_Solution]
-GO
-ALTER TABLE [dbo].[UserSolution]  WITH CHECK ADD  CONSTRAINT [FK_UserSolution_userprofilepositions] FOREIGN KEY([UserListingID])
-REFERENCES [dbo].[userprofilepositions] ([UserListingID])
-GO
-ALTER TABLE [dbo].[UserSolution] CHECK CONSTRAINT [FK_UserSolution_userprofilepositions]
-GO
-ALTER TABLE [dbo].[UserSolution]  WITH CHECK ADD  CONSTRAINT [FK_UserSolution_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserSolution] CHECK CONSTRAINT [FK_UserSolution_users]
-GO
-ALTER TABLE [dbo].[UserStats]  WITH CHECK ADD  CONSTRAINT [FK_UserStats_users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[users] ([UserID])
-GO
-ALTER TABLE [dbo].[UserStats] CHECK CONSTRAINT [FK_UserStats_users]
-GO
-ALTER TABLE [dbo].[webpages_UsersInRoles]  WITH CHECK ADD  CONSTRAINT [fk_RoleId] FOREIGN KEY([RoleId])
-REFERENCES [dbo].[webpages_Roles] ([RoleId])
-GO
-ALTER TABLE [dbo].[webpages_UsersInRoles] CHECK CONSTRAINT [fk_RoleId]
-GO
-ALTER TABLE [dbo].[webpages_UsersInRoles]  WITH CHECK ADD  CONSTRAINT [fk_UserId] FOREIGN KEY([UserId])
-REFERENCES [dbo].[userprofile] ([UserId])
-GO
-ALTER TABLE [dbo].[webpages_UsersInRoles] CHECK CONSTRAINT [fk_UserId]
-GO
-/****** Object:  StoredProcedure [dbo].[CheckUserEmail]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+
+PRINT N'Creating [dbo].[CheckUserEmail]...';
 GO
 -- =============================================
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[CheckUserEmail]
+CREATE PROCEDURE dbo.CheckUserEmail
 	-- Add the parameters for the stored procedure here
 	@Email nvarchar(56)
 AS
@@ -4577,17 +4203,15 @@ BEGIN
 	SET NOCOUNT ON;
 
     SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@Email)
-
-
-
-
-
+    
+    
+    
+    
+    
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CreateCustomer]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[CreateCustomer]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -4598,7 +4222,7 @@ GO
 -- =============================================
 CREATE PROCEDURE [dbo].[CreateCustomer]
 	-- Add the parameters for the stored procedure here
-
+	
 		@UserID int,
 		@Firstname varchar(45),
         @Lastname varchar(145),
@@ -4650,21 +4274,19 @@ BEGIN
 		1,
 		DATEADD(DAY, 14, SYSDATETIMEOFFSET())
 	)
-
+	
 	-- Check alerts for the user to get its state updated
 	EXEC TestAllUserAlerts @UserID
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[CreateProviderFromUser]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[CreateProviderFromUser]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-03
--- Description:	Converts an existing user
+-- Description:	Converts an existing user 
 -- (a customer) into a provider, allowing
 -- update some user data and setting needed
 -- provider fields as in CreateProvider proc.
@@ -4705,25 +4327,23 @@ CREATE PROCEDURE [dbo].[CreateProviderFromUser] (
 		ModifiedBy = 'sys',
 		Active = 1
 	WHERE	UserID = @UserID
-
+	
 	-- Set the address
 	EXEC SetHomeAddress @UserID, '', '', '', @StateProvinceID, @PostalCodeID, @CountryID, @LangID
-
+	
 	-- Check alerts for the user to get its state updated
 	EXEC TestAllUserAlerts @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteBookingRequest]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[DeleteBookingRequest]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-12-28
--- Description:	Allow fully remove a Booking
+-- Description:	Allow fully remove a Booking 
 -- Request and related records created for it
--- based on our general rules for booking
+-- based on our general rules for booking 
 -- invalidation and removing all.
 -- This MUST NOT be used normally, only because
 -- errors on system, corrupt bookings or testing
@@ -4733,7 +4353,7 @@ GO
 -- or use the app method LcData.Booking.InvalidateBookingRequest
 -- previous deletion to ensure is done auto.
 -- =============================================
-CREATE PROCEDURE [dbo].[DeleteBookingRequest]
+CREATE PROCEDURE DeleteBookingRequest
 	@BookingRequestID int
 AS
 BEGIN
@@ -4744,7 +4364,7 @@ BEGIN
 	DECLARE @invalidOk int
 	DECLARE @tranID varchar(250)
 	DECLARE @returnMessage varchar(1000)
-
+	
 	-- Invalidate the booking request with the general procedure, with a temporary
 	-- 'timed out' status, this ensure all related records not need are removed
 	-- and all remains clean.
@@ -4758,7 +4378,7 @@ BEGIN
 
 		-- Remove the request
 		DELETE FROM bookingrequest WHERE BookingRequestID = @BookingRequestID
-
+		
 		SET @returnMessage = 'Braintree cannot be Refunded or Void from here, do it manually for the next TransactionID if is not a Test: ' + @tranID
 	END ELSE
 		SET @returnMessage = 'Not deleted, could not be Invalidated becuase error number: ' + Cast(coalesce(@invalidOk, -1) as varchar)
@@ -4767,10 +4387,8 @@ BEGIN
 	PRINT @returnMessage
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteUser]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[DeleteUser]...';
 GO
 
 
@@ -4794,8 +4412,8 @@ CREATE PROCEDURE [dbo].[DeleteUser]
 	)
 AS
 	SET NOCOUNT ON
-
-DELETE PPD
+	
+DELETE PPD 
 FROM providerpackagedetail PPD
 INNER JOIN providerpackage PP
 ON PP.ProviderPackageID = PPD.ProviderPackageID
@@ -4920,12 +4538,10 @@ where userid = @UserId
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteUserPosition]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
+        
+PRINT N'Creating [dbo].[DeleteUserPosition]...';
 GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [dbo].[DeleteUserPosition] (
+CREATE PROCEDURE DeleteUserPosition (
 	@UserID int,
 	@PositionID int
 ) AS BEGIN
@@ -4944,10 +4560,8 @@ where userid = @UserID AND PositionID = @PositionID
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DelUserVerification]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[DelUserVerification]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -4955,7 +4569,7 @@ GO
 -- Description:	Delete a user-verification
 -- record, if there is one.
 -- =============================================
-CREATE PROCEDURE [dbo].[DelUserVerification]
+CREATE PROCEDURE DelUserVerification
 	@UserID int,
 	@VerificationID int,
     @PositionID int = 0
@@ -4967,10 +4581,8 @@ BEGIN
         AND PositionID = @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPosition]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[GetPosition]...';
 GO
 -- =============================================
 -- Author:		<Author,,Name>
@@ -4979,7 +4591,7 @@ GO
 -- =============================================
 CREATE PROCEDURE [dbo].[GetPosition]
 	-- Add the parameters for the stored procedure here
-
+	
 	@PositionID int,
 	@LanguageID int = 1,
 	@CountryID int = 1
@@ -4993,7 +4605,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-			SELECT
+			SELECT 
 				PositionSingular,
 				PositionDescription
 			FROM dbo.positions b
@@ -5003,10 +4615,8 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSearchResults]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[GetSearchResults]...';
 GO
 CREATE PROCEDURE [dbo].[GetSearchResults]
 @LanguageID int, @CountryID int, @SearchTerm varchar(300), @SubCategory varchar(300)
@@ -5019,13 +4629,13 @@ IF @SubCategory <> ''
 BEGIN
 	DECLARE @ServiceCategoryID AS INT
 
-	SELECT @ServiceCategoryID = ServiceCategoryID
-	FROM servicecategory
-	WHERE Name = @SubCategory
-		AND LanguageID = @LanguageID
+	SELECT @ServiceCategoryID = ServiceCategoryID 
+	FROM servicecategory 
+	WHERE Name = @SubCategory 
+		AND LanguageID = @LanguageID 
 		AND CountryID = @CountryID
 
-	SELECT
+	SELECT 
 		d.UserID
 		,d.FirstName
 		,d.LastName
@@ -5033,11 +4643,11 @@ BEGIN
 		,c.PositionSingular
 		,a.UpdatedDate
 		,Positions=STUFF((SELECT ', ' + PositionSingular FROM Positions As P0 INNER JOIN UserProfilePositions As UP0 ON P0.PositionID = UP0.PositionID WHERE UP0.UserID = D.UserID AND P0.LanguageID = @LanguageID AND P0.CountryID = @CountryID FOR XML PATH('')) , 1 , 1 , '' )
-		,S.Name as ServiceName
-	FROM dbo.users d
-	JOIN dbo.userprofilepositions a
-		ON d.UserID = a.UserID
-	JOIN  positions c
+		,S.Name as ServiceName 
+	FROM dbo.users d 
+	JOIN dbo.userprofilepositions a 
+		ON d.UserID = a.UserID 
+	JOIN  positions c 
 		ON a.PositionID = c.PositionID
 		AND a.LanguageID = c.LanguageID
 		AND a.CountryID = c.CountryID
@@ -5076,7 +4686,7 @@ END
 
 ELSE --IF @SearchTerm <> '%'
 BEGIN
-	SELECT
+	SELECT 
 		d.UserID
 		,d.FirstName
 		,d.LastName
@@ -5087,12 +4697,12 @@ BEGIN
 		--,rs.Rating1
 		--,rs.Rating2
 		--,rs.Rating3
-		--,rs.Rating4
-	FROM dbo.users d
-	JOIN dbo.userprofilepositions a
-		ON d.UserID = a.UserID
-	JOIN  positions c
-		ON a.PositionID = c.PositionID
+		--,rs.Rating4 
+	FROM dbo.users d 
+	JOIN dbo.userprofilepositions a 
+		ON d.UserID = a.UserID 
+	JOIN  positions c 
+		ON a.PositionID = c.PositionID 
 		AND a.LanguageID = c.LanguageID
 		AND a.CountryID = c.CountryID
 	--LEFT JOIN dbo.UserReviewScores rs ON (d.UserID = rs.UserID)
@@ -5141,10 +4751,8 @@ BEGIN
 		)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetServiceAttributeCategories]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[GetServiceAttributeCategories]...';
 GO
 -- =============================================
 -- Author:		<Author,,Name>
@@ -5190,16 +4798,14 @@ BEGIN
 	   -- booking path selection
 	   and (@OnlyBookingPathSelection = 0 OR BookingPathSelection = 1)
 	   ORDER BY a.DisplayRank ASC, a.ServiceAttributeCategory ASC
-
-
+	   
+	
 
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetServiceAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[GetServiceAttributes]...';
 GO
 -- =============================================
 -- Author:		<Author,,Name>
@@ -5226,30 +4832,30 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-		  SELECT
-		  se.ServiceAttributeCategoryID,
+		  SELECT 
+		  se.ServiceAttributeCategoryID, 
 		  se.ServiceAttributeCategory as ServiceCat,
 		  s.ServiceAttributeDescription,
-		  s.ServiceAttributeID,
+		  s.ServiceAttributeID, 
 		  s.Name as ServiceAttribute,
-
+		  
 		  -- iagosrl: added UserChecked to know if is an attribute
 		  -- assigned to the @UserID
 		  (case when @UserID <= 0 OR us.UserID is null then cast(0 as bit)
 				else cast(1 as bit)
 		  end) as UserChecked
 		  ,coalesce(se.EligibleForPackages, cast(0 as bit)) As EligibleForPackages
-
+		  
 		  from servicecategorypositionattribute d
-		  join serviceattribute s
-		  on d.ServiceAttributeID = s.ServiceAttributeID
-		  join serviceattributecategory se
-		  on d.ServiceAttributeCategoryID = se.ServiceAttributeCategoryID
+		  join serviceattribute s 
+		  on d.ServiceAttributeID = s.ServiceAttributeID 
+		  join serviceattributecategory se 
+		  on d.ServiceAttributeCategoryID = se.ServiceAttributeCategoryID 
 		  and d.LanguageID = se.LanguageID
 		  and d.CountryID = se.CountryID
 		  and se.LanguageID = s.LanguageID
 		  and se.CountryID = s.CountryID
-
+		  
 		  -- iagosrl: I added param @UserID to optionally (left join) get
 		  --  attributes selected by the user, not filtering else adding a
 		  --  new result field 'UserChecked' as true/false
@@ -5261,8 +4867,8 @@ BEGIN
 		  and d.CountryID = us.CountryID
 		  and us.Active = 1
 		  and us.UserID = @UserID
-
-		  WHERE  d.PositionID = @PositionID
+		  
+		  WHERE  d.PositionID = @PositionID  
 		  -- iagosrl: 2012-07-20, added the possibility of value Zero of CategoryID parameter to retrieve position attributes from all position-mapped categories
 		  and (@ServiceAttributeCategoryID = 0 OR d.ServiceAttributeCategoryID = @ServiceAttributeCategoryID)
 		  and d.LanguageID  = @LanguageID
@@ -5276,10 +4882,8 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserCalendarProviderAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[GetUserCalendarProviderAttributes]...';
 GO
 
 CREATE PROC [dbo].[GetUserCalendarProviderAttributes]
@@ -5293,17 +4897,15 @@ SELECT AdvanceTime,MinTime,MaxTime,BetweenTime,UseCalendarProgram,CalendarType,C
 FROM CalendarProviderAttributes
 WHERE UserID = @UserID
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserDetails]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[GetUserDetails]...';
 GO
 
 
 
 
 
-CREATE PROC [dbo].[GetUserDetails]
+CREATE PROC dbo.GetUserDetails
 
 @UserID int
 
@@ -5313,9 +4915,9 @@ as
 
 
 
-select
+select 
 
-FirstName,
+FirstName, 
 LastName,
 SecondLastName,
 MiddleIn,
@@ -5323,22 +4925,20 @@ PostalCode,
 Photo,
 PreferredLanguageID,
 PreferredCountryID,
-ADD_Details
-from users a
-join dbo.userprofilepositionadditional b
+ADD_Details 
+from users a 
+join dbo.userprofilepositionadditional b 
 on a.userid = b.userid  where a.UserID = @UserID
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserProfile]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[GetUserProfile]...';
 GO
 -- =============================================
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[GetUserProfile]
+CREATE PROCEDURE dbo.GetUserProfile
 	-- Add the parameters for the stored procedure here
 	@UserID int,
 	@PositionID int,
@@ -5354,16 +4954,16 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-			SELECT
+			SELECT 
 			FirstName + ' ' + LastName as ProviderName,
 			PostalCode,
 			Photo,
 			PreferredLanguageID,
 			PreferredCountryID,
-			ADD_Details
-			FROM users a
-			JOIN dbo.userprofilepositionadditional b
-			ON a.userid = b.userid
+			ADD_Details 
+			FROM users a 
+			JOIN dbo.userprofilepositionadditional b 
+			ON a.userid = b.userid  
 			WHERE a.UserID = @UserID
 			and b.PositionID = @PositionID
 			and b.LanguageID = @LanguageID
@@ -5371,11 +4971,8 @@ BEGIN
 
 END
 GO
-
-/****** Object:  StoredProcedure [dbo].[InsertUserProfilePositions]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[InsertUserProfilePositions]...';
 GO
 CREATE PROC [dbo].[InsertUserProfilePositions]
 
@@ -5405,7 +5002,7 @@ BEGIN TRY
 	)
 
 	SET @userListingID = @@Identity
-
+	
 	-- Check alerts for the position to get its state updated
 	EXEC TestAllUserAlerts @UserID, @PositionID
 
@@ -5420,7 +5017,7 @@ BEGIN CATCH
 -- TODO This needs refactor, since this error never happens now since userListingID exists
 -- (may be different message per unique index on positionID) may be the source of the issue #840
 IF @ResultMessage like 'Violation of PRIMARY KEY%'
-
+ 
 BEGIN
 
 	-- SELECT 'You already have this position loaded' as Result
@@ -5429,11 +5026,11 @@ BEGIN
 		UserID = @UserID AND PositionID = @PositionID
 		AND LanguageID = @LanguageID AND CountryID = @CountryID
 		AND Active = 0) BEGIN
-
+		
 		SELECT 'Position could not be added' As Result
-
+		
 	END ELSE BEGIN
-
+	
 		-- Enable this position and continue, no error
 		UPDATE UserProfilePositions
 		SET StatusID = 2
@@ -5443,15 +5040,15 @@ BEGIN
 			,CancellationPolicyID = @CancellationPolicyID
 			,InstantBooking = @InstantBooking
 			,collectPaymentAtBookMeButton = @collectPaymentAtBookMeButton
-		WHERE
+		WHERE 
 			UserID = @UserID AND PositionID = @PositionID
 			AND LanguageID = @LanguageID AND CountryID = @CountryID
-
+			
 		-- Check alerts for the position to get its state updated
 		EXEC TestAllUserAlerts @UserID, @PositionID
 
 		SELECT @userListingID = userListingID FROM UserProfilePositions
-		WHERE
+		WHERE 
 			UserID = @UserID AND PositionID = @PositionID
 			AND LanguageID = @LanguageID AND CountryID = @CountryID
 
@@ -5463,16 +5060,14 @@ ELSE
 BEGIN
 
 	SELECT 'Sorry, it appears we have an error: ' + @ResultMessage as Result
-
+	
 END
 
 END CATCH
 
 GO
-/****** Object:  StoredProcedure [dbo].[ListPositions]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[ListPositions]...';
 GO
 
 
@@ -5488,18 +5083,16 @@ as
 
 
 
-select
-a.positionid,
-a.PositionSingular  as position
-from positions a
+select  
+a.positionid,  
+a.PositionSingular  as position  
+from positions a 
 where a.LanguageID = @LanguageID and a.CountryID = @CountryID
 and a.PositionSingular is not null
 order by 2 asc
 GO
-/****** Object:  StoredProcedure [dbo].[SearchCategories]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SearchCategories]...';
 GO
 
 
@@ -5515,7 +5108,7 @@ as
 
 --exec [dbo].[SearchCategories]
 
-select
+select  
 ServiceSubCategoryID,
 Name,
 Rank as ServiceRank
@@ -5526,17 +5119,15 @@ and rank <=5
 
 
 
---b.positionid,
---a.PositionSingular  as position
---from positions a join servicecategoryposition  b
---on a.positionid = b.positionid
---join servicesubcategory c  on b.ServiceSubCategoryID = c.ServiceSubCategoryID
+--b.positionid,  
+--a.PositionSingular  as position  
+--from positions a join servicecategoryposition  b   
+--on a.positionid = b.positionid  
+--join servicesubcategory c  on b.ServiceSubCategoryID = c.ServiceSubCategoryID    
 --where a.LanguageID = @LanguageID and a.CountryID = @CountryID
 GO
-/****** Object:  StoredProcedure [dbo].[SearchCategoriesPositions]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SearchCategoriesPositions]...';
 GO
 CREATE PROC [dbo].[SearchCategoriesPositions]
 
@@ -5550,14 +5141,14 @@ as
 
 -- Need a rank attribute for each user position for preferred provider
 
-SELECT
+SELECT  
 c.ServiceSubCategoryID,
 c.Name,
 c.Rank as ServiceRank,
-b.positionid,
+b.positionid,  
 a.PositionSingular  as position,
 tpur.PrivateReview,
-tpur.PublicReview,
+tpur.PublicReview, 
 tpur.Rating1,
 tpur.Rating2,
 tpur.Rating3,
@@ -5566,13 +5157,13 @@ COUNT(DISTINCT BookingID) AS ReviewCount,
 0 as VerificationsCount,
 0 as LicensesCount
 
-FROM  positions a
+FROM  positions a 
 
-LEFT JOIN servicecategoryposition  b
-  ON a.positionid = b.positionid
+LEFT JOIN servicecategoryposition  b   
+  ON a.positionid = b.positionid  
 
-LEFT JOIN servicesubcategory c
-  ON b.ServiceCategoryID = c.ServiceCategoryID
+LEFT JOIN servicesubcategory c  
+  ON b.ServiceCategoryID = c.ServiceCategoryID  
 
 LEFT JOIN dbo.userprofilepositions up
   ON a.positionid = up.PositionID
@@ -5591,8 +5182,8 @@ LEFT JOIN (SELECT TOP 1 ProviderUserID,
                         Rating2,
                         Rating3
            FROM dbo.UserReviews ORDER BY CreatedDate) tpur
-
-on ur.PositionID = tpur.PositionID
+           
+on ur.PositionID = tpur.PositionID 
 and ur.ProviderUserID = tpur.ProviderUserID
 
 WHERE a.LanguageID = @LanguageID and a.CountryID = @CountryID
@@ -5602,19 +5193,17 @@ and c.rank <=5
 GROUP BY c.ServiceSubCategoryID,
 c.Name,
 c.Rank,
-b.positionid,
+b.positionid,  
 a.PositionSingular,
 tpur.PrivateReview,
-tpur.PublicReview,
+tpur.PublicReview, 
 tpur.Rating1,
 tpur.Rating2,
 tpur.Rating3
 
 GO
-/****** Object:  StoredProcedure [dbo].[SearchPositions]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SearchPositions]...';
 GO
 CREATE PROCEDURE [dbo].[SearchPositions]
 /*
@@ -5644,11 +5233,11 @@ BEGIN
     SET NOCOUNT ON
 
     -- Insert statements for procedure here
-    SELECT DISTINCT
+    SELECT DISTINCT 
         c.PositionSingular, c.PositionID, c.PositionDescription
     FROM positions c
-    WHERE
-        c.LanguageID = @LanguageID
+    WHERE  
+        c.LanguageID = @LanguageID 
         AND c.CountryID = @CountryID
         AND c.Active = 1
         AND (c.Approved = 1 Or c.Approved is null) -- Avoid not approved, allowing pending (null) and approved (1)
@@ -5691,15 +5280,13 @@ BEGIN
     ORDER BY PositionSingular
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SearchPositionsByCategory]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SearchPositionsByCategory]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2013-01-03
--- Description:	Get the list of positions
+-- Description:	Get the list of positions 
 -- inside the CategoryID given, for categorized
 -- search results page
 -- =============================================
@@ -5711,12 +5298,12 @@ CREATE PROCEDURE [dbo].[SearchPositionsByCategory]
 AS
 BEGIN
 	SET NOCOUNT ON;
-
+	
 	DECLARE @ServiceCategoryID AS INT
-	SELECT @ServiceCategoryID = ServiceCategoryID
-	FROM servicecategory
+	SELECT @ServiceCategoryID = ServiceCategoryID 
+	FROM servicecategory 
 	WHERE Name = @Category
-		AND LanguageID = @LanguageID
+		AND LanguageID = @LanguageID 
 		AND CountryID = @CountryID
 
     SELECT	P.PositionID as jobTitleID
@@ -5738,19 +5325,19 @@ BEGIN
 					AND UP2.StatusID = 1
 			  WHERE UR2.PositionID = P.PositionID
 			), 0) As averageRating
-
+			
 			,coalesce(sum(ur.TotalRatings), 0) As totalRatings
 			,avg(US.ResponseTimeMinutes) As averageResponseTimeMinutes
 			,avg(PHR.HourlyRate) As averageHourlyRate
 			,count(UP.UserID) As serviceProfessionalsCount
-
+			
 	FROM	Positions As P
 			 INNER JOIN
 			ServiceCategoryPosition As SCP
 			  ON P.PositionID = SCP.PositionID
 				AND P.LanguageID = SCP.LanguageID
 				AND P.CountryID = SCP.CountryID
-
+				
 			 LEFT JOIN
 			UserProfilePositions As UP
 			  ON UP.PositionID = P.PositionID
@@ -5773,7 +5360,7 @@ BEGIN
 					,CountryID
 			 FROM	ProviderPackage
 			 WHERE	ProviderPackage.Active = 1
-					AND ProviderPackage.PriceRateUnit like 'HOUR'
+					AND ProviderPackage.PriceRateUnit like 'HOUR' 
 					AND ProviderPackage.PriceRate > 0
 			 GROUP BY	ProviderPackage.ProviderUserID, ProviderPackage.PositionID
 						,LanguageID, CountryID
@@ -5796,10 +5383,8 @@ BEGIN
 	ORDER BY serviceProfessionalsCount DESC, P.DisplayRank, P.PositionPlural
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SearchProvidersByPositionSingular]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SearchProvidersByPositionSingular]...';
 GO
 CREATE PROCEDURE [dbo].[SearchProvidersByPositionSingular]
 @LanguageID int,
@@ -5811,7 +5396,7 @@ AS
 
 --EXEC dbo.SearchProvidersByPositionSingular 1,1,'Cleaner', 'San Francisco'
 
-	SELECT
+	SELECT 
 		d.userID
 		,d.firstName
 		,d.lastName
@@ -5824,12 +5409,12 @@ AS
 		--,rs.Rating1
 		--,rs.Rating2
 		--,rs.Rating3
-		--,rs.Rating4
-	FROM dbo.users d
-	JOIN dbo.userprofilepositions a
-		ON d.UserID = a.UserID
-	JOIN  positions c
-		ON a.PositionID = c.PositionID
+		--,rs.Rating4 
+	FROM dbo.users d 
+	JOIN dbo.userprofilepositions a 
+		ON d.UserID = a.UserID 
+	JOIN  positions c 
+		ON a.PositionID = c.PositionID 
 		AND a.LanguageID = c.LanguageID
 		AND a.CountryID = c.CountryID
 	--LEFT JOIN dbo.UserReviewScores rs ON (d.UserID = rs.UserID)
@@ -5842,13 +5427,11 @@ AS
 		AND c.Active = 1
 		AND c.PositionSingular like @PositionSingular
 GO
-/****** Object:  StoredProcedure [dbo].[SearchTopProvidersByPosition]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SearchTopProvidersByPosition]...';
 GO
 -- =============================================
--- Author:		Iago Lorenzo Salgueiro
+-- Author:		Iago Lorenzo Salgueiro	
 -- Create date: 2013-01-07
 -- Description:	Get a short list of providers
 -- in the specific position for the search page
@@ -5857,7 +5440,7 @@ GO
 -- Minimum information is returned, not full
 -- user information.
 -- =============================================
-CREATE PROCEDURE [dbo].[SearchTopProvidersByPosition]
+CREATE PROCEDURE SearchTopProvidersByPosition
 	@LanguageID int,
 	@CountryID int,
 	@PositionID int
@@ -5897,14 +5480,12 @@ BEGIN
 				UP.CountryID = @CountryID
 	) As T
 	-- The top best rated providers:
-	ORDER BY Rating DESC
+	ORDER BY Rating DESC 
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetCalendarProviderAttributes]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SetCalendarProviderAttributes]...';
 GO
 
 -- =============================================
@@ -5915,8 +5496,8 @@ GO
 -- each field is optional to be set, if null is
 -- given, current db value is preserved.
 --
--- NOTE: minTime and maxTime fields are being
--- gradually removed, firstly from user use and
+-- NOTE: minTime and maxTime fields are being 
+-- gradually removed, firstly from user use and 
 -- later totally from code and db #279.
 -- This proc doesn't provide way to set both of
 -- that since code is not using it already.
@@ -5934,21 +5515,21 @@ CREATE PROC [dbo].[SetCalendarProviderAttributes] (
 ) AS BEGIN
 
 	IF EXISTS (SELECT * FROM CalendarProviderAttributes WHERE UserID = @UserID)
-
+        
         UPDATE CalendarProviderAttributes SET
 			AdvanceTime = coalesce(@AdvanceTime, AdvanceTime),
             BetweenTime = coalesce(@BetweenTime, BetweenTime),
             CalendarURL = coalesce(@CalendarURL, CalendarURL),
             PrivateCalendarToken = dbo.fx_IfNW(@PrivateCalendarToken, PrivateCalendarToken),
             IncrementsSizeInMinutes = coalesce(@IncrementsSizeInMinutes, IncrementsSizeInMinutes)
-
+            
             -- Deprecated fields, to be removed:
             ,CalendarType = ''
             ,UseCalendarProgram = 1
-         WHERE UserID = @UserID
-
+         WHERE UserID = @UserID 
+ 
 	ELSE
-
+      
 		INSERT INTO CalendarProviderAttributes (
 			UserID,
 			AdvanceTime,
@@ -5956,7 +5537,7 @@ CREATE PROC [dbo].[SetCalendarProviderAttributes] (
 			CalendarURL,
 			PrivateCalendarToken,
 			IncrementsSizeInMinutes
-
+			
 			-- Deprecated fields, to be removed:
 			,CalendarType
 			,UseCalendarProgram
@@ -5969,7 +5550,7 @@ CREATE PROC [dbo].[SetCalendarProviderAttributes] (
 			@CalendarURL,
 			@PrivateCalendarToken,
 			@IncrementsSizeInMinutes
-
+			
 			-- Deprecated fields
 			,''
 			,1
@@ -5979,10 +5560,8 @@ CREATE PROC [dbo].[SetCalendarProviderAttributes] (
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetHomeAddress]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SetHomeAddress]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -5992,7 +5571,7 @@ GO
 -- address or inserting a new record if
 -- not exists
 -- =============================================
-CREATE PROCEDURE [dbo].[SetHomeAddress]
+CREATE PROCEDURE SetHomeAddress
 	@UserID int,
 	@AddressLine1 varchar(100),
 	@AddressLine2 varchar(100),
@@ -6034,16 +5613,14 @@ BEGIN
         INSERT INTO Address (UserID, AddressTypeID, AddressName,
             AddressLine1, AddressLine2, City, StateProvinceID, PostalCodeID, CountryID,
             Active, CreatedDate, UpdatedDate, ModifiedBy)
-        VALUES (@UserID, 1 /* Type: Home */, @AddressName,
-            @AddressLine1, @AddressLine2, @City, @StateProvinceID, @PostalCodeID, @CountryID,
+        VALUES (@UserID, 1 /* Type: Home */, @AddressName, 
+            @AddressLine1, @AddressLine2, @City, @StateProvinceID, @PostalCodeID, @CountryID, 
             1, getdate(), getdate(), 'sys')
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetUserAlert]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SetUserAlert]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -6052,7 +5629,7 @@ GO
 --  (remove) an alert for an user and position
 --  (PositionID=0 for alerts not related with
 --  a position), with current Date-Time.
---
+--  
 -- =============================================
 CREATE PROCEDURE [dbo].[SetUserAlert]
 	@UserID int
@@ -6076,7 +5653,7 @@ BEGIN
 			PositionID = @PositionID
 			 AND
 			AlertID = @AlertID
-
+			
 		IF @@RowCount = 0
 			INSERT INTO UserAlert (
 				UserID, PositionID, AlertID, CreatedDate, UpdatedDate,
@@ -6093,15 +5670,13 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SetUserVerification]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[SetUserVerification]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-07-17
--- Description:	Inserts or update a user
+-- Description:	Inserts or update a user 
 -- verification record.
 -- =============================================
 CREATE PROCEDURE [dbo].[SetUserVerification]
@@ -6126,7 +5701,7 @@ BEGIN
 
     IF @@rowcount = 0 BEGIN
         INSERT INTO UserVerification (
-            UserID, VerificationID, DateVerified, CreatedDate,
+            UserID, VerificationID, DateVerified, CreatedDate, 
             UpdatedDate, VerifiedBy, LastVerifiedDate, Active, VerificationStatusID
         ) VALUES (
             @UserID, @VerificationID, @VerifiedDate, getdate(), getdate(), 'sys', getdate(), 1, @VerificationStatusID
@@ -6134,10 +5709,8 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_MSforeach_worker]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[sp_MSforeach_worker]...';
 GO
 
 
@@ -6159,11 +5732,11 @@ as
    declare @namesave nvarchar(517), @nametmp nvarchar(517), @nametmp2 nvarchar(258)
 
 	declare @local_cursor cursor
-	if @worker_type=1
+	if @worker_type=1	
 		set @local_cursor = hCForEachDatabase
 	else
 		set @local_cursor = hCForEachTable
-
+	
 	open @local_cursor
 	fetch @local_cursor into @name
 
@@ -6212,7 +5785,7 @@ as
 					/* Overflow; put preceding stuff into the temp table */
 					if (@useq > 9) begin
 						close @local_cursor
-						if @worker_type=1
+						if @worker_type=1	
 							deallocate hCForEachDatabase
 						else
 							deallocate hCForEachTable
@@ -6275,19 +5848,17 @@ as
     fetch @local_cursor into @name
 	end /* while FETCH_SUCCESS */
 	close @local_cursor
-	if @worker_type=1
+	if @worker_type=1	
 		deallocate hCForEachDatabase
 	else
 		deallocate hCForEachTable
-
+		
 	return 0
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_MSforeachtable]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[sp_MSforeachtable]...';
 GO
 
 CREATE proc [dbo].[sp_MSforeachtable]
@@ -6311,17 +5882,15 @@ AS
 	return @retval
 
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertAvailability]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertAvailability]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'availability' are satisfied,
--- updating user alert and enabling or
+-- alert type 'availability' are satisfied, 
+-- updating user alert and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertAvailability]
@@ -6334,7 +5903,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 2
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		-- #735 ATTRIBUTES DISABLED (TEMPORARLY MAYBE)
@@ -6354,36 +5923,34 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID, 0
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertBackgroundCheck]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertBackgroundCheck]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Modified date: 2013-04-11
 -- Description:	Test if the conditions for the
--- alert type 'backgroundcheck' are satisfied,
--- updating user points and enabling or
+-- alert type 'backgroundcheck' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- There are 2 alerts for this test:
 --  12: backgroundcheck  (optional)
 --  18: required-backgroundcheck  (required)
 -- Because lookup backgroundacheck tables can
--- be required or not, any required one is
+-- be required or not, any required one is 
 -- related to the aler 18 and others to the
 -- alert 12.
 -- FROM DATE 2013-04-11:
 -- Alerts will be off when almost a request
 -- was done from provider, passing the test
 -- request with state 'verified:2' and too
--- 'pending:1' and 'contact us:3; but not
+-- 'pending:1' and 'contact us:3; but not 
 -- 'rejected/unable to verified:4'.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertBackgroundCheck]
@@ -6396,13 +5963,13 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 0
-
+	
 	DECLARE @OptionalAlertID int
 	SET @OptionalAlertID = 12
 	DECLARE @RequiredAlertID int
 	SET @RequiredAlertID = 18
 	DECLARE @IsRequired bit
-
+    
     /* Background check must be checked per position, but is not saved
 		on userverification per position. This means special treatment,
 		and we must too ensure that is enabled only on positions affected
@@ -6413,19 +5980,19 @@ BEGIN
     DECLARE @cur CURSOR
     DECLARE @PositionID int
     DECLARE @HigherBackgroundCheckID int
-
-	SET @cur = CURSOR FOR
+    
+	SET @cur = CURSOR FOR 
 		SELECT DISTINCT
 		 PositionID
 		FROM
 		 UserProfilePositions
 		WHERE
 	     UserID = @UserID
-
+	     
 	OPEN @cur
 	FETCH NEXT FROM @cur INTO @PositionID
 	WHILE @@FETCH_STATUS = 0 BEGIN
-
+		
 		/* Go to a 2-steps loop, first for Optional and second for Required alert.
 			allowing only tweak to vars preserving unduplicated the important code
 		 */
@@ -6461,7 +6028,7 @@ BEGIN
 			WHERE	PB.PositionID = @PositionID
 				AND PB.[Required] = @IsRequired AND PB.Active = 1
 				AND PB.CountryID = (SELECT TOP 1 CountryID FROM vwUsersContactData WHERE UserID = @UserID)
-				AND PB.StateProvinceID = (SELECT TOP 1 StateProvinceID FROM vwUsersContactData WHERE UserID = @UserID)
+				AND PB.StateProvinceID = (SELECT TOP 1 StateProvinceID FROM vwUsersContactData WHERE UserID = @UserID)	
 
 			-- First ever check if this type of alert affects this type of user
 			IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
@@ -6492,21 +6059,21 @@ BEGIN
 				-- NOT PASSED: active alert
 				EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 1
 			END
-
+		
 
 			-- Next loop:
 			SET @i = @i + 1
 		END
-
+		
 		-- Next Position
 		FETCH NEXT FROM @cur INTO @PositionID
 	END
 	CLOSE @cur
 	DEALLOCATE @cur
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
-
+	
 			/* Old code: In-loop-inside-if check based on UserVerification; deprecated by a better, more controlled, background check
 			EXISTS (
 				SELECT	UserID
@@ -6521,17 +6088,15 @@ BEGIN
 				*/
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertBasicInfoVerification]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertBasicInfoVerification]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'basicinfoverification' are satisfied,
--- updating user points and enabling or
+-- alert type 'basicinfoverification' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertBasicInfoVerification]
@@ -6544,7 +6109,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 10
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		3 = ( -- 3 Verifications being checked (1, 2, 4)
@@ -6564,22 +6129,20 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertEducation]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertEducation]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2013-06-12
 -- Description:	Test if the conditions for the
--- alert type 'add-education' are satisfied,
--- updating user points and enabling or
+-- alert type 'add-education' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertEducation]
@@ -6592,7 +6155,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 20
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		EXISTS (SELECT UserID FROM UserEducation
@@ -6613,22 +6176,20 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertLocation]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertLocation]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'location' are satisfied,
--- updating user points and enabling or
+-- alert type 'location' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertLocation]
@@ -6642,7 +6203,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 16
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		-- Check that user has that position (this is a position related alert). If it has not (=0), alert will off because doesn't affect:
@@ -6663,23 +6224,21 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPayment]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertPayment]...';
 GO
 
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'payment' are satisfied,
--- updating user points and enabling or
+-- alert type 'payment' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertPayment]
@@ -6698,7 +6257,7 @@ BEGIN
 	BEGIN
 		SET @hasInstantBooking = 1
 	END
-
+	
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		@hasInstantBooking = Cast(0 as bit) OR
@@ -6711,24 +6270,22 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
-
+    
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPersonalInfo]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertPersonalInfo]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Modified date: 2017-11-09
 -- Description:	Test if the conditions for the
--- alert type 'personalinfo' are satisfied,
--- updating user points and enabling or
+-- alert type 'personalinfo' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertPersonalInfo]
@@ -6741,14 +6298,14 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 3
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 	  (
 		EXISTS (
 			SELECT UserID
 			FROM Users
-			WHERE
+			WHERE 
 				UserID = @UserID
 				AND dbo.fx_IfNW(FirstName, null) is not null
 				AND dbo.fx_IfNW(LastName, null) is not null
@@ -6767,23 +6324,21 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPhoto]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertPhoto]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'photo' are satisfied,
--- updating user points and enabling or
+-- alert type 'photo' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertPhoto]
@@ -6796,7 +6351,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 4
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		EXISTS (SELECT UserID FROM Users
@@ -6809,22 +6364,20 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPositionServices]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertPositionServices]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'positionservices' are satisfied,
--- updating user points and enabling or
+-- alert type 'positionservices' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertPositionServices]
@@ -6838,9 +6391,9 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 8
-
+	
 	DECLARE @CATS TABLE (CatID int)
-
+	
 	INSERT INTO @CATS (CatID)
 	SELECT DISTINCT A.ServiceAttributeCategoryID
 	FROM ServiceAttributeCategory As A
@@ -6851,13 +6404,13 @@ BEGIN
 	WHERE A.RequiredInput = 1
 		AND A.Active = 1
 		AND B.Active = 1
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		-- Check that user has that position (this is a position related alert). If it has not (=0), alert will off because doesn't affect:
 		(SELECT count(*) FROM userprofilepositions WHERE UserID=@UserID AND PositionID=@PositionID) = 0 OR
 		-- Check all required data
-		-- Must have almost one service attribute selected
+		-- Must have almost one service attribute selected 
 		-- per required category for the position
 		@PositionID = 0
 		OR (SELECT count(*) FROM (SELECT A.ServiceAttributeCategoryID
@@ -6881,15 +6434,13 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPricingDetails]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertPricingDetails]...';
 GO
 
 CREATE PROCEDURE [dbo].[TestAlertPricingDetails]
@@ -6897,40 +6448,38 @@ CREATE PROCEDURE [dbo].[TestAlertPricingDetails]
 	@PositionID int
 AS
 BEGIN
-
-
+	
+	
 	SET NOCOUNT ON;
 	DECLARE @AlertID int
 	SET @AlertID = 1
-
-
+    
+    
     IF	dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
-
+		
 		(SELECT count(*) FROM userprofilepositions WHERE UserID=@UserID AND PositionID=@PositionID) = 0 OR
-
-
+		
+		
 		EXISTS (SELECT * FROM ProviderPackage
 			WHERE ProviderUserID = @UserID
 				AND PositionID = @PositionID
 				AND Active = 1
 		)
-
+	
 		BEGIN
-
+		
 		EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 0
 	END ELSE BEGIN
-
+		
 		EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 1
 	END
-
-
+	
+	
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertProfessionalLicense]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertProfessionalLicense]...';
 GO
 CREATE PROCEDURE [dbo].[TestAlertProfessionalLicense]
     @UserID int
@@ -6943,13 +6492,13 @@ BEGIN
 
     DECLARE @AlertID int
     SET @AlertID = 0
-
+    
     DECLARE @OptionalAlertID int
     SET @OptionalAlertID = 13
     DECLARE @RequiredAlertID int
     SET @RequiredAlertID = 19
     DECLARE @IsRequired bit
-
+    
     /* Go to a 2-steps loop, first for Optional and second for Required alert.
         allowing only tweak to vars preserving unduplicated the important code
      */
@@ -6972,7 +6521,7 @@ BEGIN
 
         /***
             RUN TEST CODE
-
+            
             Global set of conditions to match to pass the alert (disable the alert):
             IF (
                 alertAffectsUser = 0
@@ -6997,9 +6546,9 @@ BEGIN
                 )
             )
          ***/
-
+         
         -- GET RESULT FOR EACH INDIVIDUAL QUERY
-
+         
         -- First ever check if this type of alert affects this type of user
         DECLARE @alertAffectsUser bit
         SET @alertAffectsUser = dbo.fxCheckAlertAffectsUser(@UserID, @AlertID)
@@ -7008,8 +6557,8 @@ BEGIN
         DECLARE @userHasPosition int
         SELECT @userHasPosition = count(*) FROM userprofilepositions WHERE UserID=@UserID AND PositionID=@PositionID
 
-        -- Check if the user has all the required licenses (can be 0 if 0 are required)
-        -- Check Country-level
+        -- Check if the user has all the required licenses (can be 0 if 0 are required) 
+        -- Check Country-level 
         DECLARE @countryLevel int
         SELECT
             @countryLevel = COUNT(*)
@@ -7023,7 +6572,7 @@ BEGIN
             ON JL.LicenseCertificationID = UL.LicenseCertificationID
             AND UL.ProviderUserID = @userID
         WHERE
-            JL.positionID in (@PositionID, -1)
+            JL.positionID in (@PositionID, -1) 
             AND C.languageID = (SELECT PreferredLanguageID FROM users WHERE UserID = @userID)
             AND C.countryID in (SELECT
             P.countryID
@@ -7043,8 +6592,8 @@ BEGIN
             AND JL.Required = @IsRequired
         GROUP BY
             P.countryID)
-
-        -- Check StateProvince-level
+        
+        -- Check StateProvince-level 
         DECLARE @stateProvinceLevel int
         SELECT
             @stateProvinceLevel = COUNT(*)
@@ -7077,7 +6626,7 @@ BEGIN
                 AND JL.Required = @IsRequired
             GROUP BY
                 P.stateProvinceID)
-
+                
         -- Check County-level
         DECLARE @countyLevel int
         SELECT
@@ -7111,8 +6660,8 @@ BEGIN
                 AND JL.Required = @IsRequired
             GROUP BY
                 P.countyID)
-
-        -- Check Municipal-level
+                
+        -- Check Municipal-level 
         DECLARE @municipalLevel int
         SELECT
             @municipalLevel = COUNT(*)
@@ -7145,13 +6694,13 @@ BEGIN
             AND JL.Required = @IsRequired
         GROUP BY
             P.MunicipalityID)
-
-
+                
+        
         -- If there are no (required) licenses
         DECLARE @userLicensesOfEachOptionGroup int
-        SELECT
+        SELECT 
             @userLicensesOfEachOptionGroup =
-            CASE
+            CASE 
                 WHEN COUNT(DISTINCT OptionGroup) <= SUM(
                     CASE
                         WHEN numberVerified > 0 AND OptionGroup is NOT NULL
@@ -7193,7 +6742,7 @@ BEGIN
                                     ON JL.LicenseCertificationID = UL.LicenseCertificationID
                                     AND UL.ProviderUserID = @userID
                                 WHERE
-                                    JL.positionID in (@PositionID, -1)
+                                    JL.positionID in (@PositionID, -1) 
                                     AND C.languageID = (SELECT PreferredLanguageID FROM users WHERE UserID = @userID)
                                     AND C.countryID in
                                     (
@@ -7329,7 +6878,7 @@ BEGIN
                     ) as JL
                 LEFT JOIN
                 (
-                    SELECT
+                    SELECT 
                         V.licenseCertificationID,
                         V.VerificationStatusID as statusID
                     FROM
@@ -7376,25 +6925,23 @@ BEGIN
             EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 1
         END
     END
-
+    
     -- Test if user profile must be actived or not
     EXEC dbo.TestProfileActivation @UserID, @PositionID
-
+    
 
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertPublicBio]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertPublicBio]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'publicbio' are satisfied,
--- updating user points and enabling or
+-- alert type 'publicbio' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertPublicBio]
@@ -7407,7 +6954,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 9
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		EXISTS (
@@ -7423,22 +6970,20 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertReferenceRequests]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertReferenceRequests]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'referencerequests' are satisfied,
--- updating user points and enabling or
+-- alert type 'referencerequests' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertReferenceRequests]
@@ -7452,7 +6997,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 14
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		-- Check that user has that position (this is a position related alert). If it has not (=0), alert will off because doesn't affect:
@@ -7480,7 +7025,7 @@ BEGIN
 					 -- or is verification for 'any' position
 					 UV.PositionID = 0
 					)
-
+					
 	) BEGIN
 		-- PASSED: disable alert
 		EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 0
@@ -7488,23 +7033,21 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertShowcaseWork]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertShowcaseWork]...';
 GO
 
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'showcasework' are satisfied,
--- updating user points and enabling or
+-- alert type 'showcasework' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertShowcaseWork]
@@ -7518,7 +7061,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 17
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		-- Check that user has that position (this is a position related alert). If it has not (=0), alert will off because doesn't affect:
@@ -7537,22 +7080,20 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, @PositionID, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertSocialMediaVerification]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertSocialMediaVerification]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'socialmediaverification' are satisfied,
--- updating user points and enabling or
+-- alert type 'socialmediaverification' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertSocialMediaVerification]
@@ -7565,7 +7106,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 11
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		EXISTS (
@@ -7590,22 +7131,20 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertTaxDocs]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertTaxDocs]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-06-01
 -- Description:	Test if the conditions for the
--- alert type 'taxdocs' are satisfied,
--- updating user points and enabling or
+-- alert type 'taxdocs' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertTaxDocs]
@@ -7618,7 +7157,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 6
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		EXISTS (SELECT ProviderUserID FROM ProviderTaxForm
@@ -7646,22 +7185,20 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAlertVerifyEmail]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAlertVerifyEmail]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
 -- Create date: 2012-07-17
 -- Description:	Test if the conditions for the
--- alert type 'verifyemail' are satisfied,
--- updating user points and enabling or
+-- alert type 'verifyemail' are satisfied, 
+-- updating user points and enabling or 
 -- disabling it profile.
 -- =============================================
 CREATE PROCEDURE [dbo].[TestAlertVerifyEmail]
@@ -7674,7 +7211,7 @@ BEGIN
 
 	DECLARE @AlertID int
 	SET @AlertID = 15
-
+    
     -- First ever check if this type of alert affects this type of user
     IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 0 OR
 		EXISTS (SELECT UserID FROM webpages_Membership
@@ -7688,40 +7225,38 @@ BEGIN
 		-- NOT PASSED: active alert
 		EXEC dbo.SetUserAlert @UserID, 0, @AlertID, 1
 	END
-
+	
 	-- Test if user profile must be actived or not
 	EXEC dbo.TestProfileActivation @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAllUserAlerts]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAllUserAlerts]...';
 GO
 
-CREATE PROCEDURE [dbo].[TestAllUserAlerts]
+CREATE PROCEDURE [dbo].[TestAllUserAlerts] 
 	@UserID int
 	,@PositionID int = 0
 AS
 BEGIN
-
-
+	
+	
 	SET NOCOUNT ON;
     EXEC TestAlertPersonalInfo				@UserID
     EXEC TestAlertPhoto						@UserID
     EXEC TestAlertPayment					@UserID
-
+	
 	EXEC TestAlertAvailability				@UserID
 	EXEC TestAlertSocialMediaVerification	@UserID
 	EXEC TestAlertBackgroundCheck			@UserID
-	EXEC TestAlertBasicInfoVerification		@UserID
+	EXEC TestAlertBasicInfoVerification		@UserID	
 	EXEC TestAlertVerifyEmail				@UserID
 	EXEC TestAlertPublicBio					@UserID
 	EXEC TestAlertEducation					@UserID
-
+	
     IF @PositionID = 0 BEGIN
 		DECLARE @cur CURSOR
-		SET @cur = CURSOR FOR
+		SET @cur = CURSOR FOR 
 			SELECT DISTINCT
 			 PositionID
 			FROM
@@ -7729,18 +7264,18 @@ BEGIN
 			WHERE
 		     UserID = @UserID
 		     AND PositionID <> 0
-
+			 
 		OPEN @cur
 		FETCH NEXT FROM @cur INTO @PositionID
 		WHILE @@FETCH_STATUS = 0 BEGIN
-
+			
 			EXEC TestAlertPricingDetails		@UserID, @PositionID
 			EXEC TestAlertPositionServices		@UserID, @PositionID
 			EXEC TestAlertReferenceRequests		@UserID, @PositionID
 			EXEC TestAlertProfessionalLicense	@UserID, @PositionID
 			EXEC TestAlertLocation				@UserID, @PositionID
 			EXEC TestAlertShowcaseWork			@UserID, @PositionID
-
+			
 			FETCH NEXT FROM @cur INTO @PositionID
 		END
 		CLOSE @cur
@@ -7753,14 +7288,12 @@ BEGIN
 		EXEC TestAlertLocation				@UserID, @PositionID
 		EXEC TestAlertShowcaseWork			@UserID, @PositionID
     END
-
+    
     EXEC TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestAllUsersAlerts]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestAllUsersAlerts]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -7782,18 +7315,18 @@ BEGIN
 
 	DECLARE @UserID int
     DECLARE @cur CURSOR
-
-	SET @cur = CURSOR FOR
+    
+	SET @cur = CURSOR FOR 
 		SELECT UserID
 		FROM Users
 		WHERE Active = 1
-
+		 
 	OPEN @cur
 	FETCH NEXT FROM @cur INTO @UserID
 	WHILE @@FETCH_STATUS = 0 BEGIN
 		-- Execute this same proc but for a concrete positionID
 		EXEC TestAllUserAlerts @UserID
-
+		
 		FETCH NEXT FROM @cur INTO @UserID
 	END
 	CLOSE @cur
@@ -7801,23 +7334,21 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TestProfileActivation]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[TestProfileActivation]...';
 GO
 CREATE PROCEDURE [dbo].[TestProfileActivation]
 	@UserID int,
 	@PositionID int = 0
 AS
 BEGIN
-
-
+	
+	
 	SET NOCOUNT ON;
     DECLARE @cur CURSOR
-
+    
     IF @PositionID = 0 BEGIN
-		SET @cur = CURSOR FOR
+		SET @cur = CURSOR FOR 
 			SELECT DISTINCT
 			 PositionID
 			FROM
@@ -7825,13 +7356,13 @@ BEGIN
 			WHERE
 		     UserID = @UserID
 		     AND PositionID <> 0
-
+			 
 		OPEN @cur
 		FETCH NEXT FROM @cur INTO @PositionID
 		WHILE @@FETCH_STATUS = 0 BEGIN
-
+			
 			EXEC TestProfileActivation @UserID, @PositionID
-
+			
 			FETCH NEXT FROM @cur INTO @PositionID
 		END
 		CLOSE @cur
@@ -7842,10 +7373,10 @@ BEGIN
 		IF (SELECT TOP 1 StatusID FROM UserProfilePositions
 			WHERE UserID = @UserID AND PositionID = @PositionID)
 			IN (1, 2) -- Its a state for automatic activation
-		BEGIN
-
+		BEGIN	
+			
 			UPDATE UserProfilePositions SET
-				StatusID =
+				StatusID = 
 				CASE WHEN (SELECT count(*)
 					FROM UserAlert As UA
 						 INNER JOIN
@@ -7858,19 +7389,19 @@ BEGIN
 						  A.Required = 1
 							AND
 						  UA.Active = 1
-				) = 0 THEN 1
-				ELSE 2
+				) = 0 THEN 1 
+				ELSE 2 
 				END,
-
+				
 				UpdatedDate = GETDATE(),
 				ModifiedBy = 'sys'
-			WHERE
+			WHERE	
 				UserID = @UserID AND PositionID = @PositionID
 		END
-
+		
 		-- Flag BookMeButtonReady
 		UPDATE UserProfilePositions SET
-			bookMeButtonReady =
+			bookMeButtonReady = 
 			CASE WHEN (SELECT count(*)
 				FROM UserAlert As UA
 					 INNER JOIN
@@ -7883,22 +7414,20 @@ BEGIN
 					  A.bookMeButtonRequired = 1
 						AND
 					  UA.Active = 1
-			) = 0 THEN 1
-			ELSE 0
+			) = 0 THEN 1 
+			ELSE 0 
 			END,
-
+			
 			UpdatedDate = GETDATE(),
 			ModifiedBy = 'sys'
-		WHERE
+		WHERE	
 			UserID = @UserID AND PositionID = @PositionID
 	END
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[UnDeleteUser]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[UnDeleteUser]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -7907,7 +7436,7 @@ GO
 -- throught the page /Account/$Delete/.
 -- Of course, only restore from a 'weak delete'
 -- =============================================
-CREATE PROCEDURE [dbo].[UnDeleteUser]
+CREATE PROCEDURE UnDeleteUser
 	@UserID int
 AS
 BEGIN
@@ -7917,15 +7446,13 @@ BEGIN
 
     UPDATE userprofile SET Email = substring(Email, len('DELETED:') + 2, len(Email) - len('DELETED: '))
     WHERE UserID = @UserID
-
+    
     UPDATE users SET Active = 1, AccountStatusID = 1
     WHERE UserID = @UserID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ut_AutocheckReviewVerifications]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[ut_AutocheckReviewVerifications]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -7936,15 +7463,15 @@ GO
 -- 11: loconomics user reviewed
 -- 12: review from former client
 -- =============================================
-CREATE PROCEDURE [dbo].[ut_AutocheckReviewVerifications]
+CREATE PROCEDURE ut_AutocheckReviewVerifications
 AS BEGIN
 
 	DECLARE @cur CURSOR
 	DECLARE @UserID int, @PositionID int, @RevDate datetime
-
+	
 	----------------------------------
 	-- Reviews
-
+	
 	SET @cur = CURSOR FOR
 		SELECT	UserID, PositionID
 		FROM	userprofilepositions
@@ -8000,12 +7527,12 @@ AS BEGIN
 
     -------------------------------
 	-- Final check
-
+	
 	SET @cur = CURSOR FOR
 		SELECT	UserID
 		FROM	Users
 		WHERE	Active = 1 AND IsProvider = 1
-
+	
 	OPEN @cur
 	FETCH NEXT FROM @cur INTO @UserID
 	WHILE @@FETCH_STATUS = 0 BEGIN
@@ -8025,10 +7552,8 @@ AS BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ut_ModifyUserAlertsState]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[ut_ModifyUserAlertsState]...';
 GO
 -- =============================================
 -- Author:		Iago Lorenzo Salgueiro
@@ -8036,18 +7561,18 @@ GO
 -- Description:	Allow FORCE enable or disable all
 -- the alerts affecting the user given for
 -- the position given (or common profile if
--- zero), WITHOUT perform the alert
+-- zero), WITHOUT perform the alert 
 -- tests/conditions (what can means data
 -- corruption in some cases, waiting that some
 -- things are complete because the alert is off
 -- and they are not).
---
+-- 
 -- NOTE: Utility procedure, not to use
 -- from the program, else as sysadmin, tester
 -- or developer.
---
+-- 
 -- =============================================
-CREATE PROCEDURE [dbo].[ut_ModifyUserAlertsState]
+CREATE PROCEDURE [dbo].[ut_ModifyUserAlertsState] 
 	@UserID int
 	,@PositionID int = 0
 	,@StateActive bit = 1 -- 0 to disable all alerts
@@ -8057,19 +7582,19 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-
+	
 	DECLARE @AlertID int
 	DECLARE @PositionSpecific bit
     DECLARE @cur CURSOR
-
-	SET @cur = CURSOR FOR
+    
+	SET @cur = CURSOR FOR 
 		SELECT AlertID, PositionSpecific
 		FROM Alert
-
+		
 	OPEN @cur
 	FETCH NEXT FROM @cur INTO @AlertID, @PositionSpecific
 	WHILE @@FETCH_STATUS = 0 BEGIN
-
+	
 		IF dbo.fxCheckAlertAffectsUser(@UserID, @AlertID) = 1 BEGIN
 			IF @PositionSpecific = 1 BEGIN
 				IF @PositionID > 0
@@ -8082,128 +7607,28 @@ BEGIN
 	END
 	CLOSE @cur
 	DEALLOCATE @cur
-
+    
     IF @TestProfileActivation = 1
 		EXEC TestProfileActivation @UserID, @PositionID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ZZIsUserAProvider]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+        
+PRINT N'Creating [dbo].[ZZIsUserAProvider]...';
 GO
 
-CREATE PROC [dbo].[ZZIsUserAProvider]
+CREATE PROC dbo.[ZZIsUserAProvider]
 
 @UserID int
 
 As
 
-select
+select 
 
 count(*) As answer
-from users a
+from users a 
 where
 	a.UserID = @UserID
 	 AND
 	a.IsProvider = 1
 GO
-/****** Object:  Trigger [dbo].[AutoSetMessageSentByUserId]    Script Date: 11/8/18 3:10:35 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		Iago Lorenzo Salgueiro
--- Create date: 2014-02-18
--- Description:	Set field SentByUserId based on
--- the MessageTypeID
--- =============================================
-CREATE TRIGGER [dbo].[AutoSetMessageSentByUserId]
-   ON  [dbo].[Messages]
-   AFTER INSERT
-AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
-
-	UPDATE Messages SET
-		SentByUserId = CASE
-		WHEN MessageTypeID IN (1, 2, 4, 5, 6, 9, 12, 14, 16, 18) THEN T.CustomerUserID
-		WHEN MessageTypeID IN (3, 7, 10, 13, 15, 17) THEN T.ProviderUserID
-		WHEN MessageTypeID IN (8, 19) THEN 0 -- the system
-		END
-	FROM MessagingThreads AS T
-	WHERE T.ThreadID = Messages.ThreadID
-	AND SentByUserId is null
-END
-
-GO
-ALTER TABLE [dbo].[Messages] ENABLE TRIGGER [AutoSetMessageSentByUserId]
-GO
-/****** Object:  Trigger [dbo].[trigInitialProviderPositionAlertTest]    Script Date: 11/8/18 3:10:37 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		Iago Lorenzo Salgueiro
--- Create date: 2012-06-01
--- Description:	Execute all user tests on insert
---  to active all the alerts
--- =============================================
-CREATE TRIGGER [dbo].[trigInitialProviderPositionAlertTest]
-   ON  [dbo].[userprofilepositions]
-   AFTER INSERT
-AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
-
-	DECLARE @UserID int, @PositionID int
-
-	SELECT @UserID = UserID, @PositionID = PositionID FROM INSERTED
-
-    EXEC TestAllUserAlerts @UserID, @PositionID
-
-END
-
-GO
-ALTER TABLE [dbo].[userprofilepositions] ENABLE TRIGGER [trigInitialProviderPositionAlertTest]
-GO
-/****** Object:  Trigger [dbo].[trigInitialUserAlertTest]    Script Date: 11/8/18 3:10:38 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		Iago Lorenzo Salgueiro
--- Create date: 2012-06-01
--- Description:	Execute all user tests on insert
---  to active all the alerts
--- =============================================
-CREATE TRIGGER [dbo].[trigInitialUserAlertTest]
-   ON  [dbo].[users]
-   AFTER INSERT
-AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
-
-	DECLARE @UserID int
-
-	SELECT @UserID = UserID FROM INSERTED
-
-    EXEC TestAllUserAlerts @UserID
-
-END
-GO
-ALTER TABLE [dbo].[users] ENABLE TRIGGER [trigInitialUserAlertTest]
-GO
-USE [master]
-GO
-ALTER DATABASE [Dev] SET  READ_WRITE
-GO
+        
