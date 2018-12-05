@@ -21,7 +21,7 @@ CREATE VIEW vwUsersContactData AS
         ,SecondLastName
         ,MiddleIn
         ,(dbo.fx_concat(dbo.fx_concat(dbo.fx_concat(FirstName, dbo.fx_concatBothOrNothing(MiddleIn, '.', ''), ' '), LastName, ' '), SecondLastName, ' ')) As FullName
-    
+
         -- DEPRECATED PHOTO
         ,Photo
 
@@ -44,7 +44,7 @@ CREATE VIEW vwUsersContactData AS
         -- Contact data
         ,MobilePhone
         ,AlternatePhone
-    
+
         -- Address
         ,L.AddressLine1
         ,L.AddressLine2
@@ -64,12 +64,10 @@ CREATE VIEW vwUsersContactData AS
         ,SubjectPronoun
         ,ObjectPronoun
         ,PossesivePronoun
-                                    
+
         -- Some preferences
         ,PreferredLanguageID
         ,PreferredCountryID
-        ,IAuthZumigoVerification
-        ,IAuthZumigoLocation
 
     FROM Users A
          INNER JOIN
@@ -78,8 +76,8 @@ CREATE VIEW vwUsersContactData AS
          INNER JOIN
         Gender As G
           ON G.GenderID = A.GenderID
-          	AND G.LanguageID = A.PreferredLanguageID  
-          	AND G.CountryID = A.PreferredCountryID                                
+          	AND G.LanguageID = A.PreferredLanguageID
+          	AND G.CountryID = A.PreferredCountryID
          LEFT JOIN
         Address As L
           ON L.UserID = A.UserID
