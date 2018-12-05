@@ -6,5 +6,5 @@
 
 GO
 
-ALTER TABLE [dbo].[CalendarEventExceptionsPeriodsList] (
+ALTER TABLE [dbo].[CalendarEventExceptionsPeriodsList] ADD
     CONSTRAINT [FK_CalendarEventExceptions_CalendarEvents] FOREIGN KEY ([IdEvent]) REFERENCES [dbo].[CalendarEvents] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE
