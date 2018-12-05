@@ -3,6 +3,8 @@
  * DDL files here; the result is usually stored as `schema.sql`.
  *
  * @example `node ./schema/create-schema-script > schema.sql`
+ * @example Provide different database name as first parameter like in
+ * `node ./schema/create-schema-script loconomicstest > schema.sql`
  */
 'use strict';
 const util = require('util');
@@ -13,7 +15,7 @@ const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
 
 const schemaDir = __dirname + '/dbo';
-const databaseName = 'loconomics';
+const defaultDataBaseName = 'loconomics';
 
 /**
  * @typedef {Object} ScriptObjectContent
@@ -25,15 +27,23 @@ const databaseName = 'loconomics';
  *
  * @param {Array<ScriptObjectContent>} contents
  */
-function concatenateScripts(contents) {
+function concatenateScripts(contents, createLabel) {
     return contents.reduce((result, { name, content }) => {
         return result + `
-PRINT N'Creating [dbo].[${name}]...';
+PRINT N'${createLabel(name)}';
 GO
 ${content}
 GO
         `;
     }, '');
+}
+
+function createObjectLabel(name) {
+    return `Creating [dbo].[${name}]...`;
+}
+
+function createDatabaseLabel(name) {
+    return `Creating database [${name}]...`;
 }
 
 function caseInsensitiveComparer(a, b) {
@@ -52,11 +62,11 @@ function trimUtfBom(content) {
     else return content;
 }
 
-function replaceScriptVars(content) {
-    return content.replace(/\$\(DatabaseName\)/g, databaseName)
+function replaceScriptVars(content, vars) {
+    return content.replace(/\$\(DatabaseName\)/g, vars.databaseName);
 }
 
-async function concatenateDirContent(dir) {
+async function concatenateDirContent(dir, createLabelFn, vars) {
     const files = await readdir(dir);
     // We keep an alphabetical order for all the content in order
     // to get predictable results, so we sort file names and map results keeping
@@ -69,22 +79,24 @@ async function concatenateDirContent(dir) {
         const content = await readFile(path.join(dir, file), 'utf8');
         return {
             name: path.basename(file, '.sql'),
-            content: replaceScriptVars(trimUtfBom(content)),
+            content: replaceScriptVars(trimUtfBom(content), vars),
         };
     }));
-    return concatenateScripts(contents);
+    return concatenateScripts(contents, createLabelFn);
 }
 
-async function run() {
+async function run(settings) {
     const contents = await Promise.all([
-        concatenateDirContent(schemaDir),
-        concatenateDirContent(schemaDir + '/Tables'),
-        concatenateDirContent(schemaDir + '/Views'),
-        concatenateDirContent(schemaDir + '/Functions'),
-        concatenateDirContent(schemaDir + '/Stored Procedures'),
+        concatenateDirContent(schemaDir, createDatabaseLabel, settings),
+        concatenateDirContent(schemaDir + '/Tables', createObjectLabel, settings),
+        concatenateDirContent(schemaDir + '/Views', createObjectLabel, settings),
+        concatenateDirContent(schemaDir + '/Functions', createObjectLabel, settings),
+        concatenateDirContent(schemaDir + '/Stored Procedures', createObjectLabel, settings),
     ]);
     const result = contents.join('\n');
     console.log(result);
 }
 
-run();
+run({
+    databaseName: process.argv[2] || defaultDataBaseName
+});
