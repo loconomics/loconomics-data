@@ -139,8 +139,8 @@ async function run(settings) {
     const contents = await Promise.all([
         concatenateDirContent(schemaDir, createDatabaseLabel.bind(null, settings.databaseName), settings),
         concatenateDirContent(schemaDir + '/Tables', createObjectLabel, settings, concatenateTableScripts),
-        concatenateDirContent(schemaDir + '/Views', createObjectLabel, settings),
         concatenateDirContent(schemaDir + '/Functions', createObjectLabel, settings),
+        concatenateDirContent(schemaDir + '/Views', createObjectLabel, settings),
         concatenateDirContent(schemaDir + '/Stored Procedures', createObjectLabel, settings),
     ]);
     const result = contents.join('\n');
