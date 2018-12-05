@@ -52,8 +52,6 @@ ALTER DATABASE [Dev] SET  MULTI_USER
 GO
 ALTER DATABASE [Dev] SET DB_CHAINING OFF
 GO
-ALTER DATABASE [Dev] SET ENCRYPTION ON
-GO
 USE [Dev]
 GO
 /****** Object:  UserDefinedFunction [dbo].[fx_concat]    Script Date: 11/8/18 3:10:34 PM ******/
