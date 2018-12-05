@@ -13,6 +13,7 @@ const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
 
 const schemaDir = __dirname + '/dbo';
+const databaseName = 'loconomics';
 
 /**
  * @typedef {Object} ScriptObjectContent
@@ -51,6 +52,10 @@ function trimUtfBom(content) {
     else return content;
 }
 
+function replaceScriptVars(content) {
+    return content.replace(/\$\(DatabaseName\)/g, databaseName)
+}
+
 async function concatenateDirContent(dir) {
     const files = await readdir(dir);
     // We keep an alphabetical order for all the content in order
@@ -64,7 +69,7 @@ async function concatenateDirContent(dir) {
         const content = await readFile(path.join(dir, file), 'utf8');
         return {
             name: path.basename(file, '.sql'),
-            content: trimUtfBom(content),
+            content: replaceScriptVars(trimUtfBom(content)),
         };
     }));
     return concatenateScripts(contents);
