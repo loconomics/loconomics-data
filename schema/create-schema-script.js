@@ -28,8 +28,9 @@ function concatenateScripts(contents) {
     return contents.reduce((result, { name, content }) => {
         return result + `
 PRINT N'Creating [dbo].[${name}]...';
+GO
 ${content}
-GO;
+GO
         `;
     }, '');
 }
