@@ -38,6 +38,51 @@ GO
     }, '');
 }
 
+/**
+ * Table scripts are special, since we need to separate the CREATE statement
+ * from the rest of batch tasks in the file, so we can prevent dependencies
+ * errors, specially because of foreign keys. This way, with the source having
+ * FKs defined as contraints in a 'ALTER' statement, will not fail if run
+ * after all tables were declared.
+ * @param {Array<ScriptObjectContent>} contents
+ * @param {Function<string,string>} createLabel
+ */
+function concatenateTableScripts(contents, createLabel) {
+    // Separate CREATE statements (first in the file), from the rest
+    // creating two sets of parts on each
+    const createDdls = [];
+    const restDdls = [];
+    contents.forEach(function({ content }) {
+        const batchStart = content.indexOf('GO');
+        if (batchStart > -1) {
+            createDdls.push(content.substring(0, batchStart));
+            restDdls.push(content.substr(batchStart + 2));
+        }
+        else {
+            createDdls.push(content);
+            restDdls.push('');
+        }
+    });
+
+    // First, all CREATEs
+    let result = contents.map(({ name }, index) => `
+PRINT N'${createLabel(name)}';
+GO
+${createDdls[index]}
+GO
+    `).join('');
+
+    // Last, rest of DDLs on each script
+    result += contents.map(({ name }, index) => `
+PRINT N'Altering [dbo].[${name}]...';
+GO
+${restDdls[index]}
+GO
+    `).join('');
+
+    return result;
+}
+
 function createObjectLabel(name) {
     return `Creating [dbo].[${name}]...`;
 }
@@ -66,7 +111,7 @@ function replaceScriptVars(content, vars) {
     return content.replace(/\$\(DatabaseName\)/g, vars.databaseName);
 }
 
-async function concatenateDirContent(dir, createLabelFn, vars) {
+async function concatenateDirContent(dir, createLabelFn, vars, concatFn) {
     const files = await readdir(dir);
     // We keep an alphabetical order for all the content in order
     // to get predictable results, so we sort file names and map results keeping
@@ -82,13 +127,18 @@ async function concatenateDirContent(dir, createLabelFn, vars) {
             content: replaceScriptVars(trimUtfBom(content), vars),
         };
     }));
-    return concatenateScripts(contents, createLabelFn);
+    if (concatFn) {
+        return concatFn(contents, createLabelFn);
+    }
+    else {
+        return concatenateScripts(contents, createLabelFn);
+    }
 }
 
 async function run(settings) {
     const contents = await Promise.all([
-        concatenateDirContent(schemaDir, createDatabaseLabel, settings),
-        concatenateDirContent(schemaDir + '/Tables', createObjectLabel, settings),
+        concatenateDirContent(schemaDir, createDatabaseLabel.bind(null, settings.databaseName), settings),
+        concatenateDirContent(schemaDir + '/Tables', createObjectLabel, settings, concatenateTableScripts),
         concatenateDirContent(schemaDir + '/Views', createObjectLabel, settings),
         concatenateDirContent(schemaDir + '/Functions', createObjectLabel, settings),
         concatenateDirContent(schemaDir + '/Stored Procedures', createObjectLabel, settings),
