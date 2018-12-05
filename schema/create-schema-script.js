@@ -58,7 +58,8 @@ async function concatenateDirContent(dir) {
     // that would be unreliable, and let for forgottent content if some fails
     // later).
     files.sort(caseInsensitiveComparer);
-    const contents = await Promise.all(files.map(async (file) => {
+    const sqlFiles = files.filter((name) => /\.sql$/i.test(name));
+    const contents = await Promise.all(sqlFiles.map(async (file) => {
         const content = await readFile(path.join(dir, file), 'utf8');
         return {
             name: path.basename(file, '.sql'),
@@ -70,6 +71,7 @@ async function concatenateDirContent(dir) {
 
 async function run() {
     const contents = await Promise.all([
+        concatenateDirContent(schemaDir),
         concatenateDirContent(schemaDir + '/Tables'),
         concatenateDirContent(schemaDir + '/Views'),
         concatenateDirContent(schemaDir + '/Functions'),
