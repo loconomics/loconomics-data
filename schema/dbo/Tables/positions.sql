@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[positions] (
     [PositionID]                 INT            NOT NULL,
-    [LanguageID]                 INT            NOT NULL,
-    [CountryID]                  INT            NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [PositionSingular]           VARCHAR (250)  NULL,
     [PositionPlural]             VARCHAR (250)  NULL,
     [Aliases]                    VARCHAR (200)  NULL,
@@ -25,11 +24,10 @@
     [SendReviewReminderToClient] BIT            DEFAULT ((1)) NOT NULL,
     [CanBeRemote]                BIT            DEFAULT ((0)) NOT NULL,
     [SuppressReviewOfClient]     BIT            DEFAULT ((0)) NOT NULL,
-    CONSTRAINT [PK_positions_1] PRIMARY KEY CLUSTERED ([PositionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_positions_1] PRIMARY KEY CLUSTERED ([PositionID] ASC)
 );
 
-
 GO
+
 CREATE NONCLUSTERED INDEX [idx_positions]
     ON [dbo].[positions]([PositionID] ASC);
-

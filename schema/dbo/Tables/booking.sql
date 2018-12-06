@@ -3,8 +3,7 @@
     [ClientUserID]                     INT             NULL,
     [ServiceProfessionalUserID]        INT             NULL,
     [JobTitleID]                       INT             NOT NULL,
-    [LanguageID]                       INT             NOT NULL,
-    [CountryID]                        INT             NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [BookingStatusID]                  INT             NOT NULL,
     [BookingTypeID]                    INT             NOT NULL,
     [CancellationPolicyID]             INT             NOT NULL,
@@ -55,9 +54,9 @@ ALTER TABLE [dbo].[booking] ADD
     CONSTRAINT [FK__booking__alternativeDate1] FOREIGN KEY ([AlternativeDate1ID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
     CONSTRAINT [FK__booking__alternativeDate2] FOREIGN KEY ([AlternativeDate2ID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
     CONSTRAINT [FK__booking__AwaitingResponseFromUserID] FOREIGN KEY ([AwaitingResponseFromUserID]) REFERENCES [dbo].[users] ([UserID]),
-    CONSTRAINT [FK__booking__cancellationPolicy] FOREIGN KEY ([CancellationPolicyID], [LanguageID], [CountryID]) REFERENCES [dbo].[cancellationpolicy] ([CancellationPolicyID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK__booking__cancellationPolicy] FOREIGN KEY ([CancellationPolicyID]) REFERENCES [dbo].[cancellationpolicy] ([CancellationPolicyID]),
     CONSTRAINT [FK__booking__client] FOREIGN KEY ([ClientUserID]) REFERENCES [dbo].[users] ([UserID]),
-    CONSTRAINT [FK__booking__jobtitle] FOREIGN KEY ([JobTitleID], [LanguageID], [CountryID]) REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK__booking__jobtitle] FOREIGN KEY ([JobTitleID]) REFERENCES [dbo].[positions] ([PositionID]),
     CONSTRAINT [FK__booking__parentbooking] FOREIGN KEY ([ParentBookingID]) REFERENCES [dbo].[booking] ([BookingID]),
     CONSTRAINT [FK__booking__pricingSummary] FOREIGN KEY ([PricingSummaryID], [PricingSummaryRevision]) REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision]),
     CONSTRAINT [FK__booking__serviceAddress] FOREIGN KEY ([ServiceAddressID]) REFERENCES [dbo].[address] ([AddressID]),
@@ -66,15 +65,5 @@ ALTER TABLE [dbo].[booking] ADD
     CONSTRAINT [FK__booking__status] FOREIGN KEY ([BookingStatusID]) REFERENCES [dbo].[bookingStatus] ([BookingStatusID]),
     CONSTRAINT [FK__booking__type] FOREIGN KEY ([BookingTypeID]) REFERENCES [dbo].[bookingType] ([BookingTypeID])
 
-
-GO
-EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'The languageID related to the jobTitleID, and the one used on the API call by the creator of the booking', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'booking', @level2type = N'COLUMN', @level2name = N'LanguageID';
-
-
-GO
-EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'The countryID related to the jobTitleID, and the one used on the API call by the creator of the booking', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'booking', @level2type = N'COLUMN', @level2name = N'CountryID';
-
-
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'It''s an initial setup flag, set on creation and no updated later. It lets know that payment processing is enabled on this booking, and later payment MUST be collected and performed. Payment must be enabled on the service professional account and optionally enable/disable for bookNow bookings depending on jobTitle and user setup', @level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'booking', @level2type = N'COLUMN', @level2name = N'PaymentEnabled';
-
