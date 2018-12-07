@@ -10,9 +10,8 @@ This package may ultimately contain a data model for use in the new Loconomics b
 4. Load in the schema with `sqlcmd -U sa -S localhost -i schema.sql`, updating for your own SQLServer instance of course.
 5. Generate models with `yarn typeorm-model-generator -d loconomics -u sa -x "Password!!11" -e mssql --ce=pascal --cp=camel --lazy=true`. Optionally just run `yarn generate` if your database is created with the default values provided by the backend setup docker-compose.yml.
 6. Set a _DATABASE_URL_ environment variable to something like `mssql://sa:Password!!11@localhost:1433/loconomics`.
-7. Copy all files from _output/entities_ to _src/entity_.
-8. Run `yarn start` or `npm start`.
-9. Fail, edit _schema.sql_, reload, regenerate, repeat.
+7. Run `yarn start` or `npm start`.
+8. Fail, edit _schema.sql_, reload, regenerate, repeat.
 
 ## Editing the database Schema
 
