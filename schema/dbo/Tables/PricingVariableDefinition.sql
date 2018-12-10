@@ -1,7 +1,5 @@
 ﻿CREATE TABLE [dbo].[PricingVariableDefinition] (
     [PricingVariableID]          INT            NOT NULL,
-    [LanguageID]                 INT            NOT NULL,
-    [CountryID]                  INT            NOT NULL,
     [PositionID]                 INT            NOT NULL,
     [PricingTypeID]              INT            NOT NULL,
     [InternalName]               VARCHAR (60)   NOT NULL,
@@ -21,6 +19,7 @@
     [MaxNumberAllowedLabelPopUp] NVARCHAR (200) NULL,
     [CalculateWithVariableID]    INT            NULL,
     [Active]                     BIT            CONSTRAINT [DF_PricingVariableDefinition_Active] DEFAULT ((1)) NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreatedDate]                DATETIME       CONSTRAINT [DF_PricingVariableDefinition_CreatedDate] DEFAULT (getdate()) NOT NULL,
     [UpdatedDate]                DATETIME       CONSTRAINT [DF_PricingVariableDefinition_UpdatedDate] DEFAULT (getdate()) NOT NULL,
     [ModifiedBy]                 VARCHAR (25)   CONSTRAINT [DF_PricingVariableDefinition_ModifiedBy] DEFAULT ('sys') NOT NULL,
