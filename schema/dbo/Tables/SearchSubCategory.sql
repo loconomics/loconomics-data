@@ -1,12 +1,11 @@
 ﻿CREATE TABLE [dbo].[SearchSubCategory] (
     [SearchSubCategoryID] INT                NOT NULL,
-    [LanguageID]          INT                NOT NULL,
-    [CountryID]           INT                NOT NULL,
     [SearchCategoryID]    INT                NOT NULL,
     [Name]                NVARCHAR (40)      NOT NULL,
     [Description]         NVARCHAR (100)     NULL,
     [Image]               NVARCHAR (255)     NULL,
     [DisplayRank]         INT                NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreatedDate]         DATETIMEOFFSET (7) NOT NULL,
     [UpdatedDate]         DATETIMEOFFSET (7) NOT NULL,
     [ModifiedBy]          NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
