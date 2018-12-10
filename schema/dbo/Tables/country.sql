@@ -10,6 +10,6 @@
     [ModifiedBy]         VARCHAR (25)  NULL,
     [Active]             BIT           NOT NULL,
     [numcode]            INT           NULL,
-    CONSTRAINT [PK__country__BB42E5E768D28DBC] PRIMARY KEY CLUSTERED ([CountryID] ASC, [LanguageID] ASC) WITH (FILLFACTOR = 100)
+    CONSTRAINT [PK__country__BB42E5E768D28DBC] PRIMARY KEY CLUSTERED ([CountryID] ASC) WITH (FILLFACTOR = 100)
 );
 

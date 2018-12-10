@@ -17,6 +17,6 @@
     [CreatedDate]               DATETIME       NOT NULL,
     [UpdatedDate]               DATETIME       NOT NULL,
     [ModifiedBy]                VARCHAR (25)   NOT NULL,
-    CONSTRAINT [PK__position__E3225E7D52EE3995] PRIMARY KEY CLUSTERED ([CountryID] ASC, [LanguageID] ASC, [PositionID] ASC)
+    CONSTRAINT [PK__position__E3225E7D52EE3995] PRIMARY KEY CLUSTERED ([PositionID] ASC)
 );
 

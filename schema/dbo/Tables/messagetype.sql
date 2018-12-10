@@ -8,7 +8,7 @@
     [UpdatedDate]            DATETIME      NOT NULL,
     [ModifiedBy]             VARCHAR (25)  NOT NULL,
     [Active]                 BIT           NOT NULL,
-    PRIMARY KEY CLUSTERED ([MessageTypeID] ASC, [LanguageID] ASC, [CountryID] ASC),
+    PRIMARY KEY CLUSTERED ([MessageTypeID] ASC),
     CONSTRAINT [Pk_messagetype] UNIQUE NONCLUSTERED ([MessageTypeID] ASC)
 );
 

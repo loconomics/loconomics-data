@@ -9,6 +9,6 @@
     [ModifiedBy]                 VARCHAR (25)   NOT NULL,
     [Active]                     BIT            NOT NULL,
     [BackGroundCheckPrice]       DECIMAL (5, 2) NULL,
-    PRIMARY KEY CLUSTERED ([BackgroundCheckID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([BackgroundCheckID] ASC)
 );
 

@@ -7,6 +7,6 @@
     [CreatedDate]  DATETIME     NULL,
     [UpdatedDate]  DATETIME     NULL,
     [ModifiedBy]   VARCHAR (25) NULL,
-    PRIMARY KEY CLUSTERED ([LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([LanguageID] ASC)
 );
 

@@ -25,7 +25,7 @@
     [SendReviewReminderToClient] BIT            DEFAULT ((1)) NOT NULL,
     [CanBeRemote]                BIT            DEFAULT ((0)) NOT NULL,
     [SuppressReviewOfClient]     BIT            DEFAULT ((0)) NOT NULL,
-    CONSTRAINT [PK_positions_1] PRIMARY KEY CLUSTERED ([PositionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_positions_1] PRIMARY KEY CLUSTERED ([PositionID] ASC)
 );
 
 

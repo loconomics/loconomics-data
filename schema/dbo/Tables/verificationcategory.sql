@@ -9,6 +9,6 @@
     [ModifiedBy]                      VARCHAR (25)   NOT NULL,
     [Active]                          BIT            NOT NULL,
     [RankPosition]                    INT            NULL,
-    PRIMARY KEY CLUSTERED ([VerificationCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([VerificationCategoryID] ASC)
 );
 

@@ -13,10 +13,8 @@
     [UpdatedDate]             DATETIMEOFFSET (7) NOT NULL,
     [ModifiedBy]              NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
     [Active]                  BIT                DEFAULT ((1)) NOT NULL,
-    PRIMARY KEY CLUSTERED ([SolutionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([SolutionID] ASC)
 );
 
 GO
 
-ALTER TABLE [dbo].[Solution] ADD
-    CONSTRAINT [FK_Solution_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])

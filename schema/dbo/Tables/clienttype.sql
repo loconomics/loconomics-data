@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[clienttype] (
-    [CllientTypeID]         INT           NOT NULL,
+    [ClientTypeID]         INT           NOT NULL,
     [ClientTypeName]        VARCHAR (50)  NOT NULL,
     [ClientTypeDescription] VARCHAR (500) NULL,
     [LanguageID]            INT           NOT NULL,
@@ -8,11 +8,11 @@
     [UpdatedDate]           DATETIME      NOT NULL,
     [ModifiedBy]            VARCHAR (25)  NULL,
     [Active]                BIT           NOT NULL,
-    PRIMARY KEY CLUSTERED ([CllientTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([ClientTypeID] ASC)
 );
 
 
 GO
 CREATE NONCLUSTERED INDEX [idx_clienttype]
-    ON [dbo].[clienttype]([CllientTypeID] ASC, [CountryID] ASC);
+    ON [dbo].[clienttype]([ClientTypeID] ASC, [CountryID] ASC);
 

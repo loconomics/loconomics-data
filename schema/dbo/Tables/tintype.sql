@@ -9,6 +9,6 @@
     [UpdatedDate]        DATETIME       NOT NULL,
     [ModifiedBy]         VARCHAR (25)   NOT NULL,
     [Active]             BIT            NOT NULL,
-    CONSTRAINT [PK__tintype__5B7925DB119F9925] PRIMARY KEY CLUSTERED ([TINTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK__tintype__5B7925DB119F9925] PRIMARY KEY CLUSTERED ([TINTypeID] ASC)
 );
 

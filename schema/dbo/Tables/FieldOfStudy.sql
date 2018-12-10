@@ -10,7 +10,3 @@
     PRIMARY KEY CLUSTERED ([FieldOfStudyID] ASC)
 );
 
-GO
-
-ALTER TABLE [dbo].[FieldOfStudy] ADD
-    CONSTRAINT [FK__FieldOfStudy__LanguageID__CountryID] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])

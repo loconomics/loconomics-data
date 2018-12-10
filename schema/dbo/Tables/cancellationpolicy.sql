@@ -11,6 +11,6 @@
     [UpdatedDate]                   DATETIME       NOT NULL,
     [ModifiedBy]                    VARCHAR (25)   NOT NULL,
     [Active]                        BIT            NOT NULL,
-    CONSTRAINT [PK__cancella__4BAA8CCE7A0806B6] PRIMARY KEY CLUSTERED ([CancellationPolicyID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK__cancella__4BAA8CCE7A0806B6] PRIMARY KEY CLUSTERED ([CancellationPolicyID] ASC)
 );
 

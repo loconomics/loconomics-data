@@ -19,7 +19,7 @@
 GO
 
 ALTER TABLE [dbo].[UserBadge] ADD
-    CONSTRAINT [FK_UserBadge_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_UserBadge_Solution] FOREIGN KEY ([SolutionID]) REFERENCES [dbo].[Solution] ([SolutionID]),
     CONSTRAINT [FK_UserBadge_UserBadge] FOREIGN KEY ([UserBadgeID]) REFERENCES [dbo].[UserBadge] ([UserBadgeID]),
     CONSTRAINT [FK_UserBadge_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
 

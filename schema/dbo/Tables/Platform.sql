@@ -15,10 +15,6 @@
     [UpdatedDate]      DATETIMEOFFSET (0) NOT NULL,
     [ModifiedBy]       NVARCHAR (4)       NOT NULL,
     [Active]           BIT                CONSTRAINT [DF_Platform_Active] DEFAULT ((1)) NOT NULL,
-    CONSTRAINT [PK_Platform] PRIMARY KEY CLUSTERED ([PlatformID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_Platform] PRIMARY KEY CLUSTERED ([PlatformID] ASC,)
 );
 
-GO
-
-ALTER TABLE [dbo].[Platform] ADD
-    CONSTRAINT [FK_Platform_language] FOREIGN KEY ([LanguageID], [CountryID]) REFERENCES [dbo].[language] ([LanguageID], [CountryID])

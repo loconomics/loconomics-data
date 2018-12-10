@@ -7,5 +7,3 @@
 
 GO
 
-ALTER TABLE [dbo].[CalendarRecurrenceFrequencyTypes] ADD
-    CONSTRAINT [FK_CalendarRecurrenceFrequencyTypes_CalendarRecurrenceFrequencyTypes] FOREIGN KEY ([ID]) REFERENCES [dbo].[CalendarRecurrenceFrequencyTypes] ([ID])

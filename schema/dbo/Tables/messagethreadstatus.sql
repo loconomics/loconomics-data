@@ -7,7 +7,6 @@
     [ModifiedBy]                     VARCHAR (25)  NOT NULL,
     [Active]                         BIT           NOT NULL,
     [MessageStatusColor]             VARCHAR (7)   NOT NULL,
-    CONSTRAINT [Pk_messagethreadstatus_0] PRIMARY KEY CLUSTERED ([MessageThreadStatusID] ASC),
-    CONSTRAINT [Pk_messagethreadstatus] UNIQUE NONCLUSTERED ([MessageThreadStatusID] ASC)
+    CONSTRAINT [Pk_messagethreadstatus] PRIMARY KEY CLUSTERED ([MessageThreadStatusID] ASC)
 );
 

@@ -25,6 +25,6 @@
     [UpdatedDate]                DATETIME       CONSTRAINT [DF_PricingVariableDefinition_UpdatedDate] DEFAULT (getdate()) NOT NULL,
     [ModifiedBy]                 VARCHAR (25)   CONSTRAINT [DF_PricingVariableDefinition_ModifiedBy] DEFAULT ('sys') NOT NULL,
     [MinMaxValuesList]           NVARCHAR (MAX) NULL,
-    CONSTRAINT [PK_PricingVariableDefinition] PRIMARY KEY CLUSTERED ([PricingVariableID] ASC, [LanguageID] ASC, [CountryID] ASC, [PositionID] ASC, [PricingTypeID] ASC)
+    CONSTRAINT [PK_PricingVariableDefinition] PRIMARY KEY CLUSTERED ([PricingVariableID] ASC, [PositionID] ASC, [PricingTypeID] ASC)
 );
 

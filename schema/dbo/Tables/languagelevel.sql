@@ -7,6 +7,6 @@
     [CreatedDate]              DATETIME       NOT NULL,
     [UpdatedDate]              DATETIME       NOT NULL,
     [ModifiedBy]               VARCHAR (25)   NOT NULL,
-    CONSTRAINT [PK__language__F5325F2353584DE9] PRIMARY KEY CLUSTERED ([LanguageLevelID] ASC, [LanguageID] ASC, [CountryID] ASC) WITH (FILLFACTOR = 100)
+    CONSTRAINT [PK__language__F5325F2353584DE9] PRIMARY KEY CLUSTERED ([LanguageLevelID] ASC) WITH (FILLFACTOR = 100)
 );
 

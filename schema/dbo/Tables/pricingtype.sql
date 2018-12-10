@@ -8,7 +8,7 @@
     [ModifiedBy]    VARCHAR (50) NOT NULL,
     [Active]        BIT          CONSTRAINT [DF__pricingty__Activ__0A537D18] DEFAULT ((1)) NOT NULL,
     [DisplayRank]   INT          NOT NULL,
-    CONSTRAINT [PK_pricingtype_PricingTypeID] PRIMARY KEY CLUSTERED ([PricingTypeID] ASC, [LanguageID] ASC, [CountryID] ASC) WITH (FILLFACTOR = 100),
+    CONSTRAINT [PK_pricingtype_PricingTypeID] PRIMARY KEY CLUSTERED ([PricingTypeID] ASC) WITH (FILLFACTOR = 100),
     CONSTRAINT [Pk_pricingtype] UNIQUE NONCLUSTERED ([PricingTypeID] ASC)
 );
 

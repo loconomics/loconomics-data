@@ -13,6 +13,6 @@
     [PositionReference]           INT            NULL,
     [EnteredByUserID]             INT            NULL,
     [Approved]                    BIT            NULL,
-    CONSTRAINT [PK_serviceattribute] PRIMARY KEY CLUSTERED ([ServiceAttributeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_serviceattribute] PRIMARY KEY CLUSTERED ([ServiceAttributeID] ASC)
 );
 

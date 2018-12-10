@@ -7,6 +7,6 @@
     [CreatedDate]                DATETIME      NOT NULL,
     [UpdatedDate]                DATETIME      NOT NULL,
     [ModifiedBy]                 VARCHAR (25)  NOT NULL,
-    CONSTRAINT [PK__Experien__2F4E34695728DECD] PRIMARY KEY CLUSTERED ([ExperienceLevelID] ASC, [LanguageID] ASC, [CountryID] ASC) WITH (FILLFACTOR = 100)
+    CONSTRAINT [PK__Experien__2F4E34695728DECD] PRIMARY KEY CLUSTERED ([ExperienceLevelID] ASC) WITH (FILLFACTOR = 100)
 );
 

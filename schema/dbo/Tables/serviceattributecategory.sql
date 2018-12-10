@@ -16,6 +16,6 @@
     [DisplayRank]                         INT           CONSTRAINT [DF__serviceat__Displ__3C0AD43D] DEFAULT ((1)) NOT NULL,
     [PositionReference]                   INT           NULL,
     [BookingPathSelection]                BIT           DEFAULT ((0)) NOT NULL,
-    CONSTRAINT [PK_serviceattributecategory] PRIMARY KEY CLUSTERED ([ServiceAttributeCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_serviceattributecategory] PRIMARY KEY CLUSTERED ([ServiceAttributeCategoryID] ASC)
 );
 

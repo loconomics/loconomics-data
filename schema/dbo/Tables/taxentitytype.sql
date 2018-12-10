@@ -8,6 +8,6 @@
     [UpdatedDate]              DATETIME      NOT NULL,
     [ModifiedBy]               VARCHAR (25)  NOT NULL,
     [Active]                   BIT           NOT NULL,
-    PRIMARY KEY CLUSTERED ([TaxEntityTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([TaxEntityTypeID] ASC)
 );
 

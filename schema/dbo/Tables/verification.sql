@@ -13,6 +13,6 @@
     [VerificationCategoryID]  INT            NOT NULL,
     [RankPosition]            INT            NULL,
     [SummaryGroup]            VARCHAR (20)   NULL,
-    CONSTRAINT [PK__verficat__25EE1D1F0C1BC9F9] PRIMARY KEY CLUSTERED ([VerificationID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK__verficat__25EE1D1F0C1BC9F9] PRIMARY KEY CLUSTERED ([VerificationID] ASC)
 );
 

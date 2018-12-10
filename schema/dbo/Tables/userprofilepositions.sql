@@ -22,7 +22,7 @@ GO
 
 ALTER TABLE [dbo].[userprofilepositions] ADD
     CONSTRAINT [FK_userprofilepositions_accountstatus] FOREIGN KEY ([StatusID]) REFERENCES [dbo].[accountstatus] ([AccountStatusID]),
-    CONSTRAINT [FK_userprofilepositions_positions] FOREIGN KEY ([PositionID], [LanguageID], [CountryID]) REFERENCES [dbo].[positions] ([PositionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_userprofilepositions_positions] FOREIGN KEY ([PositionID]) REFERENCES [dbo].[positions] ([PositionID]),
     CONSTRAINT [FK_userprofilepositions_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])
 
 GO

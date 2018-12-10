@@ -8,6 +8,6 @@
     [UpdatedDate]                      DATETIME      NOT NULL,
     [ModifiedBy]                       VARCHAR (3)   NOT NULL,
     [Active]                           BIT           NOT NULL,
-    PRIMARY KEY CLUSTERED ([VOCExperienceCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([VOCExperienceCategoryID] ASC)
 );
 

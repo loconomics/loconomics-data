@@ -21,6 +21,6 @@
     [ProviderAlert]                 BIT            DEFAULT ((1)) NOT NULL,
     [CustomerAlert]                 BIT            DEFAULT ((0)) NOT NULL,
     [bookMeButtonRequired]          BIT            CONSTRAINT [DF_alert_bookMeButtonRequired] DEFAULT ((0)) NOT NULL,
-    CONSTRAINT [PK__alert__AAFF8BB7025D5595] PRIMARY KEY CLUSTERED ([AlertID] ASC, [AlertTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK__alert__AAFF8BB7025D5595] PRIMARY KEY CLUSTERED ([AlertID] ASC, [AlertTypeID] ASC)
 );
 

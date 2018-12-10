@@ -9,6 +9,6 @@
     [UpdatedDate]                              DATETIME      NOT NULL,
     [ModifiedBy]                               VARCHAR (25)  NOT NULL,
     [Active]                                   BIT           NOT NULL,
-    CONSTRAINT [PK__provider__A7C3000A031C6FA4] PRIMARY KEY CLUSTERED ([ProviderPaymentPreferenceTypeID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK__provider__A7C3000A031C6FA4] PRIMARY KEY CLUSTERED ([ProviderPaymentPreferenceTypeID] ASC)
 );
 

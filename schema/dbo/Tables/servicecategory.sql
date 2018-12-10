@@ -10,6 +10,6 @@
     [Active]            BIT           NULL,
     [ImagePath]         VARCHAR (200) NULL,
     [headline]          VARCHAR (250) NULL,
-    CONSTRAINT [PK_servicecategory] PRIMARY KEY CLUSTERED ([ServiceCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_servicecategory] PRIMARY KEY CLUSTERED ([ServiceCategoryID] ASC)
 );
 

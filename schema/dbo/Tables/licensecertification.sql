@@ -10,6 +10,6 @@
     [ModifiedBy]                          VARCHAR (25)   NOT NULL,
     [Active]                              BIT            NOT NULL,
     [LanguageID]                          INT            CONSTRAINT [DF__licensece__Langu__5BF880E2] DEFAULT ((1)) NOT NULL,
-    CONSTRAINT [PK__licensec__65E993A46F0B5556] PRIMARY KEY CLUSTERED ([LicenseCertificationID] ASC, [LanguageID] ASC)
+    CONSTRAINT [PK__licensec__65E993A46F0B5556] PRIMARY KEY CLUSTERED ([LicenseCertificationID] ASC)
 );
 

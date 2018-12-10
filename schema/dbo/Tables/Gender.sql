@@ -7,6 +7,6 @@
     [SubjectPronoun]   VARCHAR (25)  NULL,
     [ObjectPronoun]    VARCHAR (25)  NULL,
     [PossesivePronoun] VARCHAR (25)  NULL,
-    CONSTRAINT [PK_Gender] PRIMARY KEY CLUSTERED ([GenderID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_Gender] PRIMARY KEY CLUSTERED ([GenderID] ASC)
 );
 

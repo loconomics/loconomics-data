@@ -16,6 +16,6 @@
 GO
 
 ALTER TABLE [dbo].[UserSolution] ADD
-    CONSTRAINT [FK_UserSolution_Solution] FOREIGN KEY ([SolutionID], [LanguageID], [CountryID]) REFERENCES [dbo].[Solution] ([SolutionID], [LanguageID], [CountryID]),
+    CONSTRAINT [FK_UserSolution_Solution] FOREIGN KEY ([SolutionID]) REFERENCES [dbo].[Solution] ([SolutionID]),
     CONSTRAINT [FK_UserSolution_userprofilepositions] FOREIGN KEY ([UserListingID]) REFERENCES [dbo].[userprofilepositions] ([UserListingID]),
     CONSTRAINT [FK_UserSolution_users] FOREIGN KEY ([UserID]) REFERENCES [dbo].[users] ([UserID])

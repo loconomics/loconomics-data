@@ -8,6 +8,6 @@
     [UpdatedDate]       DATETIME     NOT NULL,
     [ModifiedBy]        VARCHAR (25) NOT NULL,
     [Active]            INT          DEFAULT ((1)) NOT NULL,
-    PRIMARY KEY CLUSTERED ([ServiceCategoryID] ASC, [PositionID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    PRIMARY KEY CLUSTERED ([ServiceCategoryID] ASC, [PositionID] ASC)
 );
 

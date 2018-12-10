@@ -11,10 +11,10 @@
     [ServiceCategoryID]    INT           NULL,
     [Rank]                 INT           NULL,
     [RankQuery]            VARCHAR (200) NULL,
-    CONSTRAINT [PK_servicesubcategory] PRIMARY KEY CLUSTERED ([ServiceSubCategoryID] ASC, [LanguageID] ASC, [CountryID] ASC)
+    CONSTRAINT [PK_servicesubcategory] PRIMARY KEY CLUSTERED ([ServiceSubCategoryID] ASC)
 );
 
 GO
 
 ALTER TABLE [dbo].[servicesubcategory] ADD
-    CONSTRAINT [FK_servicesubcategory_servicecategory] FOREIGN KEY ([ServiceCategoryID], [LanguageID], [CountryID]) REFERENCES [dbo].[servicecategory] ([ServiceCategoryID], [LanguageID], [CountryID])
+    CONSTRAINT [FK_servicesubcategory_servicecategory] FOREIGN KEY ([ServiceCategoryID]) REFERENCES [dbo].[servicecategory] ([ServiceCategoryID])
