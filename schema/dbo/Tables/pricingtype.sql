@@ -1,8 +1,7 @@
 ﻿CREATE TABLE [dbo].[pricingtype] (
     [PricingTypeID] INT          NOT NULL,
-    [LanguageID]    INT          CONSTRAINT [DF__pricingty__Langu__086B34A6] DEFAULT ((1)) NOT NULL,
-    [CountryID]     INT          CONSTRAINT [DF__pricingty__Count__095F58DF] DEFAULT ((1)) NOT NULL,
     [Description]   VARCHAR (50) NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreatedDate]   DATETIME     NOT NULL,
     [UpdatedDate]   DATETIME     NOT NULL,
     [ModifiedBy]    VARCHAR (50) NOT NULL,
