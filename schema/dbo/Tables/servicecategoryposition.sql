@@ -1,9 +1,8 @@
 ﻿CREATE TABLE [dbo].[servicecategoryposition] (
     [ServiceCategoryID] INT          NOT NULL,
     [PositionID]        INT          NOT NULL,
-    [LanguageID]        INT          NOT NULL,
-    [CountryID]         INT          NOT NULL,
     [Rank]              INT          DEFAULT ((1)) NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreateDate]        DATETIME     NOT NULL,
     [UpdatedDate]       DATETIME     NOT NULL,
     [ModifiedBy]        VARCHAR (25) NOT NULL,
