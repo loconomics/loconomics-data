@@ -1,9 +1,8 @@
 ﻿CREATE TABLE [dbo].[servicesubcategory] (
     [ServiceSubCategoryID] INT           NOT NULL,
-    [LanguageID]           INT           NOT NULL,
-    [CountryID]            INT           NOT NULL,
     [Name]                 VARCHAR (45)  NULL,
     [Description]          VARCHAR (250) NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreatedDate]          DATETIME      NULL,
     [UpdatedDate]          DATETIME      NULL,
     [ModifiedBy]           VARCHAR (2)   NULL,
