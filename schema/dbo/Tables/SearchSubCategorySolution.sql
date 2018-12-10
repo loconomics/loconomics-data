@@ -1,9 +1,8 @@
 ﻿CREATE TABLE [dbo].[SearchSubCategorySolution] (
     [SearchSubCategoryID] INT                NOT NULL,
     [SolutionID]          INT                NOT NULL,
-    [LanguageID]          INT                NOT NULL,
-    [CountryID]           INT                NOT NULL,
     [DisplayRank]         INT                NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreatedDate]         DATETIMEOFFSET (7) NOT NULL,
     [UpdatedDate]         DATETIMEOFFSET (7) NOT NULL,
     [ModifiedBy]          NVARCHAR (4)       DEFAULT ('sys') NOT NULL,
