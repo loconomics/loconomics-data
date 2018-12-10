@@ -2,8 +2,7 @@
     [PositionID]    INT          NOT NULL,
     [PricingTypeID] INT          NOT NULL,
     [ClientTypeID]  INT          NOT NULL,
-    [LanguageID]    INT          NOT NULL,
-    [CountryID]     INT          NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreatedDate]   DATETIME     NOT NULL,
     [UpdatedDate]   DATETIME     NOT NULL,
     [ModifiedBy]    VARCHAR (25) NOT NULL,
@@ -17,3 +16,5 @@ ALTER TABLE [dbo].[positionpricingtype] ADD
     CONSTRAINT [Fk_positionpricingtype] FOREIGN KEY ([PricingTypeID]) REFERENCES [dbo].[pricingtype] ([PricingTypeID]),
     CONSTRAINT [Fk_positionpricingtype_0] FOREIGN KEY ([PositionID]) REFERENCES [dbo].[positions] ([PositionID]),
     CONSTRAINT [Fk_positionpricingtype_1] FOREIGN KEY ([ClientTypeID]) REFERENCES [dbo].[clienttype] ([ClientTypeID])
+);
+

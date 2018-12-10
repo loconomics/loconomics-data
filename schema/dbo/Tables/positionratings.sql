@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[positionratings] (
     [PositionID]                INT            NOT NULL,
-    [LanguageID]                INT            NOT NULL,
-    [CountryID]                 INT            NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [Rating1]                   VARCHAR (25)   NOT NULL,
     [Rating2]                   VARCHAR (25)   NOT NULL,
     [Rating3]                   VARCHAR (25)   NOT NULL,
@@ -19,4 +18,3 @@
     [ModifiedBy]                VARCHAR (25)   NOT NULL,
     CONSTRAINT [PK__position__E3225E7D52EE3995] PRIMARY KEY CLUSTERED ([PositionID] ASC)
 );
-

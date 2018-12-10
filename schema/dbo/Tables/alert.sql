@@ -1,8 +1,7 @@
 ﻿CREATE TABLE [dbo].[alert] (
     [AlertID]                       INT            NOT NULL,
     [AlertTypeID]                   INT            NOT NULL,
-    [LanguageID]                    INT            NOT NULL,
-    [CountryID]                     INT            NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [AlertName]                     VARCHAR (30)   NOT NULL,
     [AlertHeadlineDisplay]          VARCHAR (100)  NULL,
     [AlertTextDisplay]              VARCHAR (300)  NOT NULL,
@@ -23,4 +22,3 @@
     [bookMeButtonRequired]          BIT            CONSTRAINT [DF_alert_bookMeButtonRequired] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK__alert__AAFF8BB7025D5595] PRIMARY KEY CLUSTERED ([AlertID] ASC, [AlertTypeID] ASC)
 );
-

@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[Platform] (
     [PlatformID]       INT                NOT NULL,
-    [LanguageID]       INT                NOT NULL,
-    [CountryID]        INT                NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [Name]             NVARCHAR (20)      NOT NULL,
     [ShortDescription] NVARCHAR (50)      NOT NULL,
     [LongDescription]  TEXT               NOT NULL,

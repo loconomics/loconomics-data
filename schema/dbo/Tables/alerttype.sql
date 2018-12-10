@@ -6,9 +6,7 @@
     [UpdatedDate]          DATETIME      NOT NULL,
     [ModifiedBy]           VARCHAR (25)  NOT NULL,
     [Active]               BIT           NOT NULL,
-    [LanguageID]           INT           DEFAULT ((1)) NOT NULL,
-    [CountryID]            INT           DEFAULT ((1)) NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [DisplayRank]          INT           DEFAULT ((1)) NOT NULL,
     PRIMARY KEY CLUSTERED ([AlertTypeID] ASC)
 );
-
