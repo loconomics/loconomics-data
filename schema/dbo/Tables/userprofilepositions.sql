@@ -2,8 +2,7 @@
     [UserListingID]                INT            IDENTITY (1, 1) NOT NULL,
     [UserID]                       INT            NOT NULL,
     [PositionID]                   INT            NOT NULL,
-    [LanguageID]                   INT            NOT NULL,
-    [CountryID]                    INT            NOT NULL,
+    [language]      NVARCHAR (42) NOT NULL,
     [CreateDate]                   DATETIME       NULL,
     [UpdatedDate]                  DATETIME       NULL,
     [ModifiedBy]                   VARCHAR (3)    NULL,
@@ -27,8 +26,7 @@ ALTER TABLE [dbo].[userprofilepositions] ADD
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_userprofilepositions]
-    ON [dbo].[userprofilepositions]([UserID] ASC, [PositionID] ASC, [LanguageID] ASC, [CountryID] ASC);
-
+    ON [dbo].[userprofilepositions]([UserID] ASC, [PositionID] ASC);
 
 GO
 -- =============================================
