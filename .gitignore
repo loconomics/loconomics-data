@@ -3,3 +3,4 @@ output
 .vs/
 .env
 *.log
+schema.sql
