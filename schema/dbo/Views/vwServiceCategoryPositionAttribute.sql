@@ -4,9 +4,7 @@
 		d.PositionID
 		,se.ServiceAttributeCategoryID
 		,s.ServiceAttributeID
-		,s.LanguageID
-		,s.CountryID
-		
+		,s.Language
 		,d.Active As ServiceCategoryPositionAttributeActive
 		,s.Active As ServiceAttributeActive
 		,se.Active As ServiceAttributeCategoryActive
@@ -32,9 +30,6 @@
 	  on d.ServiceAttributeID = s.ServiceAttributeID 
 	  join serviceattributecategory se 
 	  on d.ServiceAttributeCategoryID = se.ServiceAttributeCategoryID 
-	  and d.LanguageID = se.LanguageID
-	  and d.CountryID = se.CountryID
-	  and se.LanguageID = s.LanguageID
-	  and se.CountryID = s.CountryID
-
+	  and d.Language = se.Language
+	  and se.Language = s.Language
 	ORDER BY s.DisplayRank ASC, s.Name ASC

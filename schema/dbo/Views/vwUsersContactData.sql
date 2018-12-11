@@ -52,7 +52,6 @@ CREATE VIEW vwUsersContactData AS
         ,L.StateProvinceID
         ,SP.StateProvinceName
         ,SP.StateProvinceCode
-        ,L.CountryID
         ,PC.PostalCode
         ,L.PostalCodeID
 
@@ -66,9 +65,7 @@ CREATE VIEW vwUsersContactData AS
         ,PossesivePronoun
 
         -- Some preferences
-        ,PreferredLanguageID
-        ,PreferredCountryID
-
+        ,PreferredLanguage
     FROM Users A
          INNER JOIN
         UserProfile As UP
@@ -76,8 +73,7 @@ CREATE VIEW vwUsersContactData AS
          INNER JOIN
         Gender As G
           ON G.GenderID = A.GenderID
-          	AND G.LanguageID = A.PreferredLanguageID
-          	AND G.CountryID = A.PreferredCountryID
+          	AND G.Language = A.PreferredLanguage
          LEFT JOIN
         Address As L
           ON L.UserID = A.UserID
