@@ -5,6 +5,7 @@
   "devDependencies": {
     "@types/node": "^10.12.12",
     "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
     "typeorm-model-generator": "^0.2.22",
     "typescript": "^3.2.2"
   },
@@ -16,6 +17,7 @@
   "scripts": {
     "generate": "typeorm-model-generator -d loconomics -u sa -x \"Password!!11\" -e mssql --ce=pascal --cp=camel --lazy=true --noConfig -o ./src/entities",
     "start": "ts-node src/index.ts",
+    "tslint": "tslint --project .",
     "build-schema-sql": "node ./schema/create-schema-script loconomics > schema.sql"
   }
 }
