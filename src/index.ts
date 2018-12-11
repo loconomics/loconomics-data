@@ -1,6 +1,13 @@
-import "reflect-metadata";
-import {createConnection} from "typeorm";
+import "reflect-metadata"
+import {createConnection} from "typeorm"
 
-createConnection().then(async connection => {
-    console.log('Connected');
-}).catch(error => console.log(error));
+const main = async () => {
+  try {
+    await createConnection()
+    console.log("Connected")
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+main()
