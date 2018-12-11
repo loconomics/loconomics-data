@@ -14,8 +14,8 @@ echo Regenerate DB script $TYPEORM_DATABASE
 node ./schema/create-schema-script "$TYPEORM_DATABASE" > ./schema.sql
 echo Create DB $TYPEORM_DATABASE
 sqlcmd -U "$TYPEORM_USERNAME" -P "$TYPEORM_PASSWORD" -S "$TYPEORM_HOST" -i ./schema.sql
-echo Regenerate entity models for $TYPEORM_DATABASE
-yarn typeorm-model-generator -d $TYPEORM_DATABASE -u $TYPEORM_USERNAME -x $TYPEORM_PASSWORD -e $TYPEORM_ENGINE -h $TYPEORM_HOST --ce=pascal --cp=camel --lazy=true --noConfig -o ./src/entities
+# echo Regenerate entity models for $TYPEORM_DATABASE
+# yarn typeorm-model-generator -d $TYPEORM_DATABASE -u $TYPEORM_USERNAME -x $TYPEORM_PASSWORD -e $TYPEORM_ENGINE -h $TYPEORM_HOST --ce=pascal --cp=camel --lazy=true --noConfig -o ./src/entities
 # echo Patching entities
 # cp src/entities.patch/*.ts src/entities
 echo DONE
