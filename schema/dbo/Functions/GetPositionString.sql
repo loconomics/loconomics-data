@@ -1,4 +1,4 @@
-﻿CREATE FUNCTION dbo.GetPositionString ( @UserID INT,@LangaugeID INT, @CountryID INT, @PositionCnt INT )
+﻿CREATE FUNCTION dbo.GetPositionString ( @UserID INT,@Language INT INT, @PositionCnt INT )
 
 RETURNS VARCHAR(8000) AS BEGIN
 
@@ -8,27 +8,20 @@ RETURNS VARCHAR(8000) AS BEGIN
           FROM positions a
           JOIN dbo.userprofilepositions up
               on a.positionid = up.PositionID
-              AND a.LanguageID = up.LanguageID
-              AND a.CountryID = up.CountryID 
-        WHERE up.UserID = @UserID and up.LanguageID = @LangaugeID and up.CountryID = @CountryID
+              AND a.Language = up.Language
+        WHERE up.UserID = @UserID and up.Language = @Language
         
               
            AND @PositionCnt = ( SELECT COUNT(*) FROM positions a2
                           JOIN dbo.userprofilepositions up2
                           on a2.positionid = up2.PositionID
-                          AND a2.LanguageID = up2.LanguageID
-                          AND a2.CountryID = up2.CountryID 
-                          
+                          AND a2.Language = up2.Language
                        WHERE up.UserID = up2.UserID
                          AND a.PositionSingular <= a2.PositionSingular 
-                         AND up.LanguageID = up2.LanguageID
-                         AND up.CountryID = up2.CountryID
-                          
-                         
-                         
+                         AND up.Language = up2.Language
                     ) ;
         IF @PositionCnt > 0 BEGIN
-              EXEC @l = dbo.GetPositionString @UserID,@LangaugeID,@CountryID, @PositionCnt ;
+              EXEC @l = dbo.GetPositionString @UserID, @Language, @PositionCnt ;
               SET @r =  @l + @r ;
 END
 RETURN @r ;
