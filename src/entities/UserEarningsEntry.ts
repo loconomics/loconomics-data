@@ -8,7 +8,7 @@ export class UserEarningsEntry {
 
     @OneToOne((type)=>ServiceProfessionalClient, (ServiceProfessionalClient)=>ServiceProfessionalClient.userEarningsEntry,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<ServiceProfessionalClient | null>;
+    serviceProfessionalClient: Promise<ServiceProfessionalClient | null>;
 
     @OneToOne((type)=>Users, (Users)=>Users.userEarningsEntry,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
