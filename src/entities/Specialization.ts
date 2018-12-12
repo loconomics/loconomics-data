@@ -1,9 +1,22 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import {Solution} from "./Solution";
 import {UserListingSpecialization} from "./UserListingSpecialization";
 
 @Entity("Specialization",{schema:"dbo"})
-export class Specialization {
+export default class Specialization {
 
     @Column("int",{
         nullable:false,

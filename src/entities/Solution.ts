@@ -1,7 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {JobTitleSolution} from "./JobTitleSolution";
 import {SearchSubCategorySolution} from "./SearchSubCategorySolution";
-import {Specialization} from "./Specialization";
+import Specialization from "./Specialization"
 import {UserBadge} from "./UserBadge";
 import {UserSolution} from "./UserSolution";
 
