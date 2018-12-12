@@ -5,3 +5,4 @@ output
 *.log
 schema.sql
 build/
+entities.generated
