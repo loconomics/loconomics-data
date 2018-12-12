@@ -5,7 +5,7 @@ import {CalendarEventExceptionsPeriodsList} from "./CalendarEventExceptionsPerio
 import {CalendarEventRecurrencesPeriodList} from "./CalendarEventRecurrencesPeriodList";
 import {CalendarEventsAttendees} from "./CalendarEventsAttendees";
 import {CalendarEventsContacts} from "./CalendarEventsContacts";
-import {CalendarEventType} from "./CalendarEventType";
+import CalendarEventType from "./CalendarEventType"
 import {CalendarReccurrence} from "./CalendarReccurrence";
 
 @Entity("CalendarEvents",{schema:"dbo"})

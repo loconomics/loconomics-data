@@ -1,8 +1,21 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import {CalendarEvents} from "./CalendarEvents";
 
 @Entity("CalendarEventType",{schema:"dbo"})
-export class CalendarEventType {
+export default class CalendarEventType {
 
     @Column("int",{
         nullable:false,
@@ -31,7 +44,13 @@ export class CalendarEventType {
         })
     displayName: string | null;
 
-    @OneToMany((type)=>CalendarEvents, (CalendarEvents)=>CalendarEvents.eventType,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
+    @OneToMany(
+        (type) => CalendarEvents,
+        (CalendarEvents) => CalendarEvents.eventType, {
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+        },
+    )
     calendarEventss: Promise<CalendarEvents[]>;
 
 }
