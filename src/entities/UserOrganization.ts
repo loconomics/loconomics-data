@@ -1,10 +1,31 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import User from "./User"
 
 @Entity("userOrganization",{schema:"dbo"})
-export class UserOrganization {
+export default class UserOrganization {
 
-    @OneToOne((type)=>User, (User)=>User.userOrganization,{ primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @OneToOne(
+        (type) => User,
+        (User) => User.userOrganization, {
+            primary: true,
+            nullable: false,
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+        },
+    )
     @JoinColumn({ name:"userID"})
     user: Promise<User | null>;
 

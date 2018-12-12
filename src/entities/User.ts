@@ -27,7 +27,7 @@ import {UserEarningsEntry} from "./UserEarningsEntry";
 import {Usereducation} from "./usereducation";
 import {UserExternalListing} from "./UserExternalListing";
 import {UserListingSpecialization} from "./UserListingSpecialization";
-import {UserOrganization} from "./userOrganization";
+import UserOrganization from "./UserOrganization"
 import {UserPostingReaction} from "./UserPostingReaction";
 import {Userprofilepositions} from "./userprofilepositions";
 import {UserSolution} from "./UserSolution";
