@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 import {County} from "./county";
 import {Municipality} from "./municipality";
-import {Stateprovince} from "./stateprovince";
+import StateProvince from "./StateProvince"
 
 @Entity("postalcode",{schema:"dbo"})
 export default class PostalCode {
@@ -40,9 +40,9 @@ export default class PostalCode {
         })
     city: string | null;
 
-    @ManyToOne((type)=>Stateprovince, (Stateprovince)=>Stateprovince.postalcodes,{  nullable:false })
+    @ManyToOne((type)=>StateProvince, (StateProvince)=>StateProvince.postalcodes,{  nullable:false })
     @JoinColumn({ name:"StateProvinceID"})
-    stateProvince: Promise<Stateprovince | null>;
+    stateProvince: Promise<StateProvince | null>;
 
     @Column("int",{
         nullable:false,

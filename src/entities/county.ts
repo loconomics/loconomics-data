@@ -1,7 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Municipality} from "./municipality";
 import PostalCode from "./PostalCode"
-import {Stateprovince} from "./stateprovince";
+import StateProvince from "./StateProvince"
 
 @Entity("county",{schema:"dbo"})
 export class County {
@@ -26,9 +26,9 @@ export class County {
         })
     fipsCode: number | null;
 
-    @ManyToOne((type)=>Stateprovince, (Stateprovince)=>Stateprovince.countys,{  nullable:false })
+    @ManyToOne((type)=>StateProvince, (StateProvince)=>StateProvince.countys,{  nullable:false })
     @JoinColumn({ name:"StateProvinceID"})
-    stateProvince: Promise<Stateprovince | null>;
+    stateProvince: Promise<StateProvince | null>;
 
     @Column("datetime",{
         nullable:false,

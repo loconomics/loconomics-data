@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {CccUsers} from "./CCCUsers";
-import {Stateprovince} from "./stateprovince";
+import StateProvince from "./StateProvince"
 import {Usereducation} from "./usereducation";
 
 @Entity("institution",{schema:"dbo"})
@@ -46,9 +46,9 @@ export class Institution {
         })
     institutionState: string | null;
 
-    @ManyToOne((type)=>Stateprovince, (Stateprovince)=>Stateprovince.institutions,{  })
+    @ManyToOne((type)=>StateProvince, (StateProvince)=>StateProvince.institutions,{  })
     @JoinColumn({ name:"StateProvinceID"})
-    stateProvince: Promise<Stateprovince | null>;
+    stateProvince: Promise<StateProvince | null>;
 
     @Column("varchar",{
         nullable:true,
