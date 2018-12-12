@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Municipality} from "./municipality";
-import {Postalcode} from "./postalcode";
+import PostalCode from "./PostalCode"
 import {Stateprovince} from "./stateprovince";
 
 @Entity("county",{schema:"dbo"})
@@ -58,7 +58,7 @@ export class County {
     @OneToMany((type)=>Municipality, (Municipality)=>Municipality.county)
     municipalitys: Promise<Municipality[]>;
 
-    @OneToMany((type)=>Postalcode, (Postalcode)=>Postalcode.county)
-    postalcodes: Promise<Postalcode[]>;
+    @OneToMany((type)=>PostalCode, (PostalCode)=>PostalCode.county)
+    postalcodes: Promise<PostalCode[]>;
 
 }

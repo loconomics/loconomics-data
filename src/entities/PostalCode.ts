@@ -1,10 +1,23 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import {County} from "./county";
 import {Municipality} from "./municipality";
 import {Stateprovince} from "./stateprovince";
 
 @Entity("postalcode",{schema:"dbo"})
-export class Postalcode {
+export default class PostalCode {
 
     @Column("int",{
         nullable:false,
