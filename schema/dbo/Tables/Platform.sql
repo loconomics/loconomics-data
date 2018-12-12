@@ -14,6 +14,6 @@
     [UpdatedDate]      DATETIMEOFFSET (0) NOT NULL,
     [ModifiedBy]       NVARCHAR (4)       NOT NULL,
     [Active]           BIT                CONSTRAINT [DF_Platform_Active] DEFAULT ((1)) NOT NULL,
-    CONSTRAINT [PK_Platform] PRIMARY KEY CLUSTERED ([PlatformID] ASC,)
+    CONSTRAINT [PK_Platform] PRIMARY KEY CLUSTERED ([PlatformID] ASC)
 );
 
