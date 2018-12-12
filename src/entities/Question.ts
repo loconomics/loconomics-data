@@ -12,7 +12,7 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import {PostingTemplateQuestion} from "./postingTemplateQuestion";
+import PostingTemplateQuestion from "./PostingTemplateQuestion"
 import {QuestionType} from "./questionType";
 import {UserPostingQuestionResponse} from "./UserPostingQuestionResponse";
 

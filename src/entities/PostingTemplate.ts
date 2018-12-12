@@ -12,7 +12,7 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import {PostingTemplateQuestion} from "./postingTemplateQuestion";
+import PostingTemplateQuestion from "./PostingTemplateQuestion"
 
 @Entity("postingTemplate",{schema:"dbo"})
 export default class PostingTemplate {

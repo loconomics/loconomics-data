@@ -1,9 +1,22 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import PostingTemplate from "./PostingTemplate"
 import Question from "./Question"
 
 @Entity("postingTemplateQuestion",{schema:"dbo"})
-export class PostingTemplateQuestion {
+export default class PostingTemplateQuestion {
 
     @PrimaryGeneratedColumn({
         name:"postingTemplateQuestionID",
