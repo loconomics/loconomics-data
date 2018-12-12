@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {PostingTemplate} from "./postingTemplate";
-import {Question} from "./question";
+import Question from "./Question"
 
 @Entity("postingTemplateQuestion",{schema:"dbo"})
 export class PostingTemplateQuestion {

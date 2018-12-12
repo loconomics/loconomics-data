@@ -1,10 +1,23 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import {PostingTemplateQuestion} from "./postingTemplateQuestion";
 import {QuestionType} from "./questionType";
 import {UserPostingQuestionResponse} from "./UserPostingQuestionResponse";
 
 @Entity("question",{schema:"dbo"})
-export class Question {
+export default class Question {
 
     @Column("int",{
         nullable:false,

@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Question} from "./question";
+import Question from "./Question"
 import {UserPostingQuestionResponse} from "./UserPostingQuestionResponse";
 
 @Entity("questionType",{schema:"dbo"})
