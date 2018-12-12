@@ -19,7 +19,7 @@ import {MessagingThreads} from "./MessagingThreads";
 import {OwnerAcknowledgment} from "./OwnerAcknowledgment";
 import {OwnerStatus} from "./OwnerStatus";
 import {Serviceaddress} from "./serviceaddress";
-import {ServiceProfessionalClient} from "./ServiceProfessionalClient";
+import ServiceProfessionalClient from "./ServiceProfessionalClient"
 import {Userbackgroundcheck} from "./userbackgroundcheck";
 import {UserBadge} from "./UserBadge";
 import {UserEarnings} from "./UserEarnings";

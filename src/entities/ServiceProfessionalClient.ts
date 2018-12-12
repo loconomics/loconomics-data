@@ -1,11 +1,25 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {Booking} from "./booking";
 import {ReferralSource} from "./ReferralSource";
-import {UserEarningsEntry} from "./UserEarningsEntry";
 import User from "./User"
+import {UserEarningsEntry} from "./UserEarningsEntry";
 
 @Entity("ServiceProfessionalClient",{schema:"dbo"})
-export class ServiceProfessionalClient {
+export default class ServiceProfessionalClient {
 
     @OneToOne((type)=>User, (User)=>User.serviceProfessionalClient,{ primary:true, nullable:false })
     @JoinColumn({ name:"ServiceProfessionalUserID"})

@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {ServiceProfessionalClient} from "./ServiceProfessionalClient";
+import ServiceProfessionalClient from "./ServiceProfessionalClient"
 
 @Entity("ReferralSource",{schema:"dbo"})
 export class ReferralSource {
