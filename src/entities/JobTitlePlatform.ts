@@ -1,7 +1,22 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
+import Platform from "./Platform"
 
 @Entity("JobTitlePlatform",{schema:"dbo"})
-export class JobTitlePlatform {
+export default class JobTitlePlatform {
 
     @Column("int",{
         nullable:false,
@@ -10,12 +25,9 @@ export class JobTitlePlatform {
         })
     jobTitleId: number;
 
-    @Column("int",{
-        nullable:false,
-        primary:true,
-        name:"PlatformID",
-        })
-    platformId: number;
+    @OneToOne((type)=>Platform, (Platform)=>Platform.jobTitlePlatform,{ primary:true, nullable:false })
+    @JoinColumn({ name:"PlatformID"})
+    platform: Promise<Platform | null>;
 
     @Column("nvarchar",{
         nullable:false,
