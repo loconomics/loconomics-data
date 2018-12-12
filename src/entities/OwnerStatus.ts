@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("OwnerStatus",{schema:"dbo"})
 export class OwnerStatus {
@@ -50,7 +50,7 @@ export class OwnerStatus {
         })
     updatedBy: string | null;
 
-    @OneToMany((type)=>Users, (Users)=>Users.ownerStatus)
-    userss: Promise<Users[]>;
+    @OneToMany((type)=>User, (User)=>User.ownerStatus)
+    userss: Promise<User[]>;
 
 }

@@ -1,12 +1,12 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("userbackgroundcheck",{schema:"dbo"})
 export class Userbackgroundcheck {
 
-    @OneToOne((type)=>Users, (Users)=>Users.userbackgroundcheck,{ primary:true, nullable:false })
+    @OneToOne((type)=>User, (User)=>User.userbackgroundcheck,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @Column("int",{
         nullable:false,

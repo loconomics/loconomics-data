@@ -1,12 +1,12 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("OwnerAcknowledgment",{schema:"dbo"})
 export class OwnerAcknowledgment {
 
-    @OneToOne((type)=>Users, (Users)=>Users.ownerAcknowledgment,{ primary:true, nullable:false })
+    @OneToOne((type)=>User, (User)=>User.ownerAcknowledgment,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @Column("datetimeoffset",{
         nullable:false,

@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("UserEarnings",{schema:"dbo"})
 export class UserEarnings {
@@ -8,9 +8,9 @@ export class UserEarnings {
     @JoinColumn({ name:"UserEarningsID"})
     userEarnings: Promise<UserEarnings | null>;
 
-    @ManyToOne((type)=>Users, (Users)=>Users.userEarningss,{  nullable:false })
+    @ManyToOne((type)=>User, (User)=>User.userEarningss,{  nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @Column("int",{
         nullable:false,
@@ -18,9 +18,9 @@ export class UserEarnings {
         })
     platformId: number;
 
-    @ManyToOne((type)=>Users, (Users)=>Users.userEarningss2,{  nullable:false })
+    @ManyToOne((type)=>User, (User)=>User.userEarningss2,{  nullable:false })
     @JoinColumn({ name:"ClientID"})
-    client: Promise<Users | null>;
+    client: Promise<User | null>;
 
     @Column("int",{
         nullable:false,

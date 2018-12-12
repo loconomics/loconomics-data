@@ -1,14 +1,14 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Specialization} from "./Specialization";
 import {Userprofilepositions} from "./userprofilepositions";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("UserListingSpecialization",{schema:"dbo"})
 export class UserListingSpecialization {
 
-    @OneToOne((type)=>Users, (Users)=>Users.userListingSpecialization,{ primary:true, nullable:false })
+    @OneToOne((type)=>User, (User)=>User.userListingSpecialization,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @OneToOne((type)=>Userprofilepositions, (Userprofilepositions)=>Userprofilepositions.userListingSpecialization,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserListingID"})

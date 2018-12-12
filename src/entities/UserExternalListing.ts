@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {UserEarningsEntry} from "./UserEarningsEntry";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("UserExternalListing",{schema:"dbo"})
 export class UserExternalListing {
@@ -10,9 +10,9 @@ export class UserExternalListing {
         })
     userExternalListingId: number;
 
-    @ManyToOne((type)=>Users, (Users)=>Users.userExternalListings,{  nullable:false })
+    @ManyToOne((type)=>User, (User)=>User.userExternalListings,{  nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @Column("int",{
         nullable:false,

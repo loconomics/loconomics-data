@@ -2,7 +2,7 @@ import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneT
 import {Accountstatus} from "./accountstatus";
 import {Positions} from "./positions";
 import {UserListingSpecialization} from "./UserListingSpecialization";
-import {Users} from "./users";
+import User from "./User"
 import {UserSolution} from "./UserSolution";
 
 @Entity("userprofilepositions",{schema:"dbo"})
@@ -14,9 +14,9 @@ export class Userprofilepositions {
         })
     userListingId: number;
 
-    @OneToOne((type)=>Users, (Users)=>Users.userprofilepositions,{  nullable:false })
+    @OneToOne((type)=>User, (User)=>User.userprofilepositions,{  nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @OneToOne((type)=>Positions, (Positions)=>Positions.userprofilepositions,{  nullable:false })
     @JoinColumn({ name:"PositionID"})

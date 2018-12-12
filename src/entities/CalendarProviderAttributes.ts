@@ -1,12 +1,12 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("CalendarProviderAttributes",{schema:"dbo"})
 export class CalendarProviderAttributes {
 
-    @OneToOne((type)=>Users, (Users)=>Users.calendarProviderAttributes,{ primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @OneToOne((type)=>User, (User)=>User.calendarProviderAttributes,{ primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @Column("decimal",{
         nullable:false,

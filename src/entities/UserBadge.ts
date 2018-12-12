@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Solution} from "./Solution";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("UserBadge",{schema:"dbo"})
 export class UserBadge {
@@ -9,9 +9,9 @@ export class UserBadge {
     @JoinColumn({ name:"UserBadgeID"})
     userBadge: Promise<UserBadge | null>;
 
-    @ManyToOne((type)=>Users, (Users)=>Users.userBadges,{  nullable:false })
+    @ManyToOne((type)=>User, (User)=>User.userBadges,{  nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @ManyToOne((type)=>Solution, (Solution)=>Solution.userBadges,{  })
     @JoinColumn({ name:"SolutionID"})

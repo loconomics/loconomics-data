@@ -1,7 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {ServiceProfessionalClient} from "./ServiceProfessionalClient";
 import {UserExternalListing} from "./UserExternalListing";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("UserEarningsEntry",{schema:"dbo"})
 export class UserEarningsEntry {
@@ -10,9 +10,9 @@ export class UserEarningsEntry {
     @JoinColumn({ name:"UserID"})
     serviceProfessionalClient: Promise<ServiceProfessionalClient | null>;
 
-    @OneToOne((type)=>Users, (Users)=>Users.userEarningsEntry,{ primary:true, nullable:false })
+    @OneToOne((type)=>User, (User)=>User.userEarningsEntry,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @Column("int",{
         nullable:false,

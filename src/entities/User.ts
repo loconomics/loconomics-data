@@ -1,4 +1,17 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import {Accountstatus} from "./accountstatus";
 import {CalendarProviderAttributes} from "./CalendarProviderAttributes";
 import {CccUsers} from "./CCCUsers";
@@ -21,7 +34,7 @@ import {UserSolution} from "./UserSolution";
 import {UserStats} from "./UserStats";
 
 @Entity("users",{schema:"dbo"})
-export class Users {
+export default class Users {
 
     @Column("int",{
         nullable:false,
@@ -223,7 +236,7 @@ export class Users {
         })
     loconomicsDbmCampaigns: boolean;
 
-    @ManyToOne((type)=>Accountstatus, (Accountstatus)=>Accountstatus.userss,{  nullable:false })
+    @ManyToOne((type)=>Accountstatus, (Accountstatus)=>Accountstatus.user,{  nullable:false })
     @JoinColumn({ name:"AccountStatusID"})
     accountStatus: Promise<Accountstatus | null>;
 
@@ -337,7 +350,13 @@ export class Users {
         })
     isOrganization: boolean;
 
-    @OneToOne((type)=>CalendarProviderAttributes, (CalendarProviderAttributes)=>CalendarProviderAttributes.user,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
+    @OneToOne(
+        (type) => CalendarProviderAttributes,
+        (CalendarProviderAttributes) => CalendarProviderAttributes.user, {
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+        },
+    )
     calendarProviderAttributes: Promise<CalendarProviderAttributes | null>;
 
     @OneToOne((type)=>CccUsers, (CccUsers)=>CccUsers.user)
@@ -355,7 +374,10 @@ export class Users {
     @OneToOne((type)=>Serviceaddress, (Serviceaddress)=>Serviceaddress.user)
     serviceaddress: Promise<Serviceaddress | null>;
 
-    @OneToOne((type)=>ServiceProfessionalClient, (ServiceProfessionalClient)=>ServiceProfessionalClient.serviceProfessionalUser)
+    @OneToOne(
+        (type) => ServiceProfessionalClient,
+        (ServiceProfessionalClient) => ServiceProfessionalClient.serviceProfessionalUser,
+    )
     serviceProfessionalClient: Promise<ServiceProfessionalClient | null>;
 
     @OneToOne((type)=>ServiceProfessionalClient, (ServiceProfessionalClient)=>ServiceProfessionalClient.clientUser)
@@ -385,7 +407,13 @@ export class Users {
     @OneToOne((type)=>UserListingSpecialization, (UserListingSpecialization)=>UserListingSpecialization.user)
     userListingSpecialization: Promise<UserListingSpecialization | null>;
 
-    @OneToOne((type)=>UserOrganization, (UserOrganization)=>UserOrganization.user,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
+    @OneToOne(
+        (type) => UserOrganization,
+        (UserOrganization) => UserOrganization.user, {
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+        },
+    )
     userOrganization: Promise<UserOrganization | null>;
 
     @OneToOne((type)=>UserPostingReaction, (UserPostingReaction)=>UserPostingReaction.serviceProfessionalUser)

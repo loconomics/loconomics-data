@@ -2,18 +2,18 @@ import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneT
 import {Booking} from "./booking";
 import {ReferralSource} from "./ReferralSource";
 import {UserEarningsEntry} from "./UserEarningsEntry";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("ServiceProfessionalClient",{schema:"dbo"})
 export class ServiceProfessionalClient {
 
-    @OneToOne((type)=>Users, (Users)=>Users.serviceProfessionalClient,{ primary:true, nullable:false })
+    @OneToOne((type)=>User, (User)=>User.serviceProfessionalClient,{ primary:true, nullable:false })
     @JoinColumn({ name:"ServiceProfessionalUserID"})
-    serviceProfessionalUser: Promise<Users | null>;
+    serviceProfessionalUser: Promise<User | null>;
 
-    @OneToOne((type)=>Users, (Users)=>Users.serviceProfessionalClient2,{ primary:true, nullable:false })
+    @OneToOne((type)=>User, (User)=>User.serviceProfessionalClient2,{ primary:true, nullable:false })
     @JoinColumn({ name:"ClientUserID"})
-    clientUser: Promise<Users | null>;
+    clientUser: Promise<User | null>;
 
     @Column("ntext",{
         nullable:false,

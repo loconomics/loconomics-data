@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Userprofilepositions} from "./userprofilepositions";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("accountstatus",{schema:"dbo"})
 export class Accountstatus {
@@ -56,7 +56,7 @@ export class Accountstatus {
     @OneToMany((type)=>Userprofilepositions, (Userprofilepositions)=>Userprofilepositions.status)
     userprofilepositionss: Promise<Userprofilepositions[]>;
 
-    @OneToMany((type)=>Users, (Users)=>Users.accountStatus)
-    userss: Promise<Users[]>;
+    @OneToMany((type)=>User, (User)=>User.accountStatus)
+    user: Promise<User[]>;
 
 }

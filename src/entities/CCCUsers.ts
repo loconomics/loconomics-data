@@ -1,14 +1,14 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {FieldOfStudy} from "./FieldOfStudy";
 import {Institution} from "./institution";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("CCCUsers",{schema:"dbo"})
 export class CccUsers {
 
-    @OneToOne((type)=>Users, (Users)=>Users.cCcUsers,{ primary:true, nullable:false })
+    @OneToOne((type)=>User, (User)=>User.cCcUsers,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @ManyToOne((type)=>Institution, (Institution)=>Institution.cCcUserss,{  })
     @JoinColumn({ name:"InstitutionID"})

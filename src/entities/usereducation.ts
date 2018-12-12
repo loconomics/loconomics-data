@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Institution} from "./institution";
-import {Users} from "./users";
+import User from "./User"
 
 @Entity("usereducation",{schema:"dbo"})
 export class Usereducation {
@@ -10,9 +10,9 @@ export class Usereducation {
         })
     userEducationId: number;
 
-    @ManyToOne((type)=>Users, (Users)=>Users.usereducations,{  nullable:false })
+    @ManyToOne((type)=>User, (User)=>User.usereducations,{  nullable:false })
     @JoinColumn({ name:"UserID"})
-    user: Promise<Users | null>;
+    user: Promise<User | null>;
 
     @ManyToOne((type)=>Institution, (Institution)=>Institution.usereducations,{  nullable:false })
     @JoinColumn({ name:"InstitutionID"})
