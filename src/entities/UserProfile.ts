@@ -1,9 +1,22 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import {WebpagesRoles} from "./webpages_Roles";
 
 @Entity("userprofile",{schema:"dbo"})
 @Index("UQ__userprof__C9F284560519C6AF",["email"],{unique:true})
-export class Userprofile {
+export default class UserProfile {
 
     @PrimaryGeneratedColumn({
         name:"UserId",

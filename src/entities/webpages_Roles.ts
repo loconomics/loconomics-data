@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Userprofile} from "./userprofile";
+import UserProfile from "./UserProfile"
 
 @Entity("webpages_Roles",{schema:"dbo"})
 @Index("UQ__webpages__8A2B616020EB9E61",["roleName"],{unique:true})
@@ -18,7 +18,7 @@ export class WebpagesRoles {
         })
     roleName: string;
 
-    @ManyToMany((type)=>Userprofile, (Userprofile)=>Userprofile.webpagesRoless)
-    userprofiles: Promise<Userprofile[]>;
+    @ManyToMany((type)=>UserProfile, (UserProfile)=>UserProfile.webpagesRoless)
+    userprofiles: Promise<UserProfile[]>;
 
 }
