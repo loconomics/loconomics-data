@@ -1,10 +1,31 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 import User from "./User"
 
 @Entity("CalendarProviderAttributes",{schema:"dbo"})
-export class CalendarProviderAttributes {
+export default class CalendarProviderAttribute {
 
-    @OneToOne((type)=>User, (User)=>User.calendarProviderAttributes,{ primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @OneToOne(
+        (type) => User,
+        (User) => User.calendarProviderAttributes, {
+            primary:true,
+            nullable: false,
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+        },
+    )
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
 

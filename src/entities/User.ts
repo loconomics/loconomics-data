@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 import {Accountstatus} from "./accountstatus";
-import {CalendarProviderAttributes} from "./CalendarProviderAttributes";
+import CalendarProviderAttribute from "./CalendarProviderAttribute"
 import {CccUsers} from "./CCCUsers";
 import {MessagingThreads} from "./MessagingThreads";
 import {OwnerAcknowledgment} from "./OwnerAcknowledgment";
@@ -351,13 +351,13 @@ export default class Users {
     isOrganization: boolean;
 
     @OneToOne(
-        (type) => CalendarProviderAttributes,
-        (CalendarProviderAttributes) => CalendarProviderAttributes.user, {
+        (type) => CalendarProviderAttribute,
+        (CalendarProviderAttribute) => CalendarProviderAttribute.user, {
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
         },
     )
-    calendarProviderAttributes: Promise<CalendarProviderAttributes | null>;
+    calendarProviderAttributes: Promise<CalendarProviderAttribute | null>;
 
     @OneToOne((type)=>CccUsers, (CccUsers)=>CccUsers.user)
     cCcUsers: Promise<CccUsers | null>;
