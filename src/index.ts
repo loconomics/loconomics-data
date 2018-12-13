@@ -1,7 +1,7 @@
 import "reflect-metadata"
 import {createConnection} from "typeorm"
 
-export default createConnection()
+export default createConnection
 
 export {CalendarAvailabilityType} from "./entities/CalendarAvailabilityType"
 export {CalendarEventType} from "./entities/CalendarEventType"
