@@ -13,13 +13,13 @@ import {
     RelationId,
 } from "typeorm";
 import {Accountstatus} from "./accountstatus";
-import CalendarProviderAttribute from "./CalendarProviderAttribute"
+import {CalendarProviderAttribute} from "./CalendarProviderAttribute"
 import {CccUsers} from "./CCCUsers";
 import {MessagingThreads} from "./MessagingThreads";
 import {OwnerAcknowledgment} from "./OwnerAcknowledgment";
 import {OwnerStatus} from "./OwnerStatus";
 import {Serviceaddress} from "./serviceaddress";
-import ServiceProfessionalClient from "./ServiceProfessionalClient"
+import {ServiceProfessionalClient} from "./ServiceProfessionalClient"
 import {Userbackgroundcheck} from "./userbackgroundcheck";
 import {UserBadge} from "./UserBadge";
 import {UserEarnings} from "./UserEarnings";
@@ -27,14 +27,14 @@ import {UserEarningsEntry} from "./UserEarningsEntry";
 import {Usereducation} from "./usereducation";
 import {UserExternalListing} from "./UserExternalListing";
 import {UserListingSpecialization} from "./UserListingSpecialization";
-import UserOrganization from "./UserOrganization"
+import {UserOrganization} from "./UserOrganization"
 import {UserPostingReaction} from "./UserPostingReaction";
 import {Userprofilepositions} from "./userprofilepositions";
 import {UserSolution} from "./UserSolution";
 import {UserStats} from "./UserStats";
 
 @Entity("users",{schema:"dbo"})
-export default class Users {
+export class User {
 
     @Column("int",{
         nullable:false,

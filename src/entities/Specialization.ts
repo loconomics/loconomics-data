@@ -16,7 +16,7 @@ import {Solution} from "./Solution";
 import {UserListingSpecialization} from "./UserListingSpecialization";
 
 @Entity("Specialization",{schema:"dbo"})
-export default class Specialization {
+export class Specialization {
 
     @Column("int",{
         nullable:false,

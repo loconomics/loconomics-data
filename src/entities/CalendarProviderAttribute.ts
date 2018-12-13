@@ -12,10 +12,11 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import User from "./User"
+
+import {User} from "./User"
 
 @Entity("CalendarProviderAttributes",{schema:"dbo"})
-export default class CalendarProviderAttribute {
+export class CalendarProviderAttribute {
 
     @OneToOne(
         (type) => User,

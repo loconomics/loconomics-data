@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {County} from "./county";
-import PostalCode from "./PostalCode"
+import {PostalCode} from "./PostalCode"
 
 @Entity("municipality",{schema:"dbo"})
 export class Municipality {

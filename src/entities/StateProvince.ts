@@ -14,10 +14,10 @@ import {
 } from "typeorm";
 import {County} from "./county";
 import {Institution} from "./institution";
-import PostalCode from "./PostalCode"
+import {PostalCode} from "./PostalCode"
 
 @Entity("stateprovince",{schema:"dbo"})
-export default class StateProvince {
+export class StateProvince {
 
     @Column("int",{
         nullable:false,

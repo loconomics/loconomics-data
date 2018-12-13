@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Institution} from "./institution";
-import User from "./User"
+import {User} from "./User"
 
 @Entity("usereducation",{schema:"dbo"})
 export class Usereducation {

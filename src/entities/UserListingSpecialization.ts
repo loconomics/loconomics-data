@@ -1,7 +1,8 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import Specialization from "./Specialization"
+
+import {Specialization} from "./Specialization"
 import {Userprofilepositions} from "./userprofilepositions";
-import User from "./User"
+import {User} from "./User"
 
 @Entity("UserListingSpecialization",{schema:"dbo"})
 export class UserListingSpecialization {

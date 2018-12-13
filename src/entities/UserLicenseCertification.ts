@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 
 @Entity("UserLicenseCertifications",{schema:"dbo"})
-export default class UserLicenseCertification {
+export class UserLicenseCertification {
 
     @PrimaryGeneratedColumn({
         name:"userLicenseCertificationID",

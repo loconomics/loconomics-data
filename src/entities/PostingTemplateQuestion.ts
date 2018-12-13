@@ -12,11 +12,12 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import PostingTemplate from "./PostingTemplate"
-import Question from "./Question"
+
+import {PostingTemplate} from "./PostingTemplate"
+import {Question} from "./Question"
 
 @Entity("postingTemplateQuestion",{schema:"dbo"})
-export default class PostingTemplateQuestion {
+export class PostingTemplateQuestion {
 
     @PrimaryGeneratedColumn({
         name:"postingTemplateQuestionID",

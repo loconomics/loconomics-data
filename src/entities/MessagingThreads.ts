@@ -1,7 +1,8 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+
 import {Messages} from "./Messages";
 import {Messagethreadstatus} from "./messagethreadstatus";
-import User from "./User"
+import {User} from "./User"
 
 @Entity("MessagingThreads",{schema:"dbo"})
 export class MessagingThreads {

@@ -13,10 +13,10 @@ import {
     RelationId,
 } from "typeorm";
 
-import JobTitlePlatform from "./JobTitlePlatform"
+import {JobTitlePlatform} from "./JobTitlePlatform"
 
 @Entity("Platform",{schema:"dbo"})
-export default class Platform {
+export class Platform {
 
     @Column("int",{
         nullable:false,

@@ -2,7 +2,7 @@ import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneT
 import {Accountstatus} from "./accountstatus";
 import {Positions} from "./positions";
 import {UserListingSpecialization} from "./UserListingSpecialization";
-import User from "./User"
+import {User} from "./User"
 import {UserSolution} from "./UserSolution";
 
 @Entity("userprofilepositions",{schema:"dbo"})

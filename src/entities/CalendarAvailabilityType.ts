@@ -15,7 +15,7 @@ import {
 import {CalendarEvents} from "./CalendarEvents";
 
 @Entity("CalendarAvailabilityType",{schema:"dbo"})
-export default class CalendarAvailabilityType {
+export class CalendarAvailabilityType {
 
     @Column("int",{
         nullable:false,

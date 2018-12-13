@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {UserPosting} from "./UserPosting";
-import User from "./User"
+import {User} from "./User"
 
 @Entity("UserPostingReaction",{schema:"dbo"})
 export class UserPostingReaction {

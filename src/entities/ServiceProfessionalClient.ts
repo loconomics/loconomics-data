@@ -15,11 +15,11 @@ import {
 
 import {Booking} from "./booking";
 import {ReferralSource} from "./ReferralSource";
-import User from "./User"
+import {User} from "./User"
 import {UserEarningsEntry} from "./UserEarningsEntry";
 
 @Entity("ServiceProfessionalClient",{schema:"dbo"})
-export default class ServiceProfessionalClient {
+export class ServiceProfessionalClient {
 
     @OneToOne((type)=>User, (User)=>User.serviceProfessionalClient,{ primary:true, nullable:false })
     @JoinColumn({ name:"ServiceProfessionalUserID"})

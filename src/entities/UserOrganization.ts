@@ -12,10 +12,11 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import User from "./User"
+
+import {User} from "./User"
 
 @Entity("userOrganization",{schema:"dbo"})
-export default class UserOrganization {
+export class UserOrganization {
 
     @OneToOne(
         (type) => User,

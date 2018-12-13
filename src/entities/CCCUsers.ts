@@ -1,7 +1,8 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+
 import {FieldOfStudy} from "./FieldOfStudy";
 import {Institution} from "./institution";
-import User from "./User"
+import {User} from "./User"
 
 @Entity("CCCUsers",{schema:"dbo"})
 export class CccUsers {

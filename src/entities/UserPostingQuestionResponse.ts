@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import Question from "./Question"
+import {Question} from "./Question"
 import {QuestionType} from "./questionType";
 import {UserPosting} from "./UserPosting";
 

@@ -12,10 +12,11 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import PostingTemplateQuestion from "./PostingTemplateQuestion"
+
+import {PostingTemplateQuestion} from "./PostingTemplateQuestion"
 
 @Entity("postingTemplate",{schema:"dbo"})
-export default class PostingTemplate {
+export class PostingTemplate {
 
     @Column("int",{
         nullable:false,

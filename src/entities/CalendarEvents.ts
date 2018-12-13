@@ -1,11 +1,12 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import CalendarAvailabilityType from "./CalendarAvailabilityType"
+
+import {CalendarAvailabilityType} from "./CalendarAvailabilityType"
 import {CalendarEventComments} from "./CalendarEventComments";
 import {CalendarEventExceptionsPeriodsList} from "./CalendarEventExceptionsPeriodsList";
 import {CalendarEventRecurrencesPeriodList} from "./CalendarEventRecurrencesPeriodList";
 import {CalendarEventsAttendees} from "./CalendarEventsAttendees";
 import {CalendarEventsContacts} from "./CalendarEventsContacts";
-import CalendarEventType from "./CalendarEventType"
+import {CalendarEventType} from "./CalendarEventType"
 import {CalendarReccurrence} from "./CalendarReccurrence";
 
 @Entity("CalendarEvents",{schema:"dbo"})

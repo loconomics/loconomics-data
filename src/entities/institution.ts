@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {CccUsers} from "./CCCUsers";
-import StateProvince from "./StateProvince"
+import {StateProvince} from "./StateProvince"
 import {Usereducation} from "./usereducation";
 
 @Entity("institution",{schema:"dbo"})

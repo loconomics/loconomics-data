@@ -1,6 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+
 import {UserEarningsEntry} from "./UserEarningsEntry";
-import User from "./User"
+import {User} from "./User"
 
 @Entity("UserExternalListing",{schema:"dbo"})
 export class UserExternalListing {

@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 
 @Entity("licensecertification",{schema:"dbo"})
-export default class LicenseCertification {
+export class LicenseCertification {
 
     @Column("int",{
         nullable:false,

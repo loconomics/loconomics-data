@@ -16,7 +16,7 @@ import {WebpagesRoles} from "./webpages_Roles";
 
 @Entity("userprofile",{schema:"dbo"})
 @Index("UQ__userprof__C9F284560519C6AF",["email"],{unique:true})
-export default class UserProfile {
+export class UserProfile {
 
     @PrimaryGeneratedColumn({
         name:"UserId",

@@ -12,12 +12,13 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
+
 import {County} from "./county";
 import {Municipality} from "./municipality";
-import StateProvince from "./StateProvince"
+import {StateProvince} from "./StateProvince"
 
 @Entity("postalcode",{schema:"dbo"})
-export default class PostalCode {
+export class PostalCode {
 
     @Column("int",{
         nullable:false,
