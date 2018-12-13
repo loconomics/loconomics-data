@@ -4,16 +4,16 @@
   "description": "Awesome project developed with TypeORM.",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^10.12.12",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typeorm-model-generator": "^0.2.22",
-    "typescript": "^3.2.2"
+    "typeorm-model-generator": "^0.2.22"
   },
   "dependencies": {
+    "@types/node": "^10.12.12",
     "mssql": "^4.3.0",
     "reflect-metadata": "^0.1.10",
-    "typeorm": "^0.2.9"
+    "typeorm": "^0.2.9",
+    "typescript": "^3.2.2"
   },
   "scripts": {
     "generate": "typeorm-model-generator -d loconomics -u sa -x \"Password!!11\" -e mssql --ce=pascal --cp=camel --lazy=true --noConfig -o ./src/entities",
