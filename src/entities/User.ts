@@ -23,7 +23,7 @@ import {ServiceAddress} from "./ServiceAddress"
 import {ServiceProfessionalClient} from "./ServiceProfessionalClient"
 import {UserBackgroundCheck} from "./UserBackgroundCheck"
 import {UserBadge} from "./UserBadge";
-import {UserEarnings} from "./UserEarnings";
+import {UserEarning} from "./UserEarning"
 import {UserEarningsEntry} from "./UserEarningsEntry";
 import {UserEducation} from "./UserEducation"
 import {UserExternalListing} from "./UserExternalListing";
@@ -390,11 +390,11 @@ export class User {
     @OneToMany((type)=>UserBadge, (UserBadge)=>UserBadge.user)
     userBadges: Promise<UserBadge[]>;
 
-    @OneToMany((type)=>UserEarnings, (UserEarnings)=>UserEarnings.user)
-    userEarningss: Promise<UserEarnings[]>;
+    @OneToMany((type) => UserEarning, (UserEarning) => UserEarning.user)
+    userEarnings: Promise<UserEarning[]>;
 
-    @OneToMany((type)=>UserEarnings, (UserEarnings)=>UserEarnings.client)
-    userEarningss2: Promise<UserEarnings[]>;
+    @OneToMany((type) => UserEarning, (UserEarning) => UserEarning.client)
+    clientUserEarnings: Promise<UserEarning[]>;
 
     @OneToOne((type)=>UserEarningsEntry, (UserEarningsEntry)=>UserEarningsEntry.user)
     userEarningsEntry: Promise<UserEarningsEntry | null>;

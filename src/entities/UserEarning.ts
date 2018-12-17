@@ -1,15 +1,24 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 import {User} from "./User"
 
 @Entity("UserEarnings",{schema:"dbo"})
-export class UserEarnings {
+export class UserEarning {
 
-    @OneToOne((type)=>UserEarnings, (UserEarnings)=>UserEarnings.userEarnings2,{ primary:true, nullable:false })
-    @JoinColumn({ name:"UserEarningsID"})
-    userEarnings: Promise<UserEarnings | null>;
-
-    @ManyToOne((type)=>User, (User)=>User.userEarningss,{  nullable:false })
+    @ManyToOne((type)=>User, (User)=>User.userEarnings,{  nullable:false })
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
 
@@ -19,7 +28,7 @@ export class UserEarnings {
         })
     platformId: number;
 
-    @ManyToOne((type)=>User, (User)=>User.userEarningss2,{  nullable:false })
+    @ManyToOne((type) => User, (User) => User.clientUserEarnings, {  nullable:false })
     @JoinColumn({ name:"ClientID"})
     client: Promise<User | null>;
 
@@ -80,8 +89,5 @@ export class UserEarnings {
         name:"Active",
         })
     active: boolean;
-
-    @OneToOne((type)=>UserEarnings, (UserEarnings)=>UserEarnings.userEarnings)
-    userEarnings2: Promise<UserEarnings | null>;
 
 }
