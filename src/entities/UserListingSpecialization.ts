@@ -1,8 +1,21 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 import {Specialization} from "./Specialization"
-import {UserProfilePosition} from "./UserProfilePosition"
 import {User} from "./User"
+import {UserProfilePosition} from "./UserProfilePosition"
 
 @Entity("UserListingSpecialization",{schema:"dbo"})
 export class UserListingSpecialization {
@@ -11,11 +24,19 @@ export class UserListingSpecialization {
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
 
-    @OneToOne((type) => UserProfilePosition, (UserProfilePosition) => UserProfilePosition.userListingSpecialization,{ primary:true, nullable:false })
+    @OneToOne(
+        (type) => UserProfilePosition,
+        (UserProfilePosition) => UserProfilePosition.userListingSpecialization,
+        { primary:true, nullable:false },
+    )
     @JoinColumn({ name:"UserListingID"})
     userListing: Promise<UserProfilePosition | null>;
 
-    @OneToOne((type)=>Specialization, (Specialization)=>Specialization.userListingSpecialization,{ primary:true, nullable:false })
+    @OneToOne(
+        (type) => Specialization,
+        (Specialization) =>Specialization.userListingSpecialization,
+        { primary:true, nullable:false },
+    )
     @JoinColumn({ name:"SpecializationID"})
     specialization: Promise<Specialization | null>;
 
