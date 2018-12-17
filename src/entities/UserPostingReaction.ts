@@ -1,6 +1,20 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {UserPosting} from "./UserPosting";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {User} from "./User"
+import {UserPosting} from "./UserPosting";
 
 @Entity("UserPostingReaction",{schema:"dbo"})
 export class UserPostingReaction {
