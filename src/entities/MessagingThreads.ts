@@ -1,7 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 
 import {Messages} from "./Messages";
-import {Messagethreadstatus} from "./messagethreadstatus";
+import {MessageThreadStatus} from "./MessageThreadStatus"
 import {User} from "./User"
 
 @Entity("MessagingThreads",{schema:"dbo"})
@@ -26,9 +26,9 @@ export class MessagingThreads {
         })
     positionId: number | null;
 
-    @ManyToOne((type)=>Messagethreadstatus, (Messagethreadstatus)=>Messagethreadstatus.messagingThreadss,{  nullable:false })
+    @ManyToOne((type) => MessageThreadStatus, (MessageThreadStatus) => MessageThreadStatus.messagingThreadss,{  nullable:false })
     @JoinColumn({ name:"MessageThreadStatusID"})
-    messageThreadStatus: Promise<Messagethreadstatus | null>;
+    messageThreadStatus: Promise<MessageThreadStatus | null>;
 
     @Column("nvarchar",{
         nullable:true,
