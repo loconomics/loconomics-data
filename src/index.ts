@@ -6,6 +6,7 @@ export default createConnection
 export {CalendarAvailabilityType} from "./entities/CalendarAvailabilityType"
 export {CalendarEventType} from "./entities/CalendarEventType"
 export {CalendarProviderAttribute} from "./entities/CalendarProviderAttribute"
+export {JobTitleLicense} from "./entities/JobTitleLicense"
 export {JobTitlePlatform} from "./entities/JobTitlePlatform"
 export {LanguageLevel} from "./entities/LanguageLevel"
 export {LicenseCertification} from "./entities/LicenseCertification"
