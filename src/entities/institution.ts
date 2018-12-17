@@ -1,7 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {CccUsers} from "./CCCUsers";
 import {StateProvince} from "./StateProvince"
-import {Usereducation} from "./usereducation";
+import {UserEducation} from "./UserEducation"
 
 @Entity("institution",{schema:"dbo"})
 export class Institution {
@@ -134,7 +134,7 @@ export class Institution {
     @OneToMany((type)=>CccUsers, (CccUsers)=>CccUsers.institution)
     cCcUserss: Promise<CccUsers[]>;
 
-    @OneToMany((type)=>Usereducation, (Usereducation)=>Usereducation.institution)
-    usereducations: Promise<Usereducation[]>;
+    @OneToMany((type) => UserEducation, (UserEducation) => UserEducation.institution)
+    usereducations: Promise<UserEducation[]>;
 
 }

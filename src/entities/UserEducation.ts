@@ -1,9 +1,23 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {Institution} from "./institution";
 import {User} from "./User"
 
 @Entity("usereducation",{schema:"dbo"})
-export class Usereducation {
+export class UserEducation {
 
     @PrimaryGeneratedColumn({
         name:"UserEducationID",

@@ -24,7 +24,7 @@ import {Userbackgroundcheck} from "./userbackgroundcheck";
 import {UserBadge} from "./UserBadge";
 import {UserEarnings} from "./UserEarnings";
 import {UserEarningsEntry} from "./UserEarningsEntry";
-import {Usereducation} from "./usereducation";
+import {UserEducation} from "./UserEducation"
 import {UserExternalListing} from "./UserExternalListing";
 import {UserListingSpecialization} from "./UserListingSpecialization";
 import {UserOrganization} from "./UserOrganization"
@@ -398,8 +398,8 @@ export class User {
     @OneToOne((type)=>UserEarningsEntry, (UserEarningsEntry)=>UserEarningsEntry.user)
     userEarningsEntry: Promise<UserEarningsEntry | null>;
 
-    @OneToMany((type)=>Usereducation, (Usereducation)=>Usereducation.user)
-    usereducations: Promise<Usereducation[]>;
+    @OneToMany((type) => UserEducation, (UserEducation) => UserEducation.user)
+    usereducations: Promise<UserEducation[]>;
 
     @OneToMany((type)=>UserExternalListing, (UserExternalListing)=>UserExternalListing.user)
     userExternalListings: Promise<UserExternalListing[]>;
