@@ -1,5 +1,19 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Servicesubcategory} from "./servicesubcategory";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
+import {ServiceSubcategory} from "./ServiceSubcategory";
 
 @Entity("servicecategory",{schema:"dbo"})
 export class Servicecategory {
@@ -71,7 +85,7 @@ export class Servicecategory {
         })
     headline: string | null;
 
-    @OneToMany((type)=>Servicesubcategory, (Servicesubcategory)=>Servicesubcategory.serviceCategory)
-    servicesubcategorys: Promise<Servicesubcategory[]>;
+    @OneToMany((type) => ServiceSubcategory, (ServiceSubcategory) => ServiceSubcategory.serviceCategory)
+    servicesubcategorys: Promise<ServiceSubcategory[]>;
 
 }
