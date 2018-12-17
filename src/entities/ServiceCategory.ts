@@ -16,7 +16,7 @@ import {
 import {ServiceSubcategory} from "./ServiceSubcategory";
 
 @Entity("servicecategory",{schema:"dbo"})
-export class Servicecategory {
+export class ServiceCategory {
 
     @Column("int",{
         nullable:false,
@@ -86,6 +86,6 @@ export class Servicecategory {
     headline: string | null;
 
     @OneToMany((type) => ServiceSubcategory, (ServiceSubcategory) => ServiceSubcategory.serviceCategory)
-    servicesubcategorys: Promise<ServiceSubcategory[]>;
+    servicesubcategories: Promise<ServiceSubcategory[]>;
 
 }

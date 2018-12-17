@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {Servicecategory} from "./servicecategory";
+import {ServiceCategory} from "./ServiceCategory"
 
 @Entity("servicesubcategory",{schema:"dbo"})
 export class ServiceSubcategory {
@@ -71,9 +71,9 @@ export class ServiceSubcategory {
         })
     active: boolean | null;
 
-    @ManyToOne((type)=>Servicecategory, (Servicecategory)=>Servicecategory.servicesubcategorys,{  })
+    @ManyToOne((type) => ServiceCategory, (ServiceCategory) => ServiceCategory.servicesubcategories,{  })
     @JoinColumn({ name:"ServiceCategoryID"})
-    serviceCategory: Promise<Servicecategory | null>;
+    serviceCategory: Promise<ServiceCategory | null>;
 
     @Column("int",{
         nullable:true,
