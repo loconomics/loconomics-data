@@ -29,7 +29,7 @@ import {UserExternalListing} from "./UserExternalListing";
 import {UserListingSpecialization} from "./UserListingSpecialization";
 import {UserOrganization} from "./UserOrganization"
 import {UserPostingReaction} from "./UserPostingReaction";
-import {Userprofilepositions} from "./userprofilepositions";
+import {UserProfilePosition} from "./UserProfilePosition"
 import {UserSolution} from "./UserSolution";
 import {UserStats} from "./UserStats";
 
@@ -419,8 +419,8 @@ export class User {
     @OneToOne((type)=>UserPostingReaction, (UserPostingReaction)=>UserPostingReaction.serviceProfessionalUser)
     userPostingReaction: Promise<UserPostingReaction | null>;
 
-    @OneToOne((type)=>Userprofilepositions, (Userprofilepositions)=>Userprofilepositions.user)
-    userprofilepositions: Promise<Userprofilepositions | null>;
+    @OneToOne((type) => UserProfilePosition, (UserProfilePosition) => UserProfilePosition.user)
+    userprofilepositions: Promise<UserProfilePosition | null>;
 
     @OneToMany((type)=>UserSolution, (UserSolution)=>UserSolution.user)
     userSolutions: Promise<UserSolution[]>;

@@ -1,5 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Userprofilepositions} from "./userprofilepositions";
+
+import {UserProfilePosition} from "./UserProfilePosition"
 import {User} from "./User"
 
 @Entity("accountstatus",{schema:"dbo"})
@@ -53,8 +54,8 @@ export class Accountstatus {
         })
     active: boolean;
 
-    @OneToMany((type)=>Userprofilepositions, (Userprofilepositions)=>Userprofilepositions.status)
-    userprofilepositionss: Promise<Userprofilepositions[]>;
+    @OneToMany((type) => UserProfilePosition, (UserProfilePosition) => UserProfilePosition.status)
+    userprofilepositions: Promise<UserProfilePosition[]>;
 
     @OneToMany((type)=>User, (User)=>User.accountStatus)
     user: Promise<User[]>;

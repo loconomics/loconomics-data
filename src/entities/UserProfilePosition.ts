@@ -1,13 +1,27 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Accountstatus} from "./accountstatus";
-import {Positions} from "./positions";
-import {UserListingSpecialization} from "./UserListingSpecialization";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
+import {Accountstatus} from "./accountstatus"
+import {Positions} from "./positions"
 import {User} from "./User"
-import {UserSolution} from "./UserSolution";
+import {UserListingSpecialization} from "./UserListingSpecialization"
+import {UserSolution} from "./UserSolution"
 
 @Entity("userprofilepositions",{schema:"dbo"})
 @Index("IX_userprofilepositions",["user","position"],{unique:true})
-export class Userprofilepositions {
+export class UserProfilePosition {
 
     @PrimaryGeneratedColumn({
         name:"UserListingID",
@@ -61,7 +75,7 @@ export class Userprofilepositions {
         })
     positionIntro: string | null;
 
-    @ManyToOne((type)=>Accountstatus, (Accountstatus)=>Accountstatus.userprofilepositionss,{  nullable:false })
+    @ManyToOne((type) => Accountstatus, (Accountstatus) => Accountstatus.userprofilepositions, {  nullable:false })
     @JoinColumn({ name:"StatusID"})
     status: Promise<Accountstatus | null>;
 

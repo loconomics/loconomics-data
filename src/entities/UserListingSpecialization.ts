@@ -1,7 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 
 import {Specialization} from "./Specialization"
-import {Userprofilepositions} from "./userprofilepositions";
+import {UserProfilePosition} from "./UserProfilePosition"
 import {User} from "./User"
 
 @Entity("UserListingSpecialization",{schema:"dbo"})
@@ -11,9 +11,9 @@ export class UserListingSpecialization {
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
 
-    @OneToOne((type)=>Userprofilepositions, (Userprofilepositions)=>Userprofilepositions.userListingSpecialization,{ primary:true, nullable:false })
+    @OneToOne((type) => UserProfilePosition, (UserProfilePosition) => UserProfilePosition.userListingSpecialization,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserListingID"})
-    userListing: Promise<Userprofilepositions | null>;
+    userListing: Promise<UserProfilePosition | null>;
 
     @OneToOne((type)=>Specialization, (Specialization)=>Specialization.userListingSpecialization,{ primary:true, nullable:false })
     @JoinColumn({ name:"SpecializationID"})

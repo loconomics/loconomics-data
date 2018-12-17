@@ -1,6 +1,20 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {JobTitleSolution} from "./JobTitleSolution";
-import {Userprofilepositions} from "./userprofilepositions";
+import {UserProfilePosition} from "./UserProfilePosition"
 
 @Entity("positions",{schema:"dbo"})
 @Index("idx_positions",["positionId"])
@@ -178,7 +192,7 @@ export class Positions {
     @OneToOne((type)=>JobTitleSolution, (JobTitleSolution)=>JobTitleSolution.jobTitle)
     jobTitleSolution: Promise<JobTitleSolution | null>;
 
-    @OneToOne((type)=>Userprofilepositions, (Userprofilepositions)=>Userprofilepositions.position)
-    userprofilepositions: Promise<Userprofilepositions | null>;
+    @OneToOne((type) => UserProfilePosition, (UserProfilePosition) => UserProfilePosition.position)
+    userprofilepositions: Promise<UserProfilePosition | null>;
 
 }
