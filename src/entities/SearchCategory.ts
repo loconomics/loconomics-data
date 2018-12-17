@@ -1,5 +1,19 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {SearchSubCategory} from "./SearchSubCategory";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
+import {SearchSubcategory} from "./SearchSubcategory"
 
 @Entity("SearchCategory",{schema:"dbo"})
 export class SearchCategory {
@@ -86,7 +100,7 @@ export class SearchCategory {
         })
     active: boolean;
 
-    @OneToMany((type)=>SearchSubCategory, (SearchSubCategory)=>SearchSubCategory.searchCategory)
-    searchSubCategorys: Promise<SearchSubCategory[]>;
+    @OneToMany((type) => SearchSubcategory, (SearchSubcategory) => SearchSubcategory.searchCategory)
+    searchSubcategories: Promise<SearchSubcategory[]>;
 
 }

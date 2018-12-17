@@ -13,19 +13,19 @@ import {
     RelationId,
 } from "typeorm";
 
-import {SearchSubCategory} from "./SearchSubCategory";
+import {SearchSubcategory} from "./SearchSubcategory"
 import {Solution} from "./Solution";
 
 @Entity("SearchSubCategorySolution",{schema:"dbo"})
 export class SearchSubcategorySolution {
 
     @OneToOne(
-        (type) => SearchSubCategory,
-        (SearchSubCategory) => SearchSubCategory.searchSubcategorySolution,
+        (type) => SearchSubcategory,
+        (SearchSubcategory) => SearchSubcategory.searchSubcategorySolution,
         { primary:true, nullable:false }
     )
     @JoinColumn({ name:"SearchSubCategoryID"})
-    searchSubCategory: Promise<SearchSubCategory | null>;
+    searchSubcategory: Promise<SearchSubcategory | null>;
 
     @OneToOne(
         (type) => Solution, (Solution) => Solution.searchSubcategorySolution,
