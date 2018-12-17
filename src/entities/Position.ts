@@ -18,7 +18,7 @@ import {UserProfilePosition} from "./UserProfilePosition"
 
 @Entity("positions",{schema:"dbo"})
 @Index("idx_positions",["positionId"])
-export class Positions {
+export class Position {
 
     @Column("int",{
         nullable:false,

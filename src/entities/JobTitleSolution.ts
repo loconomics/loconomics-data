@@ -1,13 +1,14 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Positions} from "./positions";
+
+import {Position} from "./Position"
 import {Solution} from "./Solution";
 
 @Entity("JobTitleSolution",{schema:"dbo"})
 export class JobTitleSolution {
 
-    @OneToOne((type)=>Positions, (Positions)=>Positions.jobTitleSolution,{ primary:true, nullable:false })
+    @OneToOne((type) => Position, (Position) => Position.jobTitleSolution,{ primary:true, nullable:false })
     @JoinColumn({ name:"JobTitleID"})
-    jobTitle: Promise<Positions | null>;
+    jobTitle: Promise<Position | null>;
 
     @OneToOne((type)=>Solution, (Solution)=>Solution.jobTitleSolution,{ primary:true, nullable:false })
     @JoinColumn({ name:"SolutionID"})

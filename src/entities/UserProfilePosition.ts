@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 
 import {Accountstatus} from "./accountstatus"
-import {Positions} from "./positions"
+import {Position} from "./Position"
 import {User} from "./User"
 import {UserListingSpecialization} from "./UserListingSpecialization"
 import {UserSolution} from "./UserSolution"
@@ -32,9 +32,9 @@ export class UserProfilePosition {
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
 
-    @OneToOne((type)=>Positions, (Positions)=>Positions.userprofilepositions,{  nullable:false })
+    @OneToOne((type) => Position, (Position) => Position.userprofilepositions,{  nullable:false })
     @JoinColumn({ name:"PositionID"})
-    position: Promise<Positions | null>;
+    position: Promise<Position | null>;
 
     @Column("nvarchar",{
         nullable:false,
