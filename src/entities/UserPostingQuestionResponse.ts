@@ -1,4 +1,17 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 import {Question} from "./Question"
 import {QuestionType} from "./QuestionType"
@@ -7,7 +20,11 @@ import {UserPosting} from "./UserPosting";
 @Entity("UserPostingQuestionResponse",{schema:"dbo"})
 export class UserPostingQuestionResponse {
 
-    @OneToOne((type)=>UserPosting, (UserPosting)=>UserPosting.userPostingQuestionResponse,{ primary:true, nullable:false })
+    @OneToOne(
+        (type) => UserPosting,
+        (UserPosting) => UserPosting.userPostingQuestionResponse,
+        { primary:true, nullable:false },
+    )
     @JoinColumn({ name:"userPostingID"})
     userPosting: Promise<UserPosting | null>;
 
