@@ -1,22 +1,35 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 import {Messages} from "./Messages";
 import {MessageThreadStatus} from "./MessageThreadStatus"
 import {User} from "./User"
 
 @Entity("MessagingThreads",{schema:"dbo"})
-export class MessagingThreads {
+export class MessagingThread {
 
     @PrimaryGeneratedColumn({
         name:"ThreadID",
         })
     threadId: number;
 
-    @ManyToOne((type)=>User, (User)=>User.messagingThreadss,{  nullable:false })
+    @ManyToOne((type) => User, (User) => User.customerMessages,{  nullable:false })
     @JoinColumn({ name:"CustomerUserID"})
     customerUser: Promise<User | null>;
 
-    @ManyToOne((type)=>User, (User)=>User.messagingThreadss2,{  nullable:false })
+    @ManyToOne((type) => User, (User) => User.providerMessages,{  nullable:false })
     @JoinColumn({ name:"ProviderUserID"})
     providerUser: Promise<User | null>;
 
@@ -26,7 +39,11 @@ export class MessagingThreads {
         })
     positionId: number | null;
 
-    @ManyToOne((type) => MessageThreadStatus, (MessageThreadStatus) => MessageThreadStatus.messagingThreadss,{  nullable:false })
+    @ManyToOne(
+        (type) => MessageThreadStatus,
+        (MessageThreadStatus) => MessageThreadStatus.messagingThreads,
+        {  nullable:false }
+    )
     @JoinColumn({ name:"MessageThreadStatusID"})
     messageThreadStatus: Promise<MessageThreadStatus | null>;
 
@@ -37,7 +54,7 @@ export class MessagingThreads {
         })
     subject: string | null;
 
-    @ManyToOne((type)=>Messages, (Messages)=>Messages.messagingThreadss,{  })
+    @ManyToOne((type) => Messages, (Messages) => Messages.lastMessages,{  })
     @JoinColumn({ name:"LastMessageID"})
     lastMessage: Promise<Messages | null>;
 

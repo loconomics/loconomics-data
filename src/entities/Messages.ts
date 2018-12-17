@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {MessagingThreads} from "./MessagingThreads";
+import {MessagingThread} from "./MessagingThread"
 
 @Entity("Messages",{schema:"dbo"})
 @Index("idx_Messages",["messageTypeId"])
@@ -68,7 +68,7 @@ export class Messages {
         })
     sentByUserId: number;
 
-    @OneToMany((type)=>MessagingThreads, (MessagingThreads)=>MessagingThreads.lastMessage)
-    messagingThreadss: Promise<MessagingThreads[]>;
+    @OneToMany((type) => MessagingThread, (MessagingThread) => MessagingThread.lastMessage)
+    lastMessages: Promise<MessagingThread[]>;
 
 }

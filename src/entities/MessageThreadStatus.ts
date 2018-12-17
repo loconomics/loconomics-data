@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {MessagingThreads} from "./MessagingThreads";
+import {MessagingThread} from "./MessagingThread"
 
 @Entity("messagethreadstatus",{schema:"dbo"})
 export class MessageThreadStatus {
@@ -71,7 +71,7 @@ export class MessageThreadStatus {
         })
     messageStatusColor: string;
 
-    @OneToMany((type)=>MessagingThreads, (MessagingThreads)=>MessagingThreads.messageThreadStatus)
-    messagingThreadss: Promise<MessagingThreads[]>;
+    @OneToMany((type) => MessagingThread, (MessagingThread) => MessagingThread.messageThreadStatus)
+    messagingThreads: Promise<MessagingThread[]>;
 
 }

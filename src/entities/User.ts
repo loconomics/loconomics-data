@@ -16,7 +16,7 @@ import {
 import {AccountStatus} from "./AccountStatus"
 import {CalendarProviderAttribute} from "./CalendarProviderAttribute"
 import {CccUsers} from "./CCCUsers";
-import {MessagingThreads} from "./MessagingThreads";
+import {MessagingThread} from "./MessagingThread"
 import {OwnerAcknowledgment} from "./OwnerAcknowledgment";
 import {OwnerStatus} from "./OwnerStatus";
 import {ServiceAddress} from "./ServiceAddress"
@@ -363,11 +363,11 @@ export class User {
     @OneToOne((type)=>CccUsers, (CccUsers)=>CccUsers.user)
     cCcUsers: Promise<CccUsers | null>;
 
-    @OneToMany((type)=>MessagingThreads, (MessagingThreads)=>MessagingThreads.customerUser)
-    messagingThreadss: Promise<MessagingThreads[]>;
+    @OneToMany((type) => MessagingThread, (MessagingThread) => MessagingThread.customerUser)
+    customerMessages: Promise<MessagingThread[]>;
 
-    @OneToMany((type)=>MessagingThreads, (MessagingThreads)=>MessagingThreads.providerUser)
-    messagingThreadss2: Promise<MessagingThreads[]>;
+    @OneToMany((type) => MessagingThread, (MessagingThread) => MessagingThread.providerUser)
+    providerMessages: Promise<MessagingThread[]>;
 
     @OneToOne((type)=>OwnerAcknowledgment, (OwnerAcknowledgment)=>OwnerAcknowledgment.user)
     ownerAcknowledgment: Promise<OwnerAcknowledgment | null>;
