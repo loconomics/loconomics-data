@@ -32,7 +32,7 @@ export class WebpageRole {
         })
     roleName: string;
 
-    @ManyToMany((type)=>UserProfile, (UserProfile)=>UserProfile.webpagesRoless)
+    @ManyToMany((type)=>UserProfile, (UserProfile)=>UserProfile.webpageRole)
     userprofiles: Promise<UserProfile[]>;
 
 }

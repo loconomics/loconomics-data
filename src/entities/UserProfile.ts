@@ -12,7 +12,8 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import {WebpagesRoles} from "./webpages_Roles";
+
+import {WebpageRole} from "./WebpageRole"
 
 @Entity("userprofile",{schema:"dbo"})
 @Index("UQ__userprof__C9F284560519C6AF",["email"],{unique:true})
@@ -31,8 +32,8 @@ export class UserProfile {
         })
     email: string;
 
-    @ManyToMany((type)=>WebpagesRoles, (WebpagesRoles)=>WebpagesRoles.userprofiles,{  nullable:false })
+    @ManyToMany((type)=>WebpageRole, (WebpageRole)=>WebpageRole.userprofiles, {  nullable:false })
     @JoinTable()
-    webpagesRoless: Promise<WebpagesRoles[]>;
+    webpageRole: Promise<WebpageRole[]>;
 
 }
