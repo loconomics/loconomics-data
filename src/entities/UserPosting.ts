@@ -1,4 +1,18 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {UserPostingQuestionResponse} from "./UserPostingQuestionResponse";
 import {UserPostingReaction} from "./UserPostingReaction";
 
@@ -81,7 +95,10 @@ export class UserPosting {
         })
     modifiedBy: string;
 
-    @OneToOne((type)=>UserPostingQuestionResponse, (UserPostingQuestionResponse)=>UserPostingQuestionResponse.userPosting)
+    @OneToOne(
+        (type) => UserPostingQuestionResponse,
+        (UserPostingQuestionResponse) => UserPostingQuestionResponse.userPosting,
+    )
     userPostingQuestionResponse: Promise<UserPostingQuestionResponse | null>;
 
     @OneToOne((type)=>UserPostingReaction, (UserPostingReaction)=>UserPostingReaction.userPosting)
