@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 
 import {County} from "./county";
-import {Municipality} from "./municipality";
+import {Municipality} from "./Municipality"
 import {StateProvince} from "./StateProvince"
 
 @Entity("postalcode",{schema:"dbo"})

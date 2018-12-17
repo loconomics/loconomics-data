@@ -1,5 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {Municipality} from "./municipality";
+
+import {Municipality} from "./Municipality"
 import {PostalCode} from "./PostalCode"
 import {StateProvince} from "./StateProvince"
 
