@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {Booking} from "./booking";
+import {Booking} from "./Booking"
 import {ReferralSource} from "./ReferralSource";
 import {User} from "./User"
 import {UserEarningsEntry} from "./UserEarningsEntry";
