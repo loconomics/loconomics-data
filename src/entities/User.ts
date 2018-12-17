@@ -18,7 +18,7 @@ import {CccUsers} from "./CCCUsers";
 import {MessagingThreads} from "./MessagingThreads";
 import {OwnerAcknowledgment} from "./OwnerAcknowledgment";
 import {OwnerStatus} from "./OwnerStatus";
-import {Serviceaddress} from "./serviceaddress";
+import {ServiceAddress} from "./ServiceAddress"
 import {ServiceProfessionalClient} from "./ServiceProfessionalClient"
 import {UserBackgroundCheck} from "./UserBackgroundCheck"
 import {UserBadge} from "./UserBadge";
@@ -371,8 +371,8 @@ export class User {
     @OneToOne((type)=>OwnerAcknowledgment, (OwnerAcknowledgment)=>OwnerAcknowledgment.user)
     ownerAcknowledgment: Promise<OwnerAcknowledgment | null>;
 
-    @OneToOne((type)=>Serviceaddress, (Serviceaddress)=>Serviceaddress.user)
-    serviceaddress: Promise<Serviceaddress | null>;
+    @OneToOne((type) => ServiceAddress, (ServiceAddress) => ServiceAddress.user)
+    serviceaddress: Promise<ServiceAddress | null>;
 
     @OneToOne(
         (type) => ServiceProfessionalClient,
