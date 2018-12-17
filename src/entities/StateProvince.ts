@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {County} from "./county";
+import {County} from "./County"
 import {Institution} from "./Institution"
 import {PostalCode} from "./PostalCode"
 

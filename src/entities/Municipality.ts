@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {County} from "./county";
+import {County} from "./County"
 import {PostalCode} from "./PostalCode"
 
 @Entity("municipality",{schema:"dbo"})
