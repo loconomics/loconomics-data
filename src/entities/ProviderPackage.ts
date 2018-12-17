@@ -1,7 +1,20 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 @Entity("providerpackage",{schema:"dbo"})
-export class Providerpackage {
+export class ProviderPackage {
 
     @PrimaryGeneratedColumn({
         name:"ProviderPackageID",
