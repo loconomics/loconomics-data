@@ -1,8 +1,21 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 import {Solution} from "./Solution";
-import {UserProfilePosition} from "./UserProfilePosition"
 import {User} from "./User"
+import {UserProfilePosition} from "./UserProfilePosition"
 
 @Entity("UserSolution",{schema:"dbo"})
 export class UserSolution {
