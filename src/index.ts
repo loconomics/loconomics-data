@@ -3,6 +3,7 @@ import {createConnection} from "typeorm"
 
 export default createConnection
 
+export {BookingStatus} from "./entities/BookingStatus"
 export {BookingType} from "./entities/BookingType"
 export {CalendarAvailabilityType} from "./entities/CalendarAvailabilityType"
 export {CalendarEventType} from "./entities/CalendarEventType"
