@@ -12,6 +12,7 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
+
 import {Solution} from "./Solution";
 import {UserListingSpecialization} from "./UserListingSpecialization";
 
