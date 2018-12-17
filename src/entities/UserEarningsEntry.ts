@@ -1,13 +1,30 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 import {ServiceProfessionalClient} from "./ServiceProfessionalClient"
-import {UserExternalListing} from "./UserExternalListing";
 import {User} from "./User"
+import {UserExternalListing} from "./UserExternalListing";
 
 @Entity("UserEarningsEntry",{schema:"dbo"})
 export class UserEarningsEntry {
 
-    @OneToOne((type)=>ServiceProfessionalClient, (ServiceProfessionalClient)=>ServiceProfessionalClient.userEarningsEntry,{ primary:true, nullable:false })
+    @OneToOne(
+        (type) => ServiceProfessionalClient,
+        (ServiceProfessionalClient) => ServiceProfessionalClient.userEarningsEntry,
+        { primary:true, nullable:false },
+    )
     @JoinColumn({ name:"UserID"})
     serviceProfessionalClient: Promise<ServiceProfessionalClient | null>;
 
@@ -43,7 +60,11 @@ export class UserEarningsEntry {
         })
     durationMinutes: number;
 
-    @ManyToOne((type)=>UserExternalListing, (UserExternalListing)=>UserExternalListing.userEarningsEntrys,{  nullable:false })
+    @ManyToOne(
+        (type) => UserExternalListing,
+        (UserExternalListing) => UserExternalListing.userEarningsEntrys,
+        {  nullable:false },
+    )
     @JoinColumn({ name:"UserExternalListingID"})
     userExternalListing: Promise<UserExternalListing | null>;
 
@@ -53,7 +74,11 @@ export class UserEarningsEntry {
         })
     jobTitleId: number;
 
-    @ManyToOne((type)=>ServiceProfessionalClient, (ServiceProfessionalClient)=>ServiceProfessionalClient.userEarningsEntrys,{  })
+    @ManyToOne(
+        (type) => ServiceProfessionalClient,
+        (ServiceProfessionalClient) => ServiceProfessionalClient.userEarningsEntrys,
+        {  },
+    )
     @JoinColumn({ name:"ClientUserID"})
     clientUser: Promise<ServiceProfessionalClient | null>;
 
