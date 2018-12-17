@@ -1,6 +1,6 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {SearchCategory} from "./SearchCategory";
-import {SearchSubCategorySolution} from "./SearchSubCategorySolution";
+import {SearchSubcategorySolution} from "./SearchSubcategorySolution"
 
 @Entity("SearchSubCategory",{schema:"dbo"})
 export class SearchSubCategory {
@@ -77,7 +77,7 @@ export class SearchSubCategory {
         })
     active: boolean;
 
-    @OneToOne((type)=>SearchSubCategorySolution, (SearchSubCategorySolution)=>SearchSubCategorySolution.searchSubCategory)
-    searchSubCategorySolution: Promise<SearchSubCategorySolution | null>;
+    @OneToOne((type) => SearchSubcategorySolution, (SearchSubcategorySolution) => SearchSubcategorySolution.searchSubCategory)
+    searchSubcategorySolution: Promise<SearchSubcategorySolution | null>;
 
 }

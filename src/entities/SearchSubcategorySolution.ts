@@ -1,15 +1,36 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {SearchSubCategory} from "./SearchSubCategory";
 import {Solution} from "./Solution";
 
 @Entity("SearchSubCategorySolution",{schema:"dbo"})
-export class SearchSubCategorySolution {
+export class SearchSubcategorySolution {
 
-    @OneToOne((type)=>SearchSubCategory, (SearchSubCategory)=>SearchSubCategory.searchSubCategorySolution,{ primary:true, nullable:false })
+    @OneToOne(
+        (type) => SearchSubCategory,
+        (SearchSubCategory) => SearchSubCategory.searchSubcategorySolution,
+        { primary:true, nullable:false }
+    )
     @JoinColumn({ name:"SearchSubCategoryID"})
     searchSubCategory: Promise<SearchSubCategory | null>;
 
-    @OneToOne((type)=>Solution, (Solution)=>Solution.searchSubCategorySolution,{ primary:true, nullable:false })
+    @OneToOne(
+        (type) => Solution, (Solution) => Solution.searchSubcategorySolution,
+        { primary:true, nullable:false }
+    )
     @JoinColumn({ name:"SolutionID"})
     solution: Promise<Solution | null>;
 

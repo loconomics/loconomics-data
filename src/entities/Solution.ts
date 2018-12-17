@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 
 import {JobTitleSolution} from "./JobTitleSolution";
-import {SearchSubCategorySolution} from "./SearchSubCategorySolution";
+import {SearchSubcategorySolution} from "./SearchSubcategorySolution";
 import {Specialization} from "./Specialization"
 import {UserBadge} from "./UserBadge";
 import {UserSolution} from "./UserSolution";
@@ -113,8 +113,8 @@ export class Solution {
     @OneToOne((type)=>JobTitleSolution, (JobTitleSolution)=>JobTitleSolution.solution)
     jobTitleSolution: Promise<JobTitleSolution | null>;
 
-    @OneToOne((type)=>SearchSubCategorySolution, (SearchSubCategorySolution)=>SearchSubCategorySolution.solution)
-    searchSubCategorySolution: Promise<SearchSubCategorySolution | null>;
+    @OneToOne((type) => SearchSubcategorySolution, (SearchSubcategorySolution) => SearchSubcategorySolution.solution)
+    searchSubcategorySolution: Promise<SearchSubcategorySolution | null>;
 
     @OneToMany((type)=>Specialization, (Specialization)=>Specialization.solution)
     specializations: Promise<Specialization[]>;
