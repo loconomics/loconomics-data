@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 
 import {PostingTemplateQuestion} from "./PostingTemplateQuestion"
-import {QuestionType} from "./questionType";
+import {QuestionType} from "./QuestionType";
 import {UserPostingQuestionResponse} from "./UserPostingQuestionResponse";
 
 @Entity("question",{schema:"dbo"})
