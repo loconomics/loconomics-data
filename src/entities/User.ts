@@ -20,7 +20,7 @@ import {OwnerAcknowledgment} from "./OwnerAcknowledgment";
 import {OwnerStatus} from "./OwnerStatus";
 import {Serviceaddress} from "./serviceaddress";
 import {ServiceProfessionalClient} from "./ServiceProfessionalClient"
-import {Userbackgroundcheck} from "./userbackgroundcheck";
+import {UserBackgroundCheck} from "./UserBackgroundCheck"
 import {UserBadge} from "./UserBadge";
 import {UserEarnings} from "./UserEarnings";
 import {UserEarningsEntry} from "./UserEarningsEntry";
@@ -383,8 +383,8 @@ export class User {
     @OneToOne((type)=>ServiceProfessionalClient, (ServiceProfessionalClient)=>ServiceProfessionalClient.clientUser)
     serviceProfessionalClient2: Promise<ServiceProfessionalClient | null>;
 
-    @OneToOne((type)=>Userbackgroundcheck, (Userbackgroundcheck)=>Userbackgroundcheck.user)
-    userbackgroundcheck: Promise<Userbackgroundcheck | null>;
+    @OneToOne((type) => UserBackgroundCheck, (UserBackgroundCheck) => UserBackgroundCheck.user)
+    userbackgroundcheck: Promise<UserBackgroundCheck | null>;
 
     @OneToMany((type)=>UserBadge, (UserBadge)=>UserBadge.user)
     userBadges: Promise<UserBadge[]>;

@@ -1,8 +1,22 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {User} from "./User"
 
 @Entity("userbackgroundcheck",{schema:"dbo"})
-export class Userbackgroundcheck {
+export class UserBackgroundCheck {
 
     @OneToOne((type)=>User, (User)=>User.userbackgroundcheck,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
