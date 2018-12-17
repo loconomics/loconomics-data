@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {Institution} from "./institution";
+import {Institution} from "./Institution"
 import {User} from "./User"
 
 @Entity("usereducation",{schema:"dbo"})

@@ -1,7 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
 
 import {FieldOfStudy} from "./FieldOfStudy";
-import {Institution} from "./institution";
+import {Institution} from "./Institution"
 import {User} from "./User"
 
 @Entity("CCCUsers",{schema:"dbo"})

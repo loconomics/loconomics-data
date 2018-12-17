@@ -12,8 +12,9 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
+
 import {County} from "./county";
-import {Institution} from "./institution";
+import {Institution} from "./Institution"
 import {PostalCode} from "./PostalCode"
 
 @Entity("stateprovince",{schema:"dbo"})
