@@ -3,6 +3,7 @@ import {createConnection} from "typeorm"
 
 export default createConnection
 
+export {AccountStatus} from "./entities/AccountStatus"
 export {Address} from "./entities/Address"
 export {AddressType} from "./entities/AddressType"
 export {Alert} from "./entities/Alert"

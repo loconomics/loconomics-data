@@ -12,7 +12,8 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import {Accountstatus} from "./accountstatus";
+
+import {AccountStatus} from "./AccountStatus"
 import {CalendarProviderAttribute} from "./CalendarProviderAttribute"
 import {CccUsers} from "./CCCUsers";
 import {MessagingThreads} from "./MessagingThreads";
@@ -236,9 +237,9 @@ export class User {
         })
     loconomicsDbmCampaigns: boolean;
 
-    @ManyToOne((type)=>Accountstatus, (Accountstatus)=>Accountstatus.user,{  nullable:false })
+    @ManyToOne((type) => AccountStatus, (AccountStatus) => AccountStatus.user,{  nullable:false })
     @JoinColumn({ name:"AccountStatusID"})
-    accountStatus: Promise<Accountstatus | null>;
+    accountStatus: Promise<AccountStatus | null>;
 
     @Column("bit",{
         nullable:false,

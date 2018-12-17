@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {Accountstatus} from "./accountstatus"
+import {AccountStatus} from "./AccountStatus"
 import {Position} from "./Position"
 import {User} from "./User"
 import {UserListingSpecialization} from "./UserListingSpecialization"
@@ -75,9 +75,9 @@ export class UserProfilePosition {
         })
     positionIntro: string | null;
 
-    @ManyToOne((type) => Accountstatus, (Accountstatus) => Accountstatus.userprofilepositions, {  nullable:false })
+    @ManyToOne((type) => AccountStatus, (AccountStatus) => AccountStatus.userprofilepositions, {  nullable:false })
     @JoinColumn({ name:"StatusID"})
-    status: Promise<Accountstatus | null>;
+    status: Promise<AccountStatus | null>;
 
     @Column("int",{
         nullable:true,

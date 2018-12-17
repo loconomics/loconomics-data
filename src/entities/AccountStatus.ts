@@ -1,10 +1,23 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
-import {UserProfilePosition} from "./UserProfilePosition"
 import {User} from "./User"
+import {UserProfilePosition} from "./UserProfilePosition"
 
 @Entity("accountstatus",{schema:"dbo"})
-export class Accountstatus {
+export class AccountStatus {
 
     @Column("int",{
         nullable:false,
