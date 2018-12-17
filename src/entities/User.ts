@@ -32,7 +32,7 @@ import {UserOrganization} from "./UserOrganization"
 import {UserPostingReaction} from "./UserPostingReaction";
 import {UserProfilePosition} from "./UserProfilePosition"
 import {UserSolution} from "./UserSolution";
-import {UserStats} from "./UserStats";
+import {UserStat} from "./UserStat"
 
 @Entity("users",{schema:"dbo"})
 export class User {
@@ -426,7 +426,7 @@ export class User {
     @OneToMany((type)=>UserSolution, (UserSolution)=>UserSolution.user)
     userSolutions: Promise<UserSolution[]>;
 
-    @OneToOne((type)=>UserStats, (UserStats)=>UserStats.user)
-    userStats: Promise<UserStats | null>;
+    @OneToOne((type) => UserStat, (UserStat) => UserStat.user)
+    userStats: Promise<UserStat | null>;
 
 }

@@ -1,8 +1,22 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {User} from "./User"
 
 @Entity("UserStats",{schema:"dbo"})
-export class UserStats {
+export class UserStat {
 
     @OneToOne((type)=>User, (User)=>User.userStats,{ primary:true, nullable:false })
     @JoinColumn({ name:"UserID"})
