@@ -3,6 +3,7 @@ import {createConnection} from "typeorm"
 
 export default createConnection
 
+export {Authorization} from "./entities/Authorization"
 export {BackgroundCheck} from "./entities/BackgroundCheck"
 export {Booking} from "./entities/Booking"
 export {BookingStatus} from "./entities/BookingStatus"

@@ -1,8 +1,21 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 @Entity("authorizations",{schema:"dbo"})
 @Index("IX_authorizations_token",["token"],{unique:true})
-export class Authorizations {
+export class Authorization {
 
     @PrimaryGeneratedColumn({
         name:"id",
