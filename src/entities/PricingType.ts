@@ -1,8 +1,21 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 @Entity("pricingtype",{schema:"dbo"})
 @Index("Pk_pricingtype",["pricingTypeId"],{unique:true})
-export class Pricingtype {
+export class PricingType {
 
     @Column("int",{
         nullable:false,
