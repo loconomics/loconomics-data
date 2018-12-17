@@ -3,6 +3,7 @@ import {createConnection} from "typeorm"
 
 export default createConnection
 
+export {Alert} from "./entities/Alert"
 export {AlertType} from "./entities/AlertType"
 export {Authorization} from "./entities/Authorization"
 export {BackgroundCheck} from "./entities/BackgroundCheck"
