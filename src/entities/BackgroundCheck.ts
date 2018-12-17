@@ -1,7 +1,20 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 @Entity("backgroundcheck",{schema:"dbo"})
-export class Backgroundcheck {
+export class BackgroundCheck {
 
     @Column("int",{
         nullable:false,
