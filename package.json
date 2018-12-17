@@ -22,7 +22,7 @@
     "prepare": "npm run build",
     "postinstall": "tsc",
     "tslint": "tslint --project .",
-    "dev": "nodemon -w src/ tsc -e ts",
+    "dev": "nodemon -w src/ -e ts --exec yarn build",
     "build-schema-sql": "node ./schema/create-schema-script loconomics > schema.sql"
   },
   "files": [
