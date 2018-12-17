@@ -6,6 +6,7 @@ export default createConnection
 export {CalendarAvailabilityType} from "./entities/CalendarAvailabilityType"
 export {CalendarEventType} from "./entities/CalendarEventType"
 export {CalendarProviderAttribute} from "./entities/CalendarProviderAttribute"
+export {CancellationPolicy} from "./entities/CancellationPolicy"
 export {ClientType} from "./entities/ClientType"
 export {Country} from "./entities/Country"
 export {County} from "./entities/County"
