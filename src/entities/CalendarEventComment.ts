@@ -26,7 +26,7 @@ export class CalendarEventComment {
     @ManyToOne(
         (type) => CalendarEvent,
         (CalendarEvent) => CalendarEvent.calendarEventCommentss,
-        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" }
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
     )
     @JoinColumn({ name:"IdEvent"})
     idEvent: Promise<CalendarEvent | null>;

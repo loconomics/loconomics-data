@@ -13,8 +13,8 @@ import {
     RelationId,
 } from "typeorm";
 
-import {CalendarEventRecurrencePeriod} from "./CalendarEventRecurrencePeriod"
 import {CalendarEvent} from "./CalendarEvent"
+import {CalendarEventRecurrencePeriod} from "./CalendarEventRecurrencePeriod"
 
 @Entity("CalendarEventRecurrencesPeriodList",{schema:"dbo"})
 export class CalendarEventRecurrencePeriodList {
@@ -27,7 +27,7 @@ export class CalendarEventRecurrencePeriodList {
     @ManyToOne(
         (type)=>CalendarEvent,
         (CalendarEvent) => CalendarEvent.calendarEventRecurrencePeriodLists,
-        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" }
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
     )
     @JoinColumn({ name:"IdEvent"})
     idEvent: Promise<CalendarEvent | null>;
@@ -35,7 +35,7 @@ export class CalendarEventRecurrencePeriodList {
     @OneToOne(
         (type) => CalendarEventRecurrencePeriod,
         (CalendarEventRecurrencePeriod) => CalendarEventRecurrencePeriod.idRecurrence,
-        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
     )
     calendarEventRecurrencePeriod: Promise<CalendarEventRecurrencePeriod | null>;
 

@@ -147,7 +147,7 @@ export class Institution {
 
     @OneToMany(
         (type) => CCCUser,
-        (CCCUser) => CCCUser.institution
+        (CCCUser) => CCCUser.institution,
     )
     cccUsers: Promise<CCCUser[]>;
 

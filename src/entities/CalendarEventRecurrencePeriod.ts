@@ -21,7 +21,7 @@ export class CalendarEventRecurrencePeriod {
     @OneToOne(
         (type) => CalendarEventRecurrencePeriodList,
         (CalendarEventRecurrencePeriodList) => CalendarEventRecurrencePeriodList.calendarEventRecurrencePeriod,
-        { primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" }
+        { primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
     )
     @JoinColumn({ name:"IdRecurrence"})
     idRecurrence: Promise<CalendarEventRecurrencePeriodList | null>;

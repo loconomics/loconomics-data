@@ -64,7 +64,7 @@ export class FieldOfStudy {
 
     @OneToMany(
         (type) => CCCUser,
-        (CCCUser) => CCCUser.fieldOfStudy
+        (CCCUser) => CCCUser.fieldOfStudy,
     )
     cccUsers: Promise<CCCUser[]>;
 

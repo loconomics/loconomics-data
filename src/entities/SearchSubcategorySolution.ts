@@ -22,14 +22,14 @@ export class SearchSubcategorySolution {
     @OneToOne(
         (type) => SearchSubcategory,
         (SearchSubcategory) => SearchSubcategory.searchSubcategorySolution,
-        { primary:true, nullable:false }
+        { primary:true, nullable:false },
     )
     @JoinColumn({ name:"SearchSubCategoryID"})
     searchSubcategory: Promise<SearchSubcategory | null>;
 
     @OneToOne(
         (type) => Solution, (Solution) => Solution.searchSubcategorySolution,
-        { primary:true, nullable:false }
+        { primary:true, nullable:false },
     )
     @JoinColumn({ name:"SolutionID"})
     solution: Promise<Solution | null>;

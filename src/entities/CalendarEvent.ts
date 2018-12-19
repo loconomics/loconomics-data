@@ -14,11 +14,11 @@ import {
 } from "typeorm";
 
 import {CalendarAvailabilityType} from "./CalendarAvailabilityType"
+import {CalendarEventAttendee} from "./CalendarEventAttendee"
 import {CalendarEventComment} from "./CalendarEventComment"
+import {CalendarEventContact} from "./CalendarEventContact"
 import {CalendarEventExceptionPeriodList} from "./CalendarEventExceptionPeriodList"
 import {CalendarEventRecurrencePeriodList} from "./CalendarEventRecurrencePeriodList"
-import {CalendarEventAttendee} from "./CalendarEventAttendee"
-import {CalendarEventContact} from "./CalendarEventContact"
 import {CalendarEventType} from "./CalendarEventType"
 import {CalendarRecurrence} from "./CalendarRecurrence"
 
@@ -36,7 +36,11 @@ export class CalendarEvent {
         })
     userId: number;
 
-    @ManyToOne((type)=>CalendarEventType, (CalendarEventType)=>CalendarEventType.calendarEventss,{  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @ManyToOne(
+        (type) => CalendarEventType,
+        (CalendarEventType) => CalendarEventType.calendarEventss,
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
+    )
     @JoinColumn({ name:"EventType"})
     eventType: Promise<CalendarEventType | null>;
 
@@ -66,7 +70,11 @@ export class CalendarEvent {
         })
     uid: string | null;
 
-    @ManyToOne((type)=>CalendarAvailabilityType, (CalendarAvailabilityType)=>CalendarAvailabilityType.calendarEventss,{  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @ManyToOne(
+        (type) => CalendarAvailabilityType,
+        (CalendarAvailabilityType) => CalendarAvailabilityType.calendarEventss,
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
+    )
     @JoinColumn({ name:"CalendarAvailabilityTypeID"})
     calendarAvailabilityType: Promise<CalendarAvailabilityType | null>;
 
@@ -188,28 +196,28 @@ export class CalendarEvent {
     @OneToMany(
         (type) => CalendarEventComment,
         (CalendarEventComment) => CalendarEventComment.idEvent,
-        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
     )
     calendarEventCommentss: Promise<CalendarEventComment[]>;
 
     @OneToMany(
         (type) => CalendarEventExceptionPeriodList,
         (CalendarEventExceptionPeriodList) => CalendarEventExceptionPeriodList.idEvent,
-        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
     )
     calendarEventExceptionPeriodLists: Promise<CalendarEventExceptionPeriodList[]>;
 
     @OneToMany(
         (type) => CalendarEventRecurrencePeriodList,
         (CalendarEventRecurrencePeriodList) => CalendarEventRecurrencePeriodList.idEvent,
-        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
     )
     calendarEventRecurrencePeriodLists: Promise<CalendarEventRecurrencePeriodList[]>;
 
     @OneToMany(
         (type) => CalendarEventAttendee,
         (CalendarEventAttendee) => CalendarEventAttendee.idEvent,
-        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
     )
     calendarEventAttendees: Promise<CalendarEventAttendee[]>;
 

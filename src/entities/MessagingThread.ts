@@ -42,7 +42,7 @@ export class MessagingThread {
     @ManyToOne(
         (type) => MessageThreadStatus,
         (MessageThreadStatus) => MessageThreadStatus.messagingThreads,
-        {  nullable:false }
+        {  nullable:false },
     )
     @JoinColumn({ name:"MessageThreadStatusID"})
     messageThreadStatus: Promise<MessageThreadStatus | null>;

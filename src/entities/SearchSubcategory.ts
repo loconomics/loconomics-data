@@ -93,7 +93,7 @@ export class SearchSubcategory {
 
     @OneToOne(
         (type) => SearchSubcategorySolution,
-        (SearchSubcategorySolution) => SearchSubcategorySolution.searchSubcategory
+        (SearchSubcategorySolution) => SearchSubcategorySolution.searchSubcategory,
     )
     searchSubcategorySolution: Promise<SearchSubcategorySolution | null>;
 

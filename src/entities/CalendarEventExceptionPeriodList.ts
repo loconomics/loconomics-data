@@ -13,8 +13,8 @@ import {
     RelationId,
 } from "typeorm";
 
-import {CalendarEventExceptionPeriod} from "./CalendarEventExceptionPeriod"
 import {CalendarEvent} from "./CalendarEvent"
+import {CalendarEventExceptionPeriod} from "./CalendarEventExceptionPeriod"
 
 @Entity("CalendarEventExceptionsPeriodsList",{schema:"dbo"})
 export class CalendarEventExceptionPeriodList {
@@ -27,7 +27,7 @@ export class CalendarEventExceptionPeriodList {
     @ManyToOne(
         (type) => CalendarEvent,
         (CalendarEvent) => CalendarEvent.calendarEventExceptionPeriodLists,
-        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" }
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
     )
     @JoinColumn({ name:"IdEvent"})
     idEvent: Promise<CalendarEvent | null>;
@@ -35,7 +35,7 @@ export class CalendarEventExceptionPeriodList {
     @OneToOne(
         (type) => CalendarEventExceptionPeriod,
         (CalendarEventExceptionPeriod) => CalendarEventExceptionPeriod.idException,
-        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
     )
     calendarEventExceptionPeriod: Promise<CalendarEventExceptionPeriod | null>;
 

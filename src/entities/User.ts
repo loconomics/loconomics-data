@@ -362,7 +362,7 @@ export class User {
 
     @OneToOne(
         (type) => CCCUser,
-        (CCCUser) => CCCUser.user
+        (CCCUser) => CCCUser.user,
     )
     cccUser: Promise<CCCUser | null>;
 

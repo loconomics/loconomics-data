@@ -29,7 +29,11 @@ export class UserSolution {
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
 
-    @ManyToOne((type) => UserProfilePosition, (UserProfilePosition) => UserProfilePosition.userSolutions, {  nullable:false })
+    @ManyToOne(
+        (type) => UserProfilePosition,
+        (UserProfilePosition) => UserProfilePosition.userSolutions,
+        {  nullable:false },
+    )
     @JoinColumn({ name:"UserListingID"})
     userListing: Promise<UserProfilePosition | null>;
 

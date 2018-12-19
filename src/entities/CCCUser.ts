@@ -23,7 +23,7 @@ export class CCCUser {
     @OneToOne(
         (type) => User,
         (User) => User.cccUser,
-        { primary:true, nullable:false }
+        { primary:true, nullable:false },
     )
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
@@ -31,7 +31,7 @@ export class CCCUser {
     @ManyToOne(
         (type) => Institution,
         (Institution) => Institution.cccUsers,
-        {  }
+        {  },
     )
     @JoinColumn({ name:"InstitutionID"})
     institution: Promise<Institution | null>;
@@ -39,7 +39,7 @@ export class CCCUser {
     @ManyToOne(
         (type) => FieldOfStudy,
         (FieldOfStudy) => FieldOfStudy.cccUsers,
-        {  }
+        {  },
     )
     @JoinColumn({ name:"FieldOfStudyID"})
     fieldOfStudy: Promise<FieldOfStudy | null>;

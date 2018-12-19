@@ -21,7 +21,7 @@ export class CalendarEventExceptionPeriod {
     @OneToOne(
         (type) => CalendarEventExceptionPeriodList,
         (CalendarEventExceptionPeriodList) => CalendarEventExceptionPeriodList.calendarEventExceptionPeriod,
-        { primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" }
+        { primary:true, nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
     )
     @JoinColumn({ name:"IdException"})
     idException: Promise<CalendarEventExceptionPeriodList | null>;
