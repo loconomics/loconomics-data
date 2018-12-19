@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {CccUsers} from "./CCCUsers";
+import {CCCUser} from "./CCCUser"
 import {StateProvince} from "./StateProvince"
 import {UserEducation} from "./UserEducation"
 
@@ -145,8 +145,11 @@ export class Institution {
         })
     districtId: string | null;
 
-    @OneToMany((type)=>CccUsers, (CccUsers)=>CccUsers.institution)
-    cCcUserss: Promise<CccUsers[]>;
+    @OneToMany(
+        (type) => CCCUser,
+        (CCCUser) => CCCUser.institution
+    )
+    cccUsers: Promise<CCCUser[]>;
 
     @OneToMany((type) => UserEducation, (UserEducation) => UserEducation.institution)
     usereducations: Promise<UserEducation[]>;

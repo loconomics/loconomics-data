@@ -15,7 +15,7 @@ import {
 
 import {AccountStatus} from "./AccountStatus"
 import {CalendarProviderAttribute} from "./CalendarProviderAttribute"
-import {CccUsers} from "./CCCUsers";
+import {CCCUser} from "./CCCUser"
 import {MessagingThread} from "./MessagingThread"
 import {OwnerAcknowledgment} from "./OwnerAcknowledgment";
 import {OwnerStatus} from "./OwnerStatus";
@@ -360,8 +360,11 @@ export class User {
     )
     calendarProviderAttributes: Promise<CalendarProviderAttribute | null>;
 
-    @OneToOne((type)=>CccUsers, (CccUsers)=>CccUsers.user)
-    cCcUsers: Promise<CccUsers | null>;
+    @OneToOne(
+        (type) => CCCUser,
+        (CCCUser) => CCCUser.user
+    )
+    cccUser: Promise<CCCUser | null>;
 
     @OneToMany((type) => MessagingThread, (MessagingThread) => MessagingThread.customerUser)
     customerMessages: Promise<MessagingThread[]>;

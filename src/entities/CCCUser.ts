@@ -1,21 +1,46 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
-import {FieldOfStudy} from "./FieldOfStudy";
+import {FieldOfStudy} from "./FieldOfStudy"
 import {Institution} from "./Institution"
 import {User} from "./User"
 
 @Entity("CCCUsers",{schema:"dbo"})
-export class CccUsers {
+export class CCCUser {
 
-    @OneToOne((type)=>User, (User)=>User.cCcUsers,{ primary:true, nullable:false })
+    @OneToOne(
+        (type) => User,
+        (User) => User.cccUser,
+        { primary:true, nullable:false }
+    )
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;
 
-    @ManyToOne((type)=>Institution, (Institution)=>Institution.cCcUserss,{  })
+    @ManyToOne(
+        (type) => Institution,
+        (Institution) => Institution.cccUsers,
+        {  }
+    )
     @JoinColumn({ name:"InstitutionID"})
     institution: Promise<Institution | null>;
 
-    @ManyToOne((type)=>FieldOfStudy, (FieldOfStudy)=>FieldOfStudy.cCcUserss,{  })
+    @ManyToOne(
+        (type) => FieldOfStudy,
+        (FieldOfStudy) => FieldOfStudy.cccUsers,
+        {  }
+    )
     @JoinColumn({ name:"FieldOfStudyID"})
     fieldOfStudy: Promise<FieldOfStudy | null>;
 

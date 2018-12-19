@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {CccUsers} from "./CCCUsers";
+import {CCCUser} from "./CCCUser"
 
 @Entity("FieldOfStudy",{schema:"dbo"})
 export class FieldOfStudy {
@@ -62,7 +62,10 @@ export class FieldOfStudy {
         })
     modifiedBy: string | null;
 
-    @OneToMany((type)=>CccUsers, (CccUsers)=>CccUsers.fieldOfStudy)
-    cCcUserss: Promise<CccUsers[]>;
+    @OneToMany(
+        (type) => CCCUser,
+        (CCCUser) => CCCUser.fieldOfStudy
+    )
+    cccUsers: Promise<CCCUser[]>;
 
 }
