@@ -16,7 +16,7 @@ import {
 import {CalendarAvailabilityType} from "./CalendarAvailabilityType"
 import {CalendarEventComments} from "./CalendarEventComments";
 import {CalendarEventExceptionsPeriodsList} from "./CalendarEventExceptionsPeriodsList";
-import {CalendarEventRecurrencesPeriodList} from "./CalendarEventRecurrencesPeriodList";
+import {CalendarEventRecurrencePeriodList} from "./CalendarEventRecurrencePeriodList"
 import {CalendarEventAttendee} from "./CalendarEventAttendee"
 import {CalendarEventContact} from "./CalendarEventContact"
 import {CalendarEventType} from "./CalendarEventType"
@@ -191,8 +191,12 @@ export class CalendarEvent {
     @OneToMany((type)=>CalendarEventExceptionsPeriodsList, (CalendarEventExceptionsPeriodsList)=>CalendarEventExceptionsPeriodsList.idEvent,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
     calendarEventExceptionsPeriodsLists: Promise<CalendarEventExceptionsPeriodsList[]>;
 
-    @OneToMany((type)=>CalendarEventRecurrencesPeriodList, (CalendarEventRecurrencesPeriodList)=>CalendarEventRecurrencesPeriodList.idEvent,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
-    calendarEventRecurrencesPeriodLists: Promise<CalendarEventRecurrencesPeriodList[]>;
+    @OneToMany(
+        (type) => CalendarEventRecurrencePeriodList,
+        (CalendarEventRecurrencePeriodList) => CalendarEventRecurrencePeriodList.idEvent,
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+    )
+    calendarEventRecurrencePeriodLists: Promise<CalendarEventRecurrencePeriodList[]>;
 
     @OneToMany(
         (type) => CalendarEventAttendee,
