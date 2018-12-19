@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {CalendarReccurrence} from "./CalendarReccurrence";
+import {CalendarRecurrence} from "./CalendarRecurrence"
 
 @Entity("CalendarRecurrenceFrequencyTypes",{schema:"dbo"})
 export class CalendarRecurrenceFrequencyType {
@@ -39,7 +39,7 @@ export class CalendarRecurrenceFrequencyType {
         })
     unitPlural: string | null;
 
-    @OneToMany((type)=>CalendarReccurrence, (CalendarReccurrence)=>CalendarReccurrence.frequency)
-    calendarReccurrences: Promise<CalendarReccurrence[]>;
+    @OneToMany((type) => CalendarRecurrence, (CalendarRecurrence) => CalendarRecurrence.frequency)
+    calendarRecurrences: Promise<CalendarRecurrence[]>;
 
 }

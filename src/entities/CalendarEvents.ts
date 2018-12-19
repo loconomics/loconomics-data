@@ -7,7 +7,7 @@ import {CalendarEventRecurrencesPeriodList} from "./CalendarEventRecurrencesPeri
 import {CalendarEventsAttendees} from "./CalendarEventsAttendees";
 import {CalendarEventsContacts} from "./CalendarEventsContacts";
 import {CalendarEventType} from "./CalendarEventType"
-import {CalendarReccurrence} from "./CalendarReccurrence";
+import {CalendarRecurrence} from "./CalendarRecurrence"
 
 @Entity("CalendarEvents",{schema:"dbo"})
 export class CalendarEvents {
@@ -187,7 +187,11 @@ export class CalendarEvents {
     @OneToMany((type)=>CalendarEventsContacts, (CalendarEventsContacts)=>CalendarEventsContacts.idEvent,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
     calendarEventsContactss: Promise<CalendarEventsContacts[]>;
 
-    @OneToMany((type)=>CalendarReccurrence, (CalendarReccurrence)=>CalendarReccurrence.event,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
-    calendarReccurrences: Promise<CalendarReccurrence[]>;
+    @OneToMany(
+        (type) => CalendarRecurrence,
+        (CalendarRecurrence) => CalendarRecurrence.event,
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
+    )
+    calendarRecurrences: Promise<CalendarRecurrence[]>;
 
 }

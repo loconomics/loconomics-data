@@ -1,17 +1,35 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {CalendarReccurrence} from "./CalendarReccurrence";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
+import {CalendarRecurrence} from "./CalendarRecurrence"
 
 @Entity("CalendarReccurrenceFrequency",{schema:"dbo"})
-export class CalendarReccurrenceFrequency {
+export class CalendarRecurrenceFrequency {
 
     @PrimaryGeneratedColumn({
         name:"ID",
         })
     id: number;
 
-    @ManyToOne((type)=>CalendarReccurrence, (CalendarReccurrence)=>CalendarReccurrence.calendarReccurrenceFrequencys,{ onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @ManyToOne(
+        (type) => CalendarRecurrence,
+        (CalendarRecurrence) => CalendarRecurrence.calendarRecurrenceFrequencys,
+        { onDelete: "CASCADE",onUpdate: "CASCADE" },
+    )
     @JoinColumn({ name:"CalendarReccursiveID"})
-    calendarReccursive: Promise<CalendarReccurrence | null>;
+    calendarRecursive: Promise<CalendarRecurrence | null>;
 
     @Column("bit",{
         nullable:true,

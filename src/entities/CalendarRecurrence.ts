@@ -14,18 +14,22 @@ import {
 } from "typeorm";
 
 import {CalendarEvents} from "./CalendarEvents";
-import {CalendarReccurrenceFrequency} from "./CalendarReccurrenceFrequency";
+import {CalendarRecurrenceFrequency} from "./CalendarRecurrenceFrequency"
 import {CalendarRecurrenceFrequencyType} from "./CalendarRecurrenceFrequencyType"
 
 @Entity("CalendarReccurrence",{schema:"dbo"})
-export class CalendarReccurrence {
+export class CalendarRecurrence {
 
     @PrimaryGeneratedColumn({
         name:"ID",
         })
     id: number;
 
-    @ManyToOne((type)=>CalendarEvents, (CalendarEvents)=>CalendarEvents.calendarReccurrences,{ onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @ManyToOne(
+        (type) => CalendarEvents,
+        (CalendarEvents) => CalendarEvents.calendarRecurrences,
+        { onDelete: "CASCADE",onUpdate: "CASCADE" },
+    )
     @JoinColumn({ name:"EventID"})
     event: Promise<CalendarEvents | null>;
 
@@ -44,7 +48,7 @@ export class CalendarReccurrence {
 
     @ManyToOne(
         (type) => CalendarRecurrenceFrequencyType,
-        (CalendarRecurrenceFrequencyType) => CalendarRecurrenceFrequencyType.calendarReccurrences,
+        (CalendarRecurrenceFrequencyType) => CalendarRecurrenceFrequencyType.calendarRecurrences,
     )
     @JoinColumn({ name:"Frequency"})
     frequency: Promise<CalendarRecurrenceFrequencyType | null>;
@@ -73,7 +77,11 @@ export class CalendarReccurrence {
         })
     firstDayOfWeek: number | null;
 
-    @OneToMany((type)=>CalendarReccurrenceFrequency, (CalendarReccurrenceFrequency)=>CalendarReccurrenceFrequency.calendarReccursive,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
-    calendarReccurrenceFrequencys: Promise<CalendarReccurrenceFrequency[]>;
+    @OneToMany(
+        (type) => CalendarRecurrenceFrequency,
+        (CalendarRecurrenceFrequency) => CalendarRecurrenceFrequency.calendarRecursive,
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" },
+    )
+    calendarRecurrenceFrequencys: Promise<CalendarRecurrenceFrequency[]>;
 
 }
