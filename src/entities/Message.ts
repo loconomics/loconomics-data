@@ -17,7 +17,7 @@ import {MessagingThread} from "./MessagingThread"
 
 @Entity("Messages",{schema:"dbo"})
 @Index("idx_Messages",["messageTypeId"])
-export class Messages {
+export class Message {
 
     @PrimaryGeneratedColumn({
         name:"MessageID",

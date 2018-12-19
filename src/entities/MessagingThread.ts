@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {Messages} from "./Messages";
+import {Message} from "./Message"
 import {MessageThreadStatus} from "./MessageThreadStatus"
 import {User} from "./User"
 
@@ -54,9 +54,13 @@ export class MessagingThread {
         })
     subject: string | null;
 
-    @ManyToOne((type) => Messages, (Messages) => Messages.lastMessages,{  })
+    @ManyToOne(
+        (type) => Message, 
+        (Message) => Message.lastMessages,
+        {  }
+    )
     @JoinColumn({ name:"LastMessageID"})
-    lastMessage: Promise<Messages | null>;
+    lastMessage: Promise<Message | null>;
 
     @Column("datetime",{
         nullable:false,
