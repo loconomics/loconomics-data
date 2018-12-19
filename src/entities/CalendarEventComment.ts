@@ -1,8 +1,22 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {CalendarEvent} from "./CalendarEvent"
 
 @Entity("CalendarEventComments",{schema:"dbo"})
-export class CalendarEventComments {
+export class CalendarEventComment {
 
     @PrimaryGeneratedColumn({
         name:"Id",

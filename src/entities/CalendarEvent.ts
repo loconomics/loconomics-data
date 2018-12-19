@@ -14,7 +14,7 @@ import {
 } from "typeorm";
 
 import {CalendarAvailabilityType} from "./CalendarAvailabilityType"
-import {CalendarEventComments} from "./CalendarEventComments";
+import {CalendarEventComment} from "./CalendarEventComment"
 import {CalendarEventExceptionPeriodList} from "./CalendarEventExceptionPeriodList"
 import {CalendarEventRecurrencePeriodList} from "./CalendarEventRecurrencePeriodList"
 import {CalendarEventAttendee} from "./CalendarEventAttendee"
@@ -185,8 +185,12 @@ export class CalendarEvent {
         })
     deleted: Date | null;
 
-    @OneToMany((type)=>CalendarEventComments, (CalendarEventComments)=>CalendarEventComments.idEvent,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
-    calendarEventCommentss: Promise<CalendarEventComments[]>;
+    @OneToMany(
+        (type) => CalendarEventComment,
+        (CalendarEventComment) => CalendarEventComment.idEvent,
+        { onDelete: "CASCADE" ,onUpdate: "CASCADE" }
+    )
+    calendarEventCommentss: Promise<CalendarEventComment[]>;
 
     @OneToMany(
         (type) => CalendarEventExceptionPeriodList,
