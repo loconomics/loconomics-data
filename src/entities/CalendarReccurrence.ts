@@ -1,7 +1,21 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {CalendarEvents} from "./CalendarEvents";
 import {CalendarReccurrenceFrequency} from "./CalendarReccurrenceFrequency";
-import {CalendarRecurrenceFrequencyTypes} from "./CalendarRecurrenceFrequencyTypes";
+import {CalendarRecurrenceFrequencyType} from "./CalendarRecurrenceFrequencyType"
 
 @Entity("CalendarReccurrence",{schema:"dbo"})
 export class CalendarReccurrence {
@@ -28,9 +42,12 @@ export class CalendarReccurrence {
         })
     evaluationMode: string | null;
 
-    @ManyToOne((type)=>CalendarRecurrenceFrequencyTypes, (CalendarRecurrenceFrequencyTypes)=>CalendarRecurrenceFrequencyTypes.calendarReccurrences,{  })
+    @ManyToOne(
+        (type) => CalendarRecurrenceFrequencyType,
+        (CalendarRecurrenceFrequencyType) => CalendarRecurrenceFrequencyType.calendarReccurrences,
+    )
     @JoinColumn({ name:"Frequency"})
-    frequency: Promise<CalendarRecurrenceFrequencyTypes | null>;
+    frequency: Promise<CalendarRecurrenceFrequencyType | null>;
 
     @Column("int",{
         nullable:true,
