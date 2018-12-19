@@ -1,4 +1,17 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
 
 import {CalendarAvailabilityType} from "./CalendarAvailabilityType"
 import {CalendarEventComments} from "./CalendarEventComments";
@@ -10,7 +23,7 @@ import {CalendarEventType} from "./CalendarEventType"
 import {CalendarRecurrence} from "./CalendarRecurrence"
 
 @Entity("CalendarEvents",{schema:"dbo"})
-export class CalendarEvents {
+export class CalendarEvent {
 
     @PrimaryGeneratedColumn({
         name:"Id",

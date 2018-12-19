@@ -1,6 +1,7 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+
 import {CalendarEventRecurrencesPeriod} from "./CalendarEventRecurrencesPeriod";
-import {CalendarEvents} from "./CalendarEvents";
+import {CalendarEvent} from "./CalendarEvent"
 
 @Entity("CalendarEventRecurrencesPeriodList",{schema:"dbo"})
 export class CalendarEventRecurrencesPeriodList {
@@ -10,9 +11,13 @@ export class CalendarEventRecurrencesPeriodList {
         })
     id: number;
 
-    @ManyToOne((type)=>CalendarEvents, (CalendarEvents)=>CalendarEvents.calendarEventRecurrencesPeriodLists,{  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @ManyToOne(
+        (type)=>CalendarEvent,
+        (CalendarEvent) => CalendarEvent.calendarEventRecurrencesPeriodLists,
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" }
+    )
     @JoinColumn({ name:"IdEvent"})
-    idEvent: Promise<CalendarEvents | null>;
+    idEvent: Promise<CalendarEvent | null>;
 
     @OneToOne((type)=>CalendarEventRecurrencesPeriod, (CalendarEventRecurrencesPeriod)=>CalendarEventRecurrencesPeriod.idRecurrence,{ onDelete: "CASCADE" ,onUpdate: "CASCADE" })
     calendarEventRecurrencesPeriod: Promise<CalendarEventRecurrencesPeriod | null>;

@@ -1,5 +1,5 @@
 import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
-import {CalendarEvents} from "./CalendarEvents";
+import {CalendarEvent} from "./CalendarEvent"
 
 @Entity("CalendarEventComments",{schema:"dbo"})
 export class CalendarEventComments {
@@ -9,9 +9,13 @@ export class CalendarEventComments {
         })
     id: number;
 
-    @ManyToOne((type)=>CalendarEvents, (CalendarEvents)=>CalendarEvents.calendarEventCommentss,{  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @ManyToOne(
+        (type) => CalendarEvent,
+        (CalendarEvent) => CalendarEvent.calendarEventCommentss,
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" }
+    )
     @JoinColumn({ name:"IdEvent"})
-    idEvent: Promise<CalendarEvents | null>;
+    idEvent: Promise<CalendarEvent | null>;
 
     @Column("nvarchar",{
         nullable:true,

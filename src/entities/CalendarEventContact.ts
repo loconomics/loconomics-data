@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {CalendarEvents} from "./CalendarEvents";
+import {CalendarEvent} from "./CalendarEvent"
 
 @Entity("CalendarEventsContacts",{schema:"dbo"})
 export class CalendarEventContact {
@@ -24,12 +24,12 @@ export class CalendarEventContact {
     id: number;
 
     @ManyToOne(
-        (type) => CalendarEvents,
-        (CalendarEvents) => CalendarEvents.calendarEventContacts,
-        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
+        (type) => CalendarEvent,
+        (CalendarEvent) => CalendarEvent.calendarEventContacts,
+        { nullable: false ,onDelete: "CASCADE",onUpdate: "CASCADE" },
     )
     @JoinColumn({ name:"IdEvent"})
-    idEvent: Promise<CalendarEvents | null>;
+    idEvent: Promise<CalendarEvent | null>;
 
     @Column("nvarchar",{
         nullable:true,

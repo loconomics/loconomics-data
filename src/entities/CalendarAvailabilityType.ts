@@ -12,7 +12,8 @@ import {
     PrimaryGeneratedColumn,
     RelationId,
 } from "typeorm";
-import {CalendarEvents} from "./CalendarEvents";
+
+import {CalendarEvent} from "./CalendarEvent"
 
 @Entity("CalendarAvailabilityType",{schema:"dbo"})
 export class CalendarAvailabilityType {
@@ -73,12 +74,10 @@ export class CalendarAvailabilityType {
     selectableAs: string | null;
 
     @OneToMany(
-        (type)=>CalendarEvents,
-        (CalendarEvents)=>CalendarEvents.calendarAvailabilityType, {
-            onDelete: "CASCADE",
-            onUpdate: "CASCADE",
-        },
+        (type)=>CalendarEvent,
+        (CalendarEvent) => CalendarEvent.calendarAvailabilityType,
+        {onDelete: "CASCADE", onUpdate: "CASCADE"},
     )
-    calendarEventss: Promise<CalendarEvents[]>;
+    calendarEventss: Promise<CalendarEvent[]>;
 
 }

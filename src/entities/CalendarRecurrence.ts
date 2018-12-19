@@ -13,7 +13,7 @@ import {
     RelationId,
 } from "typeorm";
 
-import {CalendarEvents} from "./CalendarEvents";
+import {CalendarEvent} from "./CalendarEvent"
 import {CalendarRecurrenceFrequency} from "./CalendarRecurrenceFrequency"
 import {CalendarRecurrenceFrequencyType} from "./CalendarRecurrenceFrequencyType"
 
@@ -26,12 +26,12 @@ export class CalendarRecurrence {
     id: number;
 
     @ManyToOne(
-        (type) => CalendarEvents,
-        (CalendarEvents) => CalendarEvents.calendarRecurrences,
+        (type) => CalendarEvent,
+        (CalendarEvent) => CalendarEvent.calendarRecurrences,
         { onDelete: "CASCADE",onUpdate: "CASCADE" },
     )
     @JoinColumn({ name:"EventID"})
-    event: Promise<CalendarEvents | null>;
+    event: Promise<CalendarEvent | null>;
 
     @Column("int",{
         nullable:true,
