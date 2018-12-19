@@ -1,15 +1,33 @@
-import {Column,Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, RelationId} from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from "typeorm";
+
 import {CalendarEvents} from "./CalendarEvents";
 
 @Entity("CalendarEventsAttendees",{schema:"dbo"})
-export class CalendarEventsAttendees {
+export class CalendarEventAttendee {
 
     @PrimaryGeneratedColumn({
         name:"Id",
         })
     id: number;
 
-    @ManyToOne((type)=>CalendarEvents, (CalendarEvents)=>CalendarEvents.calendarEventsAttendeess,{  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" })
+    @ManyToOne(
+        (type) => CalendarEvents,
+        (CalendarEvents) => CalendarEvents.calendarEventAttendees,
+        {  nullable:false,onDelete: "CASCADE",onUpdate: "CASCADE" },
+    )
     @JoinColumn({ name:"IdEvent"})
     idEvent: Promise<CalendarEvents | null>;
 
