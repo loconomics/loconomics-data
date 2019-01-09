@@ -1,3 +1,4 @@
+import {Expose} from "class-transformer"
 import {
     Column,
     Entity,
@@ -23,6 +24,7 @@ export class CalendarAvailabilityType {
         primary:true,
         name:"CalendarAvailabilityTypeID",
         })
+    @Expose({name: "AvailabilityTypeID"})
     calendarAvailabilityTypeId: number;
 
     @Column("nvarchar",{
@@ -71,6 +73,7 @@ export class CalendarAvailabilityType {
         length:50,
         name:"SelectableAs",
         })
+    @Expose({name: "DisplayName"})
     selectableAs: string | null;
 
     @OneToMany(
