@@ -1,3 +1,4 @@
+import {Expose} from "class-transformer"
 import {
     Column,
     Entity,
@@ -28,6 +29,7 @@ export class LicenseCertification {
         length:100,
         name:"LicenseCertificationType",
         })
+    @Expose({name: "name"})
     licenseCertificationType: string;
 
     @Column("varchar",{
@@ -35,6 +37,7 @@ export class LicenseCertification {
         length:4000,
         name:"LicenseCertificationTypeDescription",
         })
+    @Expose({name: "description"})
     licenseCertificationTypeDescription: string | null;
 
     @Column("varchar",{
@@ -42,6 +45,7 @@ export class LicenseCertification {
         length:500,
         name:"LicenseCertificationAuthority",
         })
+    @Expose({name: "authority"})
     licenseCertificationAuthority: string | null;
 
     @Column("varchar",{
