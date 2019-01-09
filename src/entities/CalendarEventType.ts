@@ -1,3 +1,4 @@
+import {Expose} from "class-transformer"
 import {
     Column,
     Entity,
@@ -30,6 +31,7 @@ export class CalendarEventType {
         length:100,
         name:"EventType",
         })
+    @Expose({name: "InternalName"})
     eventType: string | null;
 
     @Column("nvarchar",{
