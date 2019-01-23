@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Platform] (
     [PlatformID]       INT                NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [Name]             NVARCHAR (20)      NOT NULL,
     [ShortDescription] NVARCHAR (50)      NOT NULL,
     [LongDescription]  TEXT               NOT NULL,

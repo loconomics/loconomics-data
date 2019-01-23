@@ -2,7 +2,7 @@
     [UserListingID]                INT            IDENTITY (1, 1) NOT NULL,
     [UserID]                       INT            NOT NULL,
     [PositionID]                   INT            NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreateDate]                   DATETIME       NULL,
     [UpdatedDate]                  DATETIME       NULL,
     [ModifiedBy]                   VARCHAR (3)    NULL,

@@ -7,7 +7,7 @@
     [ScoreStartLabel] VARCHAR (25)  NULL,
     [ScoreMidLabel]   VARCHAR (25)  NULL,
     [ScoreEndLabel]   VARCHAR (25)  NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreateDate]      DATETIME      NOT NULL,
     [UpdatedDate]     DATETIME      NOT NULL,
     [ModifiedBy]      VARCHAR (3)   NOT NULL,

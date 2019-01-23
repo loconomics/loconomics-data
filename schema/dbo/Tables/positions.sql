@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[positions] (
     [PositionID]                 INT            NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [PositionSingular]           VARCHAR (250)  NULL,
     [PositionPlural]             VARCHAR (250)  NULL,
     [Aliases]                    VARCHAR (200)  NULL,

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[cancellationpolicy] (
     [CancellationPolicyID]          INT            NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CancellationPolicyName]        VARCHAR (50)   NOT NULL,
     [CancellationPolicyDescription] VARCHAR (1000) NULL,
     [HoursRequired]                 INT            NULL,

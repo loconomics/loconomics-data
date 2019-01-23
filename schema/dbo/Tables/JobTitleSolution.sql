@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[JobTitleSolution] (
     [JobTitleID]      INT                NOT NULL,
     [SolutionID]      INT                NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [DefaultSelected] BIT                NULL,
     [DisplayRank]     INT                NULL,
     [CreatedDate]     DATETIMEOFFSET (7) NOT NULL,

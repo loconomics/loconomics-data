@@ -9,7 +9,7 @@
     [ProviderPackageServiceDuration] INT            NOT NULL,
     [FirstTimeClientsOnly]           BIT            CONSTRAINT [DF__providerp__First__1BD30ED5] DEFAULT ((0)) NOT NULL,
     [NumberOfSessions]               INT            CONSTRAINT [DF__providerp__Numbe__1CC7330E] DEFAULT ((1)) NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]                    DATETIME       NOT NULL,
     [UpdatedDate]                    DATETIME       NOT NULL,
     [ModifiedBy]                     VARCHAR (25)   NOT NULL,

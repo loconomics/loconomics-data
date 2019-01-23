@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[pricingtype] (
     [PricingTypeID] INT          NOT NULL,
     [Description]   VARCHAR (50) NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]   DATETIME     NOT NULL,
     [UpdatedDate]   DATETIME     NOT NULL,
     [ModifiedBy]    VARCHAR (50) NOT NULL,

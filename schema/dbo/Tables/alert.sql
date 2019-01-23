@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[alert] (
     [AlertID]                       INT            NOT NULL,
     [AlertTypeID]                   INT            NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [AlertName]                     VARCHAR (30)   NOT NULL,
     [AlertHeadlineDisplay]          VARCHAR (100)  NULL,
     [AlertTextDisplay]              VARCHAR (300)  NOT NULL,

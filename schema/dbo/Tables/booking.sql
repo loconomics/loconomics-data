@@ -3,7 +3,7 @@
     [ClientUserID]                     INT             NULL,
     [ServiceProfessionalUserID]        INT             NULL,
     [JobTitleID]                       INT             NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [BookingStatusID]                  INT             NOT NULL,
     [BookingTypeID]                    INT             NOT NULL,
     [CancellationPolicyID]             INT             NOT NULL,

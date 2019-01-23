@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[serviceattributecategory] (
     [ServiceAttributeCategoryID]          INT           NOT NULL,
     [ServiceAttributeCategory]            VARCHAR (200) NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreateDate]                          DATETIME      NULL,
     [UpdatedDate]                         DATETIME      NULL,
     [ModifiedBy]                          VARCHAR (20)  NULL,

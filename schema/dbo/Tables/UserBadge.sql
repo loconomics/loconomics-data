@@ -6,7 +6,7 @@
     [Type]        NVARCHAR (20)      NOT NULL,
     [Category]    NVARCHAR (50)      NOT NULL,
     [ExpiryDate]  DATETIMEOFFSET (0) NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate] DATETIMEOFFSET (0) NOT NULL,
     [UpdatedDate] DATETIMEOFFSET (0) NOT NULL,
     [CreatedBy]   NVARCHAR (4)       NOT NULL,

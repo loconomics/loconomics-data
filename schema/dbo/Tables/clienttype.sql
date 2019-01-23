@@ -2,7 +2,7 @@
     [ClientTypeID]         INT           NOT NULL,
     [ClientTypeName]        VARCHAR (50)  NOT NULL,
     [ClientTypeDescription] VARCHAR (500) NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]           DATETIME      NOT NULL,
     [UpdatedDate]           DATETIME      NOT NULL,
     [ModifiedBy]            VARCHAR (25)  NULL,

@@ -9,6 +9,6 @@
     [UpdatedDate]                         DATETIME       NOT NULL,
     [ModifiedBy]                          VARCHAR (25)   NOT NULL,
     [Active]                              BIT            NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     CONSTRAINT [PK__licensec__65E993A46F0B5556] PRIMARY KEY CLUSTERED ([LicenseCertificationID] ASC)
 );

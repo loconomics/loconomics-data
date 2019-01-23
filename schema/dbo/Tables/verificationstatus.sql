@@ -2,7 +2,7 @@
     [VerificationStatusID]                 INT           NOT NULL,
     [VerificationStatusName]               VARCHAR (50)  NOT NULL,
     [VerificationStatusDisplayDescription] VARCHAR (300) NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]                          DATETIME      NOT NULL,
     [UpdatedDate]                          DATETIME      NOT NULL,
     [ModifiedBy]                           VARCHAR (25)  NOT NULL,

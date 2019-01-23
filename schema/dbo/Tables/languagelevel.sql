@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[languagelevel] (
     [LanguageLevelID]          INT            IDENTITY (1, 1) NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [LanguageLevelName]        VARCHAR (140)  NOT NULL,
     [LanguageLevelDescription] VARCHAR (2000) NULL,
     [CreatedDate]              DATETIME       NOT NULL,

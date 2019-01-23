@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ExperienceLevel] (
     [ExperienceLevelID]          INT           IDENTITY (1, 1) NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [ExperienceLevelName]        VARCHAR (140) NOT NULL,
     [ExperienceLevelDescription] VARCHAR (140) NULL,
     [CreatedDate]                DATETIME      NOT NULL,

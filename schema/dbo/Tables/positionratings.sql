@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[positionratings] (
     [PositionID]                INT            NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [Rating1]                   VARCHAR (25)   NOT NULL,
     [Rating2]                   VARCHAR (25)   NOT NULL,
     [Rating3]                   VARCHAR (25)   NOT NULL,

@@ -5,7 +5,7 @@
     [Description]         NVARCHAR (100)     NULL,
     [Image]               NVARCHAR (255)     NULL,
     [DisplayRank]         INT                NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]         DATETIMEOFFSET (7) NOT NULL,
     [UpdatedDate]         DATETIMEOFFSET (7) NOT NULL,
     [ModifiedBy]          NVARCHAR (4)       DEFAULT ('sys') NOT NULL,

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[country] (
     [CountryID]          INT           NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CountryName]        VARCHAR (100) NOT NULL,
     [CountryCode]        VARCHAR (3)   NOT NULL,
     [CountryCodeAlpha2]  CHAR (2)      NULL,

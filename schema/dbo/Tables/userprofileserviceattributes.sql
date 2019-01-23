@@ -3,7 +3,7 @@
     [PositionID]                 INT         NOT NULL,
     [ServiceAttributeCategoryID] INT         NOT NULL,
     [ServiceAttributeID]         INT         NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreateDate]                 DATETIME    NULL,
     [UpdatedDate]                DATETIME    NULL,
     [ModifiedBy]                 VARCHAR (3) NULL,

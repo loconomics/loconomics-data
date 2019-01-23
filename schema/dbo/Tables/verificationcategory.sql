@@ -2,7 +2,7 @@
     [VerificationCategoryID]          INT            NOT NULL,
     [VerificationCategoryName]        VARCHAR (100)  NOT NULL,
     [VerificationCategoryDescription] VARCHAR (1000) NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]                     DATETIME       NOT NULL,
     [UpdatedDate]                     DATETIME       NOT NULL,
     [ModifiedBy]                      VARCHAR (25)   NOT NULL,

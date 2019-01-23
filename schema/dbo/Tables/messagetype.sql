@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[messagetype] (
     [MessageTypeID]          INT           NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [MessageTypeName]        VARCHAR (50)  NULL,
     [MessageTypeDescription] VARCHAR (200) NULL,
     [CreatedDate]            DATETIME      NOT NULL,

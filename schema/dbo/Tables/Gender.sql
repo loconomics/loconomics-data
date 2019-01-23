@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Gender] (
     [GenderID]         INT           NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [GenderSingular]   NVARCHAR (16) NOT NULL,
     [GenderPlural]     NVARCHAR (16) NOT NULL,
     [SubjectPronoun]   VARCHAR (25)  NULL,

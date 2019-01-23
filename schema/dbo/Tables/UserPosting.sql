@@ -7,7 +7,7 @@
     [statusID]                 INT                NOT NULL,
     [neededSpecializationIDs]  VARCHAR (300)      NULL,
     [desiredSpecializationIDs] VARCHAR (300)      NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [createdDate]              DATETIMEOFFSET (0) NOT NULL,
     [updatedDate]              DATETIMEOFFSET (0) NOT NULL,
     [modifiedBy]               NVARCHAR (10)      NOT NULL,

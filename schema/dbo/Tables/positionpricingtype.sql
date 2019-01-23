@@ -2,7 +2,7 @@
     [PositionID]    INT          NOT NULL,
     [PricingTypeID] INT          NOT NULL,
     [ClientTypeID]  INT          NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]   DATETIME     NOT NULL,
     [UpdatedDate]   DATETIME     NOT NULL,
     [ModifiedBy]    VARCHAR (25) NOT NULL,

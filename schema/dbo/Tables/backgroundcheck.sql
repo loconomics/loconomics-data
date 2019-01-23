@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[backgroundcheck] (
     [BackgroundCheckID]          INT            NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [BackgroundCheckName]        VARCHAR (100)  NOT NULL,
     [BackgroundCheckDescription] VARCHAR (1000) NULL,
     [CreatedDate]                DATETIME       NOT NULL,

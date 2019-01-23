@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[addresstype] (
     [AddressTypeID] INT          NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [AddressType]   VARCHAR (50) NULL,
     [CreatedDate]   DATETIME     NOT NULL,
     [UpdatedDate]   DATETIME     NOT NULL,

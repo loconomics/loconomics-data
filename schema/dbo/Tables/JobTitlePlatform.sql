@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[JobTitlePlatform] (
     [JobTitleID]  INT                NOT NULL,
     [PlatformID]  INT                NOT NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate] DATETIMEOFFSET (0) NOT NULL,
     [UpdatedDate] DATETIMEOFFSET (0) NOT NULL,
     [ModifiedBy]  NVARCHAR (4)       NOT NULL,

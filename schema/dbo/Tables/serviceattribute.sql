@@ -3,7 +3,7 @@
     [SourceID]                    INT            DEFAULT (NULL) NULL,
     [Name]                        VARCHAR (100)  NULL,
     [ServiceAttributeDescription] VARCHAR (2000) NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreateDate]                  DATETIME       NULL,
     [UpdatedDate]                 DATETIME       NULL,
     [ModifiedBy]                  VARCHAR (45)   NULL,

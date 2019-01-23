@@ -4,7 +4,7 @@
     [VerificationDescription] VARCHAR (1000) NOT NULL,
     [VerificationProcess]     VARCHAR (500)  NULL,
     [Icon]                    VARCHAR (15)   NULL,
-    [language]      NVARCHAR (42) NOT NULL,
+    [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
     [CreatedDate]             DATETIME       NOT NULL,
     [ModifiedDate]            DATETIME       NOT NULL,
     [ModifiedBy]              VARCHAR (25)   NULL,
