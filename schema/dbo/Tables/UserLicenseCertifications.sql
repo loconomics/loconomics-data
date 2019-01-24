@@ -25,4 +25,4 @@
 GO
 
 ALTER TABLE [dbo].[UserLicenseCertifications] ADD
-    CONSTRAINT [FK_userlicen__ProviderUserID] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID]))
+    CONSTRAINT [FK_userlicen__ProviderUserID] FOREIGN KEY ([ProviderUserID]) REFERENCES [dbo].[users] ([UserID])

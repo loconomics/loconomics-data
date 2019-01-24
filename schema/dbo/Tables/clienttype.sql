@@ -12,5 +12,5 @@
 
 GO
 CREATE NONCLUSTERED INDEX [idx_clienttype]
-    ON [dbo].[clienttype]([ClientTypeID] ASC, [CountryID] ASC);
+    ON [dbo].[clienttype]([ClientTypeID] ASC);
 

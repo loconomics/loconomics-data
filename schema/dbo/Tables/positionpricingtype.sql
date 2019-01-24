@@ -16,5 +16,3 @@ ALTER TABLE [dbo].[positionpricingtype] ADD
     CONSTRAINT [Fk_positionpricingtype] FOREIGN KEY ([PricingTypeID]) REFERENCES [dbo].[pricingtype] ([PricingTypeID]),
     CONSTRAINT [Fk_positionpricingtype_0] FOREIGN KEY ([PositionID]) REFERENCES [dbo].[positions] ([PositionID]),
     CONSTRAINT [Fk_positionpricingtype_1] FOREIGN KEY ([ClientTypeID]) REFERENCES [dbo].[clienttype] ([ClientTypeID])
-);
-
