@@ -58,7 +58,7 @@ ALTER TABLE [dbo].[booking] ADD
     CONSTRAINT [FK__booking__client] FOREIGN KEY ([ClientUserID]) REFERENCES [dbo].[users] ([UserID]),
     CONSTRAINT [FK__booking__jobtitle] FOREIGN KEY ([JobTitleID]) REFERENCES [dbo].[positions] ([PositionID]),
     CONSTRAINT [FK__booking__parentbooking] FOREIGN KEY ([ParentBookingID]) REFERENCES [dbo].[booking] ([BookingID]),
-    CONSTRAINT [FK__booking__pricingSummary] FOREIGN KEY ([PricingSummaryID]) REFERENCES [dbo].[pricingSummary] ([PricingSummaryID]),
+    CONSTRAINT [FK__booking__pricingSummary] FOREIGN KEY ([PricingSummaryID], [PricingSummaryRevision]) REFERENCES [dbo].[pricingSummary] ([PricingSummaryID], [PricingSummaryRevision]),
     CONSTRAINT [FK__booking__serviceAddress] FOREIGN KEY ([ServiceAddressID]) REFERENCES [dbo].[address] ([AddressID]),
     CONSTRAINT [FK__booking__serviceDate] FOREIGN KEY ([ServiceDateID]) REFERENCES [dbo].[CalendarEvents] ([Id]),
     CONSTRAINT [FK__booking__serviceProfessional] FOREIGN KEY ([ServiceProfessionalUserID]) REFERENCES [dbo].[users] ([UserID]),

@@ -2,8 +2,7 @@
 
 @UserID int,
 @PositionID int,
-@LanguageID int,
-@CountryID int,
+@Language nvarchar(42),
 @CancellationPolicyID int,
 @Intro varchar(400) = '',
 @InstantBooking bit = 0,
@@ -18,10 +17,10 @@ DECLARE @userListingID int
 BEGIN TRY
 
 	INSERT INTO userprofilepositions (
-		UserID, PositionID, LanguageID, CountryID, CreateDate, UpdatedDate, ModifiedBy, Active, StatusID, PositionIntro, CancellationPolicyID, InstantBooking,
+		UserID, PositionID, Language, CreateDate, UpdatedDate, ModifiedBy, Active, StatusID, PositionIntro, CancellationPolicyID, InstantBooking,
 		collectPaymentAtBookMeButton, Title
 	) VALUES(
-		@UserID,@PositionID,@LanguageID,@CountryID, GETDATE(), GETDATE(), 'sys', 1, 2, @Intro, @CancellationPolicyID, @InstantBooking,
+		@UserID,@PositionID,@Language, GETDATE(), GETDATE(), 'sys', 1, 2, @Intro, @CancellationPolicyID, @InstantBooking,
 		@collectPaymentAtBookMeButton, @title
 	)
 
@@ -48,7 +47,7 @@ BEGIN
 
 	IF EXISTS (SELECT * FROM UserProfilePositions WHERE
 		UserID = @UserID AND PositionID = @PositionID
-		AND LanguageID = @LanguageID AND CountryID = @CountryID
+		AND Language = @Language
 		AND Active = 0) BEGIN
 		
 		SELECT 'Position could not be added' As Result
@@ -66,7 +65,7 @@ BEGIN
 			,collectPaymentAtBookMeButton = @collectPaymentAtBookMeButton
 		WHERE 
 			UserID = @UserID AND PositionID = @PositionID
-			AND LanguageID = @LanguageID AND CountryID = @CountryID
+			AND Language = @Language
 			
 		-- Check alerts for the position to get its state updated
 		EXEC TestAllUserAlerts @UserID, @PositionID
@@ -74,7 +73,7 @@ BEGIN
 		SELECT @userListingID = userListingID FROM UserProfilePositions
 		WHERE 
 			UserID = @UserID AND PositionID = @PositionID
-			AND LanguageID = @LanguageID AND CountryID = @CountryID
+			AND Language = @Language
 
 		SELECT 'Success' as Result, @userListingID as userListingID
 	END

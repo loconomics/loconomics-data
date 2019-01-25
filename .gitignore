@@ -6,3 +6,4 @@ output
 schema.sql
 build/
 entities.generated
+/schema/schema.dbmdl

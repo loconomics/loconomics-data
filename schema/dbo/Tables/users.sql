@@ -8,6 +8,7 @@
     [PublicBio]                        VARCHAR (4000)     NULL,
     [GenderID]                         INT                CONSTRAINT [DF_users_GenderID] DEFAULT ((-1)) NOT NULL,
     [PreferredLanguage]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
+	[SignupCountryCode]      NVARCHAR(2) NULL,
     [IsProvider]                       BIT                CONSTRAINT [DF__users__IsProvide__3943762B] DEFAULT ((0)) NOT NULL,
     [IsCustomer]                       BIT                CONSTRAINT [DF__users__IsCustome__3A379A64] DEFAULT ((0)) NOT NULL,
     [IsAdmin]                          BIT                DEFAULT ((0)) NOT NULL,

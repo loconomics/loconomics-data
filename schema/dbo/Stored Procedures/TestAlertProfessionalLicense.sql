@@ -47,8 +47,6 @@ BEGIN
                  OR
                 -- Has all required licenses
                 (
-                    countryLevel = 0
-                     AND
                     stateProvinceLevel = 0
                      AND
                     countyLevel = 0
@@ -73,42 +71,6 @@ BEGIN
         -- Check that user has that position (this is a position related alert). If it has not (=0), alert will off because doesn't affect:
         DECLARE @userHasPosition int
         SELECT @userHasPosition = count(*) FROM userprofilepositions WHERE UserID=@UserID AND PositionID=@PositionID
-
-        -- Check if the user has all the required licenses (can be 0 if 0 are required) 
-        -- Check Country-level 
-        DECLARE @countryLevel int
-        SELECT
-            @countryLevel = COUNT(*)
-        FROM
-            jobTitleLicense JL
-            INNER JOIN
-            Country C
-            ON JL.countryID = C.countryID
-            LEFT JOIN
-            userLicenseCertifications UL
-            ON JL.LicenseCertificationID = UL.LicenseCertificationID
-            AND UL.ProviderUserID = @userID
-        WHERE
-            JL.positionID in (@PositionID, -1) 
-            AND C.languageID = (SELECT PreferredLanguageID FROM users WHERE UserID = @userID)
-            AND C.countryID in (SELECT
-            P.countryID
-        FROM
-            serviceaddress As SA
-             INNER JOIN
-            address As A
-              ON A.AddressID = SA.AddressID
-             INNER JOIN
-            postalcode As P
-            ON A.PostalCodeID = P.PostalCodeID
-        WHERE
-            SA.UserID = @userID
-            AND SA.PositionID = @PositionID
-            AND JL.Active = 1
-            AND P.countryID not in ('0','-1')
-            AND JL.Required = @IsRequired
-        GROUP BY
-            P.countryID)
         
         -- Check StateProvince-level 
         DECLARE @stateProvinceLevel int
@@ -260,7 +222,7 @@ BEGIN
                                     AND UL.ProviderUserID = @userID
                                 WHERE
                                     JL.positionID in (@PositionID, -1) 
-                                    AND C.languageID = (SELECT PreferredLanguageID FROM users WHERE UserID = @userID)
+                                    AND C.language = (SELECT PreferredLanguage FROM users WHERE UserID = @userID)
                                     AND C.countryID in
                                     (
                                         SELECT
@@ -419,8 +381,6 @@ BEGIN
              OR
             -- Has all required licenses
             (
-                @countryLevel = 0
-                 AND
                 @stateProvinceLevel = 0
                  AND
                 @countyLevel = 0
