@@ -100,6 +100,13 @@ export class User {
         })
     preferredLanguage: string;
 
+    @Column("nvarchar",{
+        nullable:true,
+        length:2,
+        name:"SignupCountryCode",
+        })
+    signupCountryCode: string;
+
     @Column("bit",{
         nullable:false,
         default:"((0))",
