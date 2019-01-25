@@ -34,12 +34,6 @@ export class CalendarAvailabilityType {
         })
     language: string;
 
-    @Column("int",{
-        nullable:false,
-        name:"CountryID",
-        })
-    countryId: number;
-
     @Column("nvarchar",{
         nullable:false,
         length:50,

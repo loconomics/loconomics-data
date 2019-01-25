@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[CalendarAvailabilityType] (
     [CalendarAvailabilityTypeID]          INT            NOT NULL,
     [language]      NVARCHAR (42) DEFAULT ('en-US') NOT NULL,
-    [CountryID]                           INT            NOT NULL,
     [CalendarAvailabilityTypeName]        NVARCHAR (50)  NOT NULL,
     [CalendarAvailabilityTypeDescription] NVARCHAR (300) NOT NULL,
     [UserDescription]                     VARCHAR (500)  NULL,
