@@ -1,132 +1,394 @@
 import "reflect-metadata"
 import {createConnection} from "typeorm"
 
-export default createConnection
+import {AccountStatus} from "./entities/AccountStatus"
+import {Address} from "./entities/Address"
+import {AddressType} from "./entities/AddressType"
+import {Alert} from "./entities/Alert"
+import {AlertType} from "./entities/AlertType"
+import {Authorization} from "./entities/Authorization"
+import {BackgroundCheck} from "./entities/BackgroundCheck"
+import {Booking} from "./entities/Booking"
+import {BookingStatus} from "./entities/BookingStatus"
+import {BookingType} from "./entities/BookingType"
+import {CalendarAvailabilityType} from "./entities/CalendarAvailabilityType"
+import {CalendarEvent} from "./entities/CalendarEvent"
+import {CalendarEventAttendee} from "./entities/CalendarEventAttendee"
+import {CalendarEventComment} from "./entities/CalendarEventComment"
+import {CalendarEventContact} from "./entities/CalendarEventContact"
+import {CalendarEventExceptionPeriod} from "./entities/CalendarEventExceptionPeriod"
+import {CalendarEventExceptionPeriodList} from "./entities/CalendarEventExceptionPeriodList"
+import {CalendarEventRecurrencePeriod} from "./entities/CalendarEventRecurrencePeriod"
+import {CalendarEventRecurrencePeriodList} from "./entities/CalendarEventRecurrencePeriodList"
+import {CalendarEventType} from "./entities/CalendarEventType"
+import {CalendarProviderAttribute} from "./entities/CalendarProviderAttribute"
+import {CalendarRecurrence} from "./entities/CalendarRecurrence"
+import {CalendarRecurrenceFrequencyType} from "./entities/CalendarRecurrenceFrequencyType"
+import {CancellationPolicy} from "./entities/CancellationPolicy"
+import {CCCUser} from "./entities/CCCUser"
+import {ClientType} from "./entities/ClientType"
+import {Country} from "./entities/Country"
+import {County} from "./entities/County"
+import {ExperienceLevel} from "./entities/ExperienceLevel"
+import {FieldOfStudy} from "./entities/FieldOfStudy"
+import {Gender} from "./entities/Gender"
+import {Institution} from "./entities/Institution"
+import {JobTitleLicense} from "./entities/JobTitleLicense"
+import {JobTitlePlatform} from "./entities/JobTitlePlatform"
+import {LanguageLevel} from "./entities/LanguageLevel"
+import {LicenseCertification} from "./entities/LicenseCertification"
+import {Message} from "./entities/Message"
+import {MessageThreadStatus} from "./entities/MessageThreadStatus"
+import {MessageType} from "./entities/MessageType"
+import {MessagingThread} from "./entities/MessagingThread"
+import {Municipality} from "./entities/Municipality"
+import {OwnerAcknowledgment} from "./entities/OwnerAcknowledgment"
+import {OwnerStatus} from "./entities/OwnerStatus"
+import {OwnerStatusHistory} from "./entities/OwnerStatusHistory"
+import {Platform} from "./entities/Platform"
+import {Position} from "./entities/Position"
+import {PositionBackgroundCheck} from "./entities/PositionBackgroundCheck"
+import {PositionPricingType} from "./entities/PositionPricingType"
+import {PositionRating} from "./entities/PositionRating"
+import {PostalCode} from "./entities/PostalCode"
+import {PostingTemplate} from "./entities/PostingTemplate"
+import {PostingTemplateQuestion} from "./entities/PostingTemplateQuestion"
+import {PricingGroup} from "./entities/PricingGroup"
+import {PricingSummary} from "./entities/PricingSummary"
+import {PricingSummaryDetail} from "./entities/PricingSummaryDetail"
+import {PricingType} from "./entities/PricingType"
+import {PricingVariableDefinition} from "./entities/PricingVariableDefinition"
+import {PricingVariableValue} from "./entities/PricingVariableValue"
+import {ProviderPackage} from "./entities/ProviderPackage"
+import {ProviderPackageDetail} from "./entities/ProviderPackageDetail"
+import {ProviderPaymentAccount} from "./entities/ProviderPaymentAccount"
+import {ProviderPaymentPreference} from "./entities/ProviderPaymentPreference"
+import {ProviderPaymentPreferenceType} from "./entities/ProviderPaymentPreferenceType"
+import {ProviderServicePhoto} from "./entities/ProviderServicePhoto"
+import {ProviderTaxForm} from "./entities/ProviderTaxForm"
+import {Question} from "./entities/Question"
+import {QuestionType} from "./entities/QuestionType"
+import {ReferralSource} from "./entities/ReferralSource"
+import {SearchCategory} from "./entities/SearchCategory"
+import {SearchSubcategory} from "./entities/SearchSubcategory"
+import {SearchSubcategorySolution} from "./entities/SearchSubcategorySolution"
+import {ServiceAddress} from "./entities/ServiceAddress"
+import {ServiceAttribute} from "./entities/ServiceAttribute"
+import {ServiceAttributeExperienceLevel} from "./entities/ServiceAttributeExperienceLevel"
+import {ServiceAttributeCategory} from "./entities/ServiceAttributeCategory"
+import {ServiceAttributeLanguageLevel} from "./entities/ServiceAttributeLanguageLevel"
+import {ServiceCategory} from "./entities/ServiceCategory"
+import {ServiceCategoryPosition} from "./entities/ServiceCategoryPosition"
+import {ServiceCategoryPositionAttribute} from "./entities/ServiceCategoryPositionAttribute"
+import {ServiceProfessionalClient} from "./entities/ServiceProfessionalClient"
+import {ServiceSubcategory} from "./entities/ServiceSubcategory"
+import {Solution} from "./entities/Solution"
+import {Specialization} from "./entities/Specialization"
+import {StateProvince} from "./entities/StateProvince"
+import {TaxEntityType} from "./entities/TaxEntityType"
+import {TinType} from "./entities/TinType"
+import {TransportType} from "./entities/TransportType"
+import {User} from "./entities/User"
+import {UserAlert} from "./entities/UserAlert"
+import {UserBadge} from "./entities/UserBadge"
+import {UserEarning} from "./entities/UserEarning"
+import {UserEarningsEntry} from "./entities/UserEarningsEntry"
+import {UserExternalListing} from "./entities/UserExternalListing"
+import {UserFeePayment} from "./entities/UserFeePayment"
+import {UserListingSpecialization} from "./entities/UserListingSpecialization"
+import {UserPaymentPlan} from "./entities/UserPaymentPlan"
+import {UserBackgroundCheck} from "./entities/UserBackgroundCheck"
+import {UserEducation} from "./entities/UserEducation"
+import {UserLicenseCertification} from "./entities/UserLicenseCertification"
+import {UserOrganization} from "./entities/UserOrganization"
+import {UserPosting} from "./entities/UserPosting"
+import {UserPostingQuestionResponse} from "./entities/UserPostingQuestionResponse"
+import {UserPostingReaction} from "./entities/UserPostingReaction"
+import {UserProfile} from "./entities/UserProfile"
+import {UserProfilePosition} from "./entities/UserProfilePosition"
+import {UserProfileServiceAttribute} from "./entities/UserProfileServiceAttribute"
+import {UserReview} from "./entities/UserReview"
+import {UserReviewScore} from "./entities/UserReviewScore"
+import {UserSignup} from "./entities/UserSignup"
+import {UserSolution} from "./entities/UserSolution"
+import {UserStat} from "./entities/UserStat"
+import {UserVerification} from "./entities/UserVerification"
+import {Verification} from "./entities/Verification"
+import {VerificationCategory} from "./entities/VerificationCategory"
+import {VerificationStatus} from "./entities/VerificationStatus"
+import {VOCElement} from "./entities/VOCElement"
+import {VOCExperienceCategory} from "./entities/VOCExperienceCategory"
+import {VOCFeedback} from "./entities/VOCFeedback"
+import {VOCFlag} from "./entities/VOCFlag"
+import {VOCScore} from "./entities/VOCScore"
+import {WebpageFacebookCredential} from "./entities/WebpageFacebookCredential"
+import {WebpageMembership} from "./entities/WebpageMembership"
+import {WebpageOAuthMembership} from "./entities/WebpageOAuthMembership"
+import {WebpageRole} from "./entities/WebpageRole"
+import {XJobTitlePricing} from "./entities/XJobTitlePricing"
+import {XJobTitleReviewRule} from "./entities/XJobTitleReviewRule"
+import {XServiceProfessionalPricing} from "./entities/XServiceProfessionalPricing"
 
-export {AccountStatus} from "./entities/AccountStatus"
-export {Address} from "./entities/Address"
-export {AddressType} from "./entities/AddressType"
-export {Alert} from "./entities/Alert"
-export {AlertType} from "./entities/AlertType"
-export {Authorization} from "./entities/Authorization"
-export {BackgroundCheck} from "./entities/BackgroundCheck"
-export {Booking} from "./entities/Booking"
-export {BookingStatus} from "./entities/BookingStatus"
-export {BookingType} from "./entities/BookingType"
-export {CalendarAvailabilityType} from "./entities/CalendarAvailabilityType"
-export {CalendarEvent} from "./entities/CalendarEvent"
-export {CalendarEventAttendee} from "./entities/CalendarEventAttendee"
-export {CalendarEventComment} from "./entities/CalendarEventComment"
-export {CalendarEventContact} from "./entities/CalendarEventContact"
-export {CalendarEventExceptionPeriod} from "./entities/CalendarEventExceptionPeriod"
-export {CalendarEventExceptionPeriodList} from "./entities/CalendarEventExceptionPeriodList"
-export {CalendarEventRecurrencePeriod} from "./entities/CalendarEventRecurrencePeriod"
-export {CalendarEventRecurrencePeriodList} from "./entities/CalendarEventRecurrencePeriodList"
-export {CalendarEventType} from "./entities/CalendarEventType"
-export {CalendarProviderAttribute} from "./entities/CalendarProviderAttribute"
-export {CalendarRecurrence} from "./entities/CalendarRecurrence"
-export {CalendarRecurrenceFrequencyType} from "./entities/CalendarRecurrenceFrequencyType"
-export {CancellationPolicy} from "./entities/CancellationPolicy"
-export {CCCUser} from "./entities/CCCUser"
-export {ClientType} from "./entities/ClientType"
-export {Country} from "./entities/Country"
-export {County} from "./entities/County"
-export {ExperienceLevel} from "./entities/ExperienceLevel"
-export {FieldOfStudy} from "./entities/FieldOfStudy"
-export {Gender} from "./entities/Gender"
-export {Institution} from "./entities/Institution"
-export {JobTitleLicense} from "./entities/JobTitleLicense"
-export {JobTitlePlatform} from "./entities/JobTitlePlatform"
-export {LanguageLevel} from "./entities/LanguageLevel"
-export {LicenseCertification} from "./entities/LicenseCertification"
-export {Message} from "./entities/Message"
-export {MessageThreadStatus} from "./entities/MessageThreadStatus"
-export {MessageType} from "./entities/MessageType"
-export {MessagingThread} from "./entities/MessagingThread"
-export {Municipality} from "./entities/Municipality"
-export {OwnerAcknowledgment} from "./entities/OwnerAcknowledgment"
-export {OwnerStatus} from "./entities/OwnerStatus"
-export {OwnerStatusHistory} from "./entities/OwnerStatusHistory"
-export {Platform} from "./entities/Platform"
-export {Position} from "./entities/Position"
-export {PositionBackgroundCheck} from "./entities/PositionBackgroundCheck"
-export {PositionPricingType} from "./entities/PositionPricingType"
-export {PositionRating} from "./entities/PositionRating"
-export {PostalCode} from "./entities/PostalCode"
-export {PostingTemplate} from "./entities/PostingTemplate"
-export {PostingTemplateQuestion} from "./entities/PostingTemplateQuestion"
-export {PricingGroup} from "./entities/PricingGroup"
-export {PricingSummary} from "./entities/PricingSummary"
-export {PricingSummaryDetail} from "./entities/PricingSummaryDetail"
-export {PricingType} from "./entities/PricingType"
-export {PricingVariableDefinition} from "./entities/PricingVariableDefinition"
-export {PricingVariableValue} from "./entities/PricingVariableValue"
-export {ProviderPackage} from "./entities/ProviderPackage"
-export {ProviderPackageDetail} from "./entities/ProviderPackageDetail"
-export {ProviderPaymentAccount} from "./entities/ProviderPaymentAccount"
-export {ProviderPaymentPreference} from "./entities/ProviderPaymentPreference"
-export {ProviderPaymentPreferenceType} from "./entities/ProviderPaymentPreferenceType"
-export {ProviderServicePhoto} from "./entities/ProviderServicePhoto"
-export {ProviderTaxForm} from "./entities/ProviderTaxForm"
-export {Question} from "./entities/Question"
-export {QuestionType} from "./entities/QuestionType"
-export {ReferralSource} from "./entities/ReferralSource"
-export {SearchCategory} from "./entities/SearchCategory"
-export {SearchSubcategory} from "./entities/SearchSubcategory"
-export {SearchSubcategorySolution} from "./entities/SearchSubcategorySolution"
-export {ServiceAddress} from "./entities/ServiceAddress"
-export {ServiceAttribute} from "./entities/ServiceAttribute"
-export {ServiceAttributeExperienceLevel} from "./entities/ServiceAttributeExperienceLevel"
-export {ServiceAttributeCategory} from "./entities/ServiceAttributeCategory"
-export {ServiceAttributeLanguageLevel} from "./entities/ServiceAttributeLanguageLevel"
-export {ServiceCategory} from "./entities/ServiceCategory"
-export {ServiceCategoryPosition} from "./entities/ServiceCategoryPosition"
-export {ServiceCategoryPositionAttribute} from "./entities/ServiceCategoryPositionAttribute"
-export {ServiceProfessionalClient} from "./entities/ServiceProfessionalClient"
-export {ServiceSubcategory} from "./entities/ServiceSubcategory"
-export {Solution} from "./entities/Solution"
-export {Specialization} from "./entities/Specialization"
-export {StateProvince} from "./entities/StateProvince"
-export {TaxEntityType} from "./entities/TaxEntityType"
-export {TinType} from "./entities/TinType"
-export {TransportType} from "./entities/TransportType"
-export {User} from "./entities/User"
-export {UserAlert} from "./entities/UserAlert"
-export {UserBadge} from "./entities/UserBadge"
-export {UserEarning} from "./entities/UserEarning"
-export {UserEarningsEntry} from "./entities/UserEarningsEntry"
-export {UserExternalListing} from "./entities/UserExternalListing"
-export {UserFeePayment} from "./entities/UserFeePayment"
-export {UserListingSpecialization} from "./entities/UserListingSpecialization"
-export {UserPaymentPlan} from "./entities/UserPaymentPlan"
-export {UserBackgroundCheck} from "./entities/UserBackgroundCheck"
-export {UserEducation} from "./entities/UserEducation"
-export {UserLicenseCertification} from "./entities/UserLicenseCertification"
-export {UserOrganization} from "./entities/UserOrganization"
-export {UserPosting} from "./entities/UserPosting"
-export {UserPostingQuestionResponse} from "./entities/UserPostingQuestionResponse"
-export {UserPostingReaction} from "./entities/UserPostingReaction"
-export {UserProfile} from "./entities/UserProfile"
-export {UserProfilePosition} from "./entities/UserProfilePosition"
-export {UserProfileServiceAttribute} from "./entities/UserProfileServiceAttribute"
-export {UserReview} from "./entities/UserReview"
-export {UserReviewScore} from "./entities/UserReviewScore"
-export {UserSignup} from "./entities/UserSignup"
-export {UserSolution} from "./entities/UserSolution"
-export {UserStat} from "./entities/UserStat"
-export {UserVerification} from "./entities/UserVerification"
-export {Verification} from "./entities/Verification"
-export {VerificationCategory} from "./entities/VerificationCategory"
-export {VerificationStatus} from "./entities/VerificationStatus"
-export {VOCElement} from "./entities/VOCElement"
-export {VOCExperienceCategory} from "./entities/VOCExperienceCategory"
-export {VOCFeedback} from "./entities/VOCFeedback"
-export {VOCFlag} from "./entities/VOCFlag"
-export {VOCScore} from "./entities/VOCScore"
-export {WebpageFacebookCredential} from "./entities/WebpageFacebookCredential"
-export {WebpageMembership} from "./entities/WebpageMembership"
-export {WebpageOAuthMembership} from "./entities/WebpageOAuthMembership"
-export {WebpageRole} from "./entities/WebpageRole"
-export {XJobTitlePricing} from "./entities/XJobTitlePricing"
-export {XJobTitleReviewRule} from "./entities/XJobTitleReviewRule"
-export {XServiceProfessionalPricing} from "./entities/XServiceProfessionalPricing"
+export {
+  AccountStatus,
+  Address,
+  AddressType,
+  Alert,
+  AlertType,
+  Authorization,
+  BackgroundCheck,
+  Booking,
+  BookingStatus,
+  BookingType,
+  CalendarAvailabilityType,
+  CalendarEvent,
+  CalendarEventAttendee,
+  CalendarEventComment,
+  CalendarEventContact,
+  CalendarEventExceptionPeriod,
+  CalendarEventExceptionPeriodList,
+  CalendarEventRecurrencePeriod,
+  CalendarEventRecurrencePeriodList,
+  CalendarEventType,
+  CalendarProviderAttribute,
+  CalendarRecurrence,
+  CalendarRecurrenceFrequencyType,
+  CancellationPolicy,
+  CCCUser,
+  ClientType,
+  Country,
+  County,
+  ExperienceLevel,
+  FieldOfStudy,
+  Gender,
+  Institution,
+  JobTitleLicense,
+  JobTitlePlatform,
+  LanguageLevel,
+  LicenseCertification,
+  Message,
+  MessageThreadStatus,
+  MessageType,
+  MessagingThread,
+  Municipality,
+  OwnerAcknowledgment,
+  OwnerStatus,
+  OwnerStatusHistory,
+  Platform,
+  Position,
+  PositionBackgroundCheck,
+  PositionPricingType,
+  PositionRating,
+  PostalCode,
+  PostingTemplate,
+  PostingTemplateQuestion,
+  PricingGroup,
+  PricingSummary,
+  PricingSummaryDetail,
+  PricingType,
+  PricingVariableDefinition,
+  PricingVariableValue,
+  ProviderPackage,
+  ProviderPackageDetail,
+  ProviderPaymentAccount,
+  ProviderPaymentPreference,
+  ProviderPaymentPreferenceType,
+  ProviderServicePhoto,
+  ProviderTaxForm,
+  Question,
+  QuestionType,
+  ReferralSource,
+  SearchCategory,
+  SearchSubcategory,
+  SearchSubcategorySolution,
+  ServiceAddress,
+  ServiceAttribute,
+  ServiceAttributeExperienceLevel,
+  ServiceAttributeCategory,
+  ServiceAttributeLanguageLevel,
+  ServiceCategory,
+  ServiceCategoryPosition,
+  ServiceCategoryPositionAttribute,
+  ServiceProfessionalClient,
+  ServiceSubcategory,
+  Solution,
+  Specialization,
+  StateProvince,
+  TaxEntityType,
+  TinType,
+  TransportType,
+  User,
+  UserAlert,
+  UserBadge,
+  UserEarning,
+  UserEarningsEntry,
+  UserExternalListing,
+  UserFeePayment,
+  UserListingSpecialization,
+  UserPaymentPlan,
+  UserBackgroundCheck,
+  UserEducation,
+  UserLicenseCertification,
+  UserOrganization,
+  UserPosting,
+  UserPostingQuestionResponse,
+  UserPostingReaction,
+  UserProfile,
+  UserProfilePosition,
+  UserProfileServiceAttribute,
+  UserReview,
+  UserReviewScore,
+  UserSignup,
+  UserSolution,
+  UserStat,
+  UserVerification,
+  Verification,
+  VerificationCategory,
+  VerificationStatus,
+  VOCElement,
+  VOCExperienceCategory,
+  VOCFeedback,
+  VOCFlag,
+  VOCScore,
+  WebpageFacebookCredential,
+  WebpageMembership,
+  WebpageOAuthMembership,
+  WebpageRole,
+  XJobTitlePricing,
+  XJobTitleReviewRule,
+  XServiceProfessionalPricing,
+}
+
+export default createConnection({
+  type: "mssql",
+  url: process.env.MSSQLSERVER_URL,
+  entities: [
+    AccountStatus,
+    Address,
+    AddressType,
+    Alert,
+    AlertType,
+    Authorization,
+    BackgroundCheck,
+    Booking,
+    BookingStatus,
+    BookingType,
+    CalendarAvailabilityType,
+    CalendarEvent,
+    CalendarEventAttendee,
+    CalendarEventComment,
+    CalendarEventContact,
+    CalendarEventExceptionPeriod,
+    CalendarEventExceptionPeriodList,
+    CalendarEventRecurrencePeriod,
+    CalendarEventRecurrencePeriodList,
+    CalendarEventType,
+    CalendarProviderAttribute,
+    CalendarRecurrence,
+    CalendarRecurrenceFrequencyType,
+    CancellationPolicy,
+    CCCUser,
+    ClientType,
+    Country,
+    County,
+    ExperienceLevel,
+    FieldOfStudy,
+    Gender,
+    Institution,
+    JobTitleLicense,
+    JobTitlePlatform,
+    LanguageLevel,
+    LicenseCertification,
+    Message,
+    MessageThreadStatus,
+    MessageType,
+    MessagingThread,
+    Municipality,
+    OwnerAcknowledgment,
+    OwnerStatus,
+    OwnerStatusHistory,
+    Platform,
+    Position,
+    PositionBackgroundCheck,
+    PositionPricingType,
+    PositionRating,
+    PostalCode,
+    PostingTemplate,
+    PostingTemplateQuestion,
+    PricingGroup,
+    PricingSummary,
+    PricingSummaryDetail,
+    PricingType,
+    PricingVariableDefinition,
+    PricingVariableValue,
+    ProviderPackage,
+    ProviderPackageDetail,
+    ProviderPaymentAccount,
+    ProviderPaymentPreference,
+    ProviderPaymentPreferenceType,
+    ProviderServicePhoto,
+    ProviderTaxForm,
+    Question,
+    QuestionType,
+    ReferralSource,
+    SearchCategory,
+    SearchSubcategory,
+    SearchSubcategorySolution,
+    ServiceAddress,
+    ServiceAttribute,
+    ServiceAttributeExperienceLevel,
+    ServiceAttributeCategory,
+    ServiceAttributeLanguageLevel,
+    ServiceCategory,
+    ServiceCategoryPosition,
+    ServiceCategoryPositionAttribute,
+    ServiceProfessionalClient,
+  ServiceSubcategory,
+    Solution,
+    Specialization,
+    StateProvince,
+    TaxEntityType,
+    TinType,
+    TransportType,
+    User,
+    UserAlert,
+    UserBadge,
+    UserEarning,
+    UserEarningsEntry,
+    UserExternalListing,
+    UserFeePayment,
+    UserListingSpecialization,
+    UserPaymentPlan,
+    UserBackgroundCheck,
+    UserEducation,
+    UserLicenseCertification,
+    UserOrganization,
+    UserPosting,
+    UserPostingQuestionResponse,
+    UserPostingReaction,
+    UserProfile,
+    UserProfilePosition,
+    UserProfileServiceAttribute,
+    UserReview,
+    UserReviewScore,
+    UserSignup,
+    UserSolution,
+    UserStat,
+    UserVerification,
+    Verification,
+    VerificationCategory,
+    VerificationStatus,
+    VOCElement,
+    VOCExperienceCategory,
+    VOCFeedback,
+    VOCFlag,
+    VOCScore,
+    WebpageFacebookCredential,
+    WebpageMembership,
+    WebpageOAuthMembership,
+    WebpageRole,
+    XJobTitlePricing,
+    XJobTitleReviewRule,
+    XServiceProfessionalPricing,
+  ]
+})
