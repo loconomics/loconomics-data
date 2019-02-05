@@ -18,6 +18,12 @@ import {User} from "./User"
 @Entity("UserEarnings",{schema:"dbo"})
 export class UserEarning {
 
+    @PrimaryGeneratedColumn({
+        name:"UserEarningID",
+    })
+    userEarningID: number;
+
+
     @ManyToOne((type)=>User, (User)=>User.userEarnings,{  nullable:false })
     @JoinColumn({ name:"UserID"})
     user: Promise<User | null>;

@@ -23,6 +23,7 @@ import {CalendarEventRecurrencePeriodList} from "./entities/CalendarEventRecurre
 import {CalendarEventType} from "./entities/CalendarEventType"
 import {CalendarProviderAttribute} from "./entities/CalendarProviderAttribute"
 import {CalendarRecurrence} from "./entities/CalendarRecurrence"
+import {CalendarRecurrenceFrequency} from "./entities/CalendarRecurrenceFrequency"
 import {CalendarRecurrenceFrequencyType} from "./entities/CalendarRecurrenceFrequencyType"
 import {CancellationPolicy} from "./entities/CancellationPolicy"
 import {CCCUser} from "./entities/CCCUser"
@@ -35,6 +36,7 @@ import {Gender} from "./entities/Gender"
 import {Institution} from "./entities/Institution"
 import {JobTitleLicense} from "./entities/JobTitleLicense"
 import {JobTitlePlatform} from "./entities/JobTitlePlatform"
+import {JobTitleSolution} from "./entities/JobTitleSolution"
 import {LanguageLevel} from "./entities/LanguageLevel"
 import {LicenseCertification} from "./entities/LicenseCertification"
 import {Message} from "./entities/Message"
@@ -152,6 +154,7 @@ export {
   CalendarEventType,
   CalendarProviderAttribute,
   CalendarRecurrence,
+  CalendarRecurrenceFrequency,
   CalendarRecurrenceFrequencyType,
   CancellationPolicy,
   CCCUser,
@@ -164,6 +167,7 @@ export {
   Institution,
   JobTitleLicense,
   JobTitlePlatform,
+  JobTitleSolution,
   LanguageLevel,
   LicenseCertification,
   Message,
@@ -285,6 +289,7 @@ export default createConnection({
     CalendarEventType,
     CalendarProviderAttribute,
     CalendarRecurrence,
+    CalendarRecurrenceFrequency,
     CalendarRecurrenceFrequencyType,
     CancellationPolicy,
     CCCUser,
@@ -297,6 +302,7 @@ export default createConnection({
     Institution,
     JobTitleLicense,
     JobTitlePlatform,
+    JobTitleSolution,
     LanguageLevel,
     LicenseCertification,
     Message,

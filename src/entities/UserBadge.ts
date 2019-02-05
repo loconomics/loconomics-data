@@ -19,9 +19,10 @@ import {User} from "./User"
 @Entity("UserBadge",{schema:"dbo"})
 export class UserBadge {
 
-    @OneToOne((type)=>UserBadge, (UserBadge)=>UserBadge.userBadge2,{ primary:true, nullable:false })
-    @JoinColumn({ name:"UserBadgeID"})
-    userBadge: Promise<UserBadge | null>;
+    @PrimaryGeneratedColumn({
+        name:"UserBadgeID",
+    })
+    userBadgeId: number;
 
     @ManyToOne((type)=>User, (User)=>User.userBadges,{  nullable:false })
     @JoinColumn({ name:"UserID"})
@@ -97,8 +98,5 @@ export class UserBadge {
         name:"Active",
         })
     active: boolean;
-
-    @OneToOne((type)=>UserBadge, (UserBadge)=>UserBadge.userBadge)
-    userBadge2: Promise<UserBadge | null>;
 
 }

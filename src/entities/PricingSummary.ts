@@ -16,13 +16,10 @@ import {
 @Entity("pricingSummary",{schema:"dbo"})
 export class PricingSummary {
 
-    @OneToOne((type)=>PricingSummary, (PricingSummary)=>PricingSummary.pricingSummary,{ primary:true, nullable:false })
-    @JoinColumn({ name:"PricingSummaryID"})
-    pricingSummary3: Promise<PricingSummary | null>;
-
-    @OneToOne((type)=>PricingSummary, (PricingSummary)=>PricingSummary.pricingSummary2,{ primary:true, nullable:false })
-    @JoinColumn({ name:"PricingSummaryRevision"})
-    pricingSummaryRevision: Promise<PricingSummary | null>;
+    @PrimaryGeneratedColumn({
+        name:"PricingSummaryID",
+    })
+    pricingSummaryID: number;
 
     @Column("int",{
         nullable:true,
@@ -161,11 +158,5 @@ export class PricingSummary {
         name:"FirstTimeServiceFeeMinimum",
         })
     firstTimeServiceFeeMinimum: number;
-
-    @OneToOne((type)=>PricingSummary, (PricingSummary)=>PricingSummary.pricingSummary3)
-    pricingSummary: Promise<PricingSummary | null>;
-
-    @OneToOne((type)=>PricingSummary, (PricingSummary)=>PricingSummary.pricingSummaryRevision)
-    pricingSummary2: Promise<PricingSummary | null>;
 
 }
