@@ -40,7 +40,6 @@ export class CalendarAvailabilityType {
         length:50,
         name:"CalendarAvailabilityTypeName",
         })
-    @Expose({name: "DisplayName"})
     calendarAvailabilityTypeName: string;
 
     @Column("nvarchar",{
