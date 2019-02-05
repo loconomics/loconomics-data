@@ -1,4 +1,4 @@
-import {Expose} from "class-transformer"
+import {Exclude, Expose} from "class-transformer"
 import {
     Column,
     Entity,
@@ -17,6 +17,7 @@ import {
 import {CalendarEvent} from "./CalendarEvent"
 
 @Entity("CalendarAvailabilityType",{schema:"dbo"})
+@Exclude()
 export class CalendarAvailabilityType {
 
     @Column("int",{
@@ -39,6 +40,7 @@ export class CalendarAvailabilityType {
         length:50,
         name:"CalendarAvailabilityTypeName",
         })
+    @Expose({name: "DisplayName"})
     calendarAvailabilityTypeName: string;
 
     @Column("nvarchar",{
