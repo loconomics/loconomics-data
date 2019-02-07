@@ -266,6 +266,7 @@ export {
 export default createConnection({
   type: "mssql",
   url: process.env.MSSQLSERVER_URL,
+  logging: process.env.NODE_ENV != "production",
   entities: [
     AccountStatus,
     Address,
