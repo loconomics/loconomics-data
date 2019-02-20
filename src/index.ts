@@ -263,7 +263,7 @@ export {
   XServiceProfessionalPricing,
 }
 
-export default createConnection({
+const connection = createConnection({
   type: "mssql",
   url: process.env.MSSQLSERVER_URL,
   logging: process.env.NODE_ENV != "production",
@@ -400,7 +400,9 @@ export default createConnection({
   ]
 })
 
+export default connection
+
 export async function getRepository<Entity>(target: ObjectType<Entity>|EntitySchema<Entity>|string): Promise<Repository<Entity>> {
-  const connection = await createConnection()
-  return connection.getRepository(target)
+  const c = await connection
+  return c.getRepository(target)
 }
