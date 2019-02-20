@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import {createConnection} from "typeorm"
+import {Entity, EntitySchema, ObjectType, Repository, createConnection} from "typeorm"
 
 import {AccountStatus} from "./entities/AccountStatus"
 import {Address} from "./entities/Address"
@@ -399,3 +399,8 @@ export default createConnection({
     XServiceProfessionalPricing,
   ]
 })
+
+export async function getRepository<Entity>(target: ObjectType<Entity>|EntitySchema<Entity>|string): Promise<Repository<Entity>> {
+  const connection = await createConnection()
+  return connection.getRepository(target)
+}
