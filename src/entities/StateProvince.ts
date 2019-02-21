@@ -1,3 +1,4 @@
+import {Expose} from "class-transformer"
 import {
     Column,
     Entity,
@@ -32,6 +33,7 @@ export class StateProvince {
         length:100,
         name:"StateProvinceName",
         })
+    @Expose({name: "name"})
     stateProvinceName: string | null;
 
     @Column("varchar",{
@@ -39,6 +41,7 @@ export class StateProvince {
         length:25,
         name:"StateProvinceCode",
         })
+    @Expose({name: "code"})
     stateProvinceCode: string | null;
 
     @Column("int",{
